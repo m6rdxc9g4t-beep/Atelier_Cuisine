@@ -44,6 +44,8 @@ jobs:
         run: npm ci
 
       - name: Compiler l'app
+        env:
+          VITE_APP_URL: https://atelier-cuisine-iota.vercel.app
         run: npx tauri build --target universal-apple-darwin
 
       - name: Préparer les fichiers

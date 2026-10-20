@@ -23,15 +23,17 @@ Liste de courses, suivi des repas, idées de plats selon ce qu'il reste à la ma
 3. Premier lancement : l'app n'est pas signée par un compte développeur Apple, donc macOS la bloque. Double-clique dessus une fois, puis va dans **Réglages Système → Confidentialité et sécurité** et clique **Ouvrir quand même**. Ensuite, elle s'ouvre normalement par double-clic.
    Alternative dans le Terminal : `xattr -cr "/Applications/Atelier Cuisine.app"`.
 
-L'app Mac est recompilée automatiquement par GitHub Actions à chaque modification du dossier `frontend/` (workflow « App Mac », environ 10 minutes).
+L'app Mac est recompilée automatiquement par GitHub Actions à chaque modification du dossier `frontend/` (workflow « App Mac », environ 5 minutes).
 
 ### Sur iPhone
 
-1. Ouvre **__URL_WEB__** dans **Safari**.
+1. Ouvre **https://atelier-cuisine-iota.vercel.app** dans **Safari**.
 2. Touche **Partager**, puis **Sur l'écran d'accueil**, puis **Ajouter**.
 3. Ouvre l'app depuis son icône, connecte-toi, puis dans **Réglages → Alertes**, touche **Activer** pour recevoir les rappels de péremption. Il faut iOS 16.4 ou plus récent.
 
 Le même compte sur les deux appareils partage tout en temps réel.
+
+L'app web est hébergée sur Vercel (équipe FiKozZ, projet `atelier-cuisine`). Pour qu'elle se mette à jour à chaque push, connecte GitHub à Vercel une fois : **vercel.com → projet atelier-cuisine → Settings → Git → Connect Git Repository → Atelier_Cuisine**, avec `frontend` comme dossier racine.
 
 ## Architecture
 
@@ -69,4 +71,4 @@ La configuration Supabase est intégrée par défaut. Pour utiliser un autre pro
 
 ## Réglage conseillé (une fois)
 
-Dans Supabase, **Authentication → URL Configuration**, mets **Site URL** = `__URL_WEB__` et ajoute la même adresse dans **Redirect URLs**. Les liens des e-mails de confirmation ramènent alors directement dans l'app.
+Dans Supabase, **Authentication → URL Configuration**, mets **Site URL** = `https://atelier-cuisine-iota.vercel.app` et ajoute la même adresse dans **Redirect URLs**. Les liens des e-mails de confirmation ramènent alors directement dans l'app.
