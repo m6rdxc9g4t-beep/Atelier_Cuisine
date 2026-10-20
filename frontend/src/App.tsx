@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { Calendar, Receipt, Refrigerator, Settings, ShoppingCart, Wallet } from "lucide-react";
+import { Calendar, CookingPot, Receipt, Refrigerator, Settings, ShoppingCart, Wallet } from "lucide-react";
 import { FournisseurToast } from "./components/Toast";
 import { FournisseurDonnees, useDonnees, useReglages } from "./lib/donnees";
 import { useCatalogue } from "./lib/catalogue";
@@ -8,7 +8,7 @@ import { aAlerter } from "./lib/dates";
 import { alerterAuDemarrage } from "./lib/notifications";
 import { estTauri } from "./lib/plateforme";
 import { supabase } from "./lib/supabase";
-import { Connexion, MarqueFraicheur, NouveauMotDePasse } from "./screens/Connexion";
+import { Connexion, NouveauMotDePasse } from "./screens/Connexion";
 import { Budget } from "./screens/Budget";
 import { Courses } from "./screens/Courses";
 import { GardeManger } from "./screens/GardeManger";
@@ -118,9 +118,14 @@ function Coque({ email }: { email: string }) {
     <div className="coque">
       <nav className="navigation" aria-label="Sections">
         <div className="navigation__marque" data-tauri-drag-region>
-          <MarqueFraicheur petite />
-          <span className="navigation__nom">
-            atelier_<strong>Cuisine</strong>
+          {/* Marque commune de la suite Atelier (atelier-brand.css) */}
+          <span className="atelier-brand">
+            <span className="atelier-brand__tile" aria-hidden="true">
+              <CookingPot />
+            </span>
+            <span className="atelier-brand__name">
+              <span className="atelier-brand__prefix">atelier_</span>Cuisine
+            </span>
           </span>
         </div>
         <ul className="navigation__liste">

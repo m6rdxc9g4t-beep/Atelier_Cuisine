@@ -2,33 +2,44 @@
  * atelier_Cuisine — jetons de design
  * Source de vérité, documentée dans design/DESIGN.md.
  *
- * Charte « néon holographique 3D » commune aux apps atelier_ :
- *  - bleu nuit pour le fond, verre poli pour les surfaces ;
- *  - cyan électrique pour la structure (contours, icônes, glow) ;
- *  - blanc bleuté pour le texte et les reflets ;
- *  - une couleur signature par app. Pour atelier_Cuisine : l'orchidée,
- *    l'aubergine passée sous les néons (bouton principal, onglet actif, liens) ;
- *  - vert / orange / rouge réservés aux données de fraîcheur, bleu acier pour
- *    « mis en boîte », vert et violet pour les deux budgets.
+ * Charte « néon monochrome » de la suite Atelier (v2) : toute l'app est dans sa
+ * couleur signature, l'orchidée #E056E2 (l'aubergine passée sous les néons).
+ * Fond, barre latérale, verre, traits, textes secondaires et halos dérivent tous
+ * de l'orchidée par mélange et transparence, en néon (sombre) comme en clair.
+ *
+ * Les jetons --atelier-* viennent de atelier-brand/atelier-brand.css (copie exacte
+ * du fichier de la suite, importée avant ce fichier dans main.tsx), activé par
+ * data-atelier-app="cuisine" sur <html>. Thème : data-theme="dark" + classe
+ * « dark » (néon, défaut) ou data-theme="light", posés par index.html puis
+ * lib/donnees.tsx. Ici, on ne fait que brancher les noms de l'app sur ces jetons.
+ *
+ * Seules les couleurs qui portent un sens restent à part : fraîcheur
+ * (vert / orange / rouge), bleu « mis en boîte », vert et violet des budgets.
  */
 @import "@fontsource-variable/nunito/wght.css";
 
 :root {
-  /* Couleurs de base — néon (par défaut) */
-  --nuit: #0a1a2a;              /* fond des écrans */
-  --nuit-2: #06121e;            /* zones creusées, barre latérale */
-  --verre: rgba(17, 42, 64, 0.62);
-  --verre-plein: #0f2438;       /* surfaces opaques (feuilles, listes) */
-  --verre-haut: rgba(230, 247, 255, 0.07); /* reflet spéculaire en haut des panneaux */
-  --cyan: #3fd8ff;              /* structure */
-  --cyan-trait: rgba(63, 216, 255, 0.22);
-  --cyan-halo: rgba(63, 216, 255, 0.28);
-  --reflet: #e6f7ff;            /* texte, arêtes */
-  --signature: #e056e2;         /* orchidée : couleur signature d'atelier_Cuisine */
-  --signature-encre: #1c0a20;
-  --signature-halo: rgba(224, 86, 226, 0.45);
+  /* Structure — branchée sur le kit : les valeurs suivent le thème toutes seules */
+  --nuit: var(--atelier-bg);                 /* fond des écrans */
+  --nuit-2: var(--atelier-sidebar);          /* zones creusées, barre latérale */
+  --verre: color-mix(in oklab, var(--atelier-surface) 86%, transparent);
+  --verre-plein: var(--atelier-surface);     /* surfaces opaques (feuilles, listes) */
+  --verre-haut: color-mix(in oklab, var(--atelier-signature) 7%, transparent); /* reflet en haut des panneaux */
+  --survol: var(--atelier-surface-2);        /* survol, menus */
+  --selection: var(--atelier-surface-3);     /* élément sélectionné */
+  --champ-fond: var(--atelier-field);        /* champs de saisie */
+  --contour: var(--atelier-border);          /* contour des cartes et panneaux */
+  --trait: var(--atelier-border-soft);       /* champs, boutons secondaires, puces */
+  --ligne: var(--atelier-line);              /* séparateurs, lignes de tableau */
+  --reflet: var(--atelier-text);             /* texte */
+  --signature: var(--atelier-signature);     /* orchidée : couleur signature d'atelier_Cuisine */
+  --signature-encre: var(--atelier-signature-contrast); /* texte posé sur l'orchidée pleine */
+  --signature-texte: var(--atelier-ink);     /* orchidée lisible en texte ou en icône */
+  --signature-douce: var(--atelier-signature-soft);     /* actif, pastille */
+  --signature-legere: var(--atelier-signature-faint);   /* survol */
+  --signature-halo: color-mix(in oklab, var(--atelier-signature) 45%, transparent);
 
-  /* Données */
+  /* Données — ne prennent jamais la signature */
   --frais: #3ddc97;
   --bientot: #ffb347;
   --urgent: #ff5c6c;            /* aussi : montants négatifs */
@@ -41,12 +52,11 @@
   --bg-creux: var(--nuit-2);
   --surface: var(--verre-plein);
   --encre: var(--reflet);
-  --encre-2: #9dbbd0;
-  --encre-3: #6b8aa3;
-  --trait: var(--cyan-trait);
+  --encre-2: var(--atelier-muted);
+  --encre-3: color-mix(in oklab, var(--atelier-muted) 82%, var(--atelier-bg));
   --action: var(--signature);
   --action-encre: var(--signature-encre);
-  --focus: var(--cyan);
+  --focus: var(--signature);
   --basilic: var(--frais);
   --basilic-pale: rgba(61, 220, 151, 0.16);
   --moutarde: var(--bientot);
@@ -54,17 +64,15 @@
   --moutarde-pale: rgba(255, 179, 71, 0.14);
   --tomate: var(--urgent);
   --tomate-pale: rgba(255, 92, 108, 0.15);
-  --lavande: rgba(224, 86, 226, 0.16);
-  --lavande-encre: #f6b9f7;
+  --lavande: var(--signature-douce);
+  --lavande-encre: var(--signature-texte);
 
   /* Lumière */
-  --glow-cyan: 0 0 0 1px var(--cyan-trait), 0 0 22px -6px var(--cyan-halo);
-  --glow-signature: 0 0 0 1px rgba(224, 86, 226, 0.6), 0 0 24px -4px var(--signature-halo);
-  --texte-neon: 0 0 12px rgba(63, 216, 255, 0.55);
-  --fond-ambiance:
-    radial-gradient(1200px 600px at 12% -8%, rgba(63, 216, 255, 0.13), transparent 60%),
-    radial-gradient(900px 500px at 105% 0%, rgba(224, 86, 226, 0.09), transparent 55%),
-    linear-gradient(180deg, #0b1d30 0%, var(--nuit) 45%, #081624 100%);
+  --halo: var(--atelier-glow);               /* cartes, panneaux */
+  --halo-fort: var(--atelier-glow-strong);   /* feuilles, menus, bulles */
+  --glow-signature: var(--atelier-signature-glow); /* action principale */
+  --texte-neon: var(--atelier-text-glow);    /* titres */
+  --voile: rgb(4 4 6 / 0.62);                /* derrière les feuilles */
 
   /* Typographie : Nunito, sans-serif arrondie de la charte */
   --font: "Nunito Variable", "SF Pro Rounded", ui-rounded, system-ui, sans-serif;
@@ -90,82 +98,26 @@
   --r-groupe: 16px;     /* panneaux de verre */
   --r-champ: 12px;      /* champs, boutons */
 
-  --ombre-feuille: 0 -10px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--cyan-trait);
+  --ombre-feuille: var(--atelier-glow-strong);
   --duree: 180ms;
 
   color-scheme: dark;
 }
 
-/* Variante claire : verre givré, même structure cyan et même signature.
-   Répétée pour « Selon le système » (CSS sans préprocesseur). */
+/* Variante claire : fond orchidée très pâle, cartes blanches cerclées d'orchidée.
+   Les jetons de structure suivent le kit ; seules les couleurs de données sont
+   assombries pour rester lisibles sur fond clair. */
 :root[data-theme="light"] {
-  --nuit: #eaf4f9;
-  --nuit-2: #dbe9f1;
-  --verre: rgba(255, 255, 255, 0.74);
-  --verre-plein: #ffffff;
-  --verre-haut: rgba(255, 255, 255, 0.9);
-  --cyan: #0a87b2;
-  --cyan-trait: rgba(10, 135, 178, 0.24);
-  --cyan-halo: rgba(10, 135, 178, 0.18);
-  --reflet: #0a1a2a;
-  --signature: #b02fb3;
-  --signature-encre: #ffffff;
-  --signature-halo: rgba(176, 47, 179, 0.3);
   --frais: #12804f;
   --bientot: #a85f00;
   --urgent: #cc2b3b;
   --boite: #2f6fd6;
   --data-ali: #1a8f5b;
   --data-maison: #7a56d8;
-  --encre-2: #3d5a70;
-  --encre-3: #6c8497;
   --basilic-pale: rgba(18, 128, 79, 0.12);
   --moutarde-pale: rgba(168, 95, 0, 0.12);
   --tomate-pale: rgba(204, 43, 59, 0.1);
-  --lavande: rgba(176, 47, 179, 0.1);
-  --lavande-encre: #7d1f80;
-  --texte-neon: none;
-  --fond-ambiance:
-    radial-gradient(1200px 600px at 12% -8%, rgba(10, 135, 178, 0.12), transparent 60%),
-    radial-gradient(900px 500px at 105% 0%, rgba(176, 47, 179, 0.07), transparent 55%),
-    linear-gradient(180deg, #f2f9fc 0%, var(--nuit) 100%);
-  --ombre-feuille: 0 -10px 40px rgba(10, 26, 42, 0.18), 0 0 0 1px var(--cyan-trait);
+  --encre-3: color-mix(in oklab, var(--atelier-muted) 94%, var(--atelier-bg)); /* ≥ 4,5:1 sur le fond clair */
+  --voile: color-mix(in oklab, var(--atelier-text) 32%, transparent);
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --nuit: #eaf4f9;
-    --nuit-2: #dbe9f1;
-    --verre: rgba(255, 255, 255, 0.74);
-    --verre-plein: #ffffff;
-    --verre-haut: rgba(255, 255, 255, 0.9);
-    --cyan: #0a87b2;
-    --cyan-trait: rgba(10, 135, 178, 0.24);
-    --cyan-halo: rgba(10, 135, 178, 0.18);
-    --reflet: #0a1a2a;
-    --signature: #b02fb3;
-    --signature-encre: #ffffff;
-    --signature-halo: rgba(176, 47, 179, 0.3);
-    --frais: #12804f;
-    --bientot: #a85f00;
-    --urgent: #cc2b3b;
-    --boite: #2f6fd6;
-    --data-ali: #1a8f5b;
-    --data-maison: #7a56d8;
-    --encre-2: #3d5a70;
-    --encre-3: #6c8497;
-    --basilic-pale: rgba(18, 128, 79, 0.12);
-    --moutarde-pale: rgba(168, 95, 0, 0.12);
-    --tomate-pale: rgba(204, 43, 59, 0.1);
-    --lavande: rgba(176, 47, 179, 0.1);
-    --lavande-encre: #7d1f80;
-    --texte-neon: none;
-    --fond-ambiance:
-      radial-gradient(1200px 600px at 12% -8%, rgba(10, 135, 178, 0.12), transparent 60%),
-      radial-gradient(900px 500px at 105% 0%, rgba(176, 47, 179, 0.07), transparent 55%),
-      linear-gradient(180deg, #f2f9fc 0%, var(--nuit) 100%);
-    --ombre-feuille: 0 -10px 40px rgba(10, 26, 42, 0.18), 0 0 0 1px var(--cyan-trait);
-    color-scheme: light;
-  }
 }

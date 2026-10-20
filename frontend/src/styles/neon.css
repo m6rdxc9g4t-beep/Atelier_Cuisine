@@ -1,18 +1,19 @@
 /*
- * atelier_Cuisine — couche « néon holographique » (chargée après app.css)
+ * atelier_Cuisine — couche « néon monochrome » (chargée après app.css)
  *
- * Trois matières seulement :
- *  1. le verre : panneaux translucides, liseré cyan fin, reflet en haut ;
- *  2. le néon : réservé aux enseignes « À finir en premier », aux chiffres
- *     du compte à rebours et à l'action principale (orchidée) ;
- *  3. la nuit : le fond, qui laisse briller le reste.
+ * Tout est dans l'orchidée (jetons de tokens.css, branchés sur le kit de la suite) :
+ *  1. le verre : panneaux translucides cerclés d'un trait orchidée, halo, reflet en haut ;
+ *  2. le néon : les enseignes « À finir en premier » et le compte à rebours brillent
+ *     dans la couleur de leur donnée (fraîcheur), l'action principale en orchidée ;
+ *  3. le fond : quasi noir (ou très clair) teinté d'orchidée, fine grille et lueur.
  * Puis les composants des onglets Repas, Courses, Récap et Budget.
  */
 
 /* ------------------------------------------------------------ Matières */
 
 body {
-  background: var(--fond-ambiance);
+  /* Raccourci obligatoire : --atelier-backdrop contient des tailles de motif */
+  background: var(--atelier-backdrop), var(--atelier-bg);
   background-attachment: fixed;
   font-feature-settings: "tnum" 0;
   font-weight: 450;
@@ -37,7 +38,8 @@ h3 {
   background:
     linear-gradient(180deg, var(--verre-haut), transparent 38px),
     var(--verre);
-  border: 1px solid var(--cyan-trait);
+  border: 1px solid var(--contour);
+  box-shadow: var(--halo);
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
 }
@@ -52,13 +54,14 @@ h3 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--signature);
   outline-offset: 2px;
-  box-shadow: 0 0 14px var(--cyan-halo);
+  box-shadow: var(--atelier-focus);
 }
 
 .ecran__tete h1 {
   font-weight: 850;
+  text-shadow: var(--texte-neon);
   letter-spacing: -0.02em;
   font-stretch: normal;
 }
@@ -78,7 +81,7 @@ h3 {
   display: flex;
   align-items: baseline;
   gap: var(--s-2);
-  color: var(--cyan);
+  color: var(--signature-texte);
   font-weight: 750;
 }
 
@@ -93,9 +96,9 @@ h3 {
 .navigation {
   background:
     linear-gradient(180deg, var(--verre-haut), transparent 30px),
-    color-mix(in srgb, var(--nuit-2) 88%, transparent);
-  border-top: 1px solid var(--cyan-trait);
-  box-shadow: 0 -8px 30px -12px var(--cyan-halo);
+    color-mix(in oklab, var(--nuit-2) 88%, transparent);
+  border-top: 1px solid var(--trait);
+  box-shadow: 0 -8px 30px -12px var(--signature-halo);
 }
 
 .navigation__liste {
@@ -104,14 +107,13 @@ h3 {
 
 .onglet {
   min-height: 52px;
-  color: var(--encre-3);
+  color: var(--encre-2);
   font-weight: 650;
 }
 
 .onglet svg {
-  color: var(--cyan);
-  opacity: 0.7;
-  transition: opacity var(--duree), filter var(--duree);
+  color: var(--encre-2);
+  transition: color var(--duree), filter var(--duree);
 }
 
 .onglet[aria-current="page"] {
@@ -120,8 +122,7 @@ h3 {
 }
 
 .onglet[aria-current="page"] svg {
-  color: var(--signature);
-  opacity: 1;
+  color: var(--signature-texte);
   filter: drop-shadow(0 0 6px var(--signature-halo));
 }
 
@@ -139,8 +140,8 @@ h3 {
 }
 
 .onglet__compte {
-  background: var(--cyan);
-  color: var(--nuit-2);
+  background: var(--signature);
+  color: var(--signature-encre);
 }
 
 .onglet__compte--alerte {
@@ -151,20 +152,12 @@ h3 {
 
 .marque {
   border-radius: 12px;
-  box-shadow: 0 0 0 1px var(--cyan-trait), 0 0 16px -4px var(--cyan-halo);
+  box-shadow: 0 0 0 1px var(--contour), 0 0 16px -4px var(--signature-halo);
 }
 
-.navigation__nom {
-  font-weight: 700;
-  font-size: 19px;
-  color: var(--cyan);
-  text-shadow: var(--texte-neon);
-  letter-spacing: -0.005em;
-}
-
-.navigation__nom strong {
-  font-weight: 900;
-  color: var(--encre);
+/* Marque commune de la suite (.atelier-brand du kit) : seule la taille du nom change */
+.navigation__marque .atelier-brand__name {
+  font-size: 1.1875rem;
 }
 
 @media (min-width: 860px) {
@@ -172,12 +165,10 @@ h3 {
     /* app.css déclare « inset: auto » après « top: 0 », ce qui empêchait la barre de rester en place */
     top: 0;
     align-self: start;
-    background:
-      linear-gradient(90deg, transparent 60%, rgba(63, 216, 255, 0.04)),
-      color-mix(in srgb, var(--nuit-2) 82%, transparent);
+    background: var(--nuit-2);
     border-top: 0;
-    border-right: 1px solid var(--cyan-trait);
-    box-shadow: 8px 0 40px -24px var(--cyan-halo);
+    border-right: 1px solid var(--trait);
+    box-shadow: 8px 0 40px -24px var(--signature-halo);
   }
 
   .navigation__marque {
@@ -195,43 +186,54 @@ h3 {
   }
 
   .onglet:hover {
-    background: rgba(63, 216, 255, 0.06);
+    background: var(--signature-legere);
   }
 
+  /* Équivalent de .atelier-nav-active : barre à gauche, fond en transparence, halo */
   .onglet[aria-current="page"] {
-    background: linear-gradient(90deg, rgba(224, 86, 226, 0.16), rgba(224, 86, 226, 0.02));
-    box-shadow: inset 0 0 0 1px rgba(224, 86, 226, 0.28);
+    background: var(--signature-douce);
+    box-shadow: inset 0 0 0 1px var(--trait), 0 0 14px -4px var(--signature);
   }
 }
 
 /* --------------------------------------------------------------- Boutons */
 
+/* Action principale = .atelier-btn-primary du kit : pleine en clair, contour néon en sombre */
 .bouton--action {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--signature) 82%, white), var(--signature));
+  background: var(--signature);
   color: var(--signature-encre);
   font-weight: 800;
-  box-shadow: var(--glow-signature), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 0 0 1px var(--signature), var(--glow-signature);
 }
 
 .bouton--action:hover:not(:disabled) {
-  background: var(--signature);
-  box-shadow: 0 0 0 1px var(--signature), 0 0 30px -2px var(--signature-halo);
+  background: color-mix(in oklab, var(--signature) 88%, var(--encre));
+  box-shadow: inset 0 0 0 1px var(--signature), 0 0 24px -2px var(--signature);
+}
+
+:root[data-theme="dark"] .bouton--action {
+  background: var(--signature-douce);
+  color: var(--signature-texte);
+}
+
+:root[data-theme="dark"] .bouton--action:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--signature) 28%, transparent);
 }
 
 .bouton--discret {
   color: var(--encre);
-  background: rgba(63, 216, 255, 0.06);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  background: var(--signature-legere);
+  box-shadow: inset 0 0 0 1px var(--trait);
 }
 
 .bouton--discret:hover:not(:disabled) {
-  background: rgba(63, 216, 255, 0.12);
-  box-shadow: inset 0 0 0 1px var(--cyan), 0 0 16px -6px var(--cyan-halo);
+  background: var(--survol);
+  box-shadow: inset 0 0 0 1px var(--contour), 0 0 16px -6px var(--signature-halo);
 }
 
 .bouton--discret svg,
 .bouton-icone svg {
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .bouton-icone {
@@ -240,18 +242,18 @@ h3 {
 }
 
 .bouton-icone:hover:not(:disabled) {
-  background: rgba(63, 216, 255, 0.1);
+  background: var(--signature-douce);
 }
 
 .lien {
-  color: var(--signature);
+  color: var(--signature-texte);
 }
 
 /* --------------------------------------------------------- Formulaires */
 
 .champ {
-  background: color-mix(in srgb, var(--nuit-2) 70%, transparent);
-  border-color: var(--cyan-trait);
+  background-color: var(--champ-fond);
+  border-color: var(--trait);
   color: var(--encre);
 }
 
@@ -260,8 +262,8 @@ h3 {
 }
 
 .champ:focus {
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgba(63, 216, 255, 0.15), 0 0 18px -6px var(--cyan-halo);
+  border-color: var(--signature);
+  box-shadow: var(--atelier-focus), 0 0 18px -6px var(--signature-halo);
   outline: none;
 }
 
@@ -277,8 +279,8 @@ input[type="checkbox"] {
 }
 
 .puce {
-  background: rgba(63, 216, 255, 0.05);
-  border-color: var(--cyan-trait);
+  background: var(--signature-legere);
+  border-color: var(--trait);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -286,23 +288,23 @@ input[type="checkbox"] {
 }
 
 .puce svg {
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .puce[aria-pressed="true"] {
-  background: rgba(224, 86, 226, 0.18);
+  background: var(--signature-douce);
   border-color: var(--signature);
   color: var(--encre);
   box-shadow: 0 0 14px -4px var(--signature-halo);
 }
 
 .puce[aria-pressed="true"] svg {
-  color: var(--signature);
+  color: var(--signature-texte);
 }
 
 .segments {
-  background: color-mix(in srgb, var(--nuit-2) 80%, transparent);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  background: var(--champ-fond);
+  box-shadow: inset 0 0 0 1px var(--trait);
   gap: 2px;
   margin-bottom: var(--s-2);
 }
@@ -316,13 +318,13 @@ input[type="checkbox"] {
 }
 
 .segment[aria-selected="true"] {
-  background: rgba(63, 216, 255, 0.12);
+  background: var(--signature-douce);
   color: var(--encre);
-  box-shadow: inset 0 0 0 1px var(--cyan), 0 0 16px -6px var(--cyan-halo);
+  box-shadow: inset 0 0 0 1px var(--contour), 0 0 16px -6px var(--signature-halo);
 }
 
 .case {
-  border-color: var(--cyan-trait);
+  border-color: var(--trait);
   min-width: 28px;
   min-height: 28px;
 }
@@ -342,14 +344,14 @@ input[type="checkbox"] {
   min-height: 44px;
   padding: 0 var(--s-3);
   border-radius: var(--r-champ);
-  background: rgba(63, 216, 255, 0.05);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  background: var(--signature-legere);
+  box-shadow: inset 0 0 0 1px var(--trait);
   font-weight: 650;
   font-size: var(--t-sm);
 }
 
 .bascule svg {
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .bascule__piste {
@@ -390,9 +392,9 @@ input[type="checkbox"] {
 
 /* Barre d'action flottante : opaque, elle passe au-dessus de la liste */
 .barre-action {
-  background: color-mix(in srgb, var(--verre-plein) 96%, transparent);
-  border: 1px solid var(--cyan-trait);
-  box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.45), 0 0 24px -10px var(--cyan-halo);
+  background: color-mix(in oklab, var(--verre-plein) 96%, transparent);
+  border: 1px solid var(--contour);
+  box-shadow: var(--halo-fort);
 }
 
 /* ------------------------------------------------------------- Feuilles */
@@ -412,7 +414,7 @@ input[type="checkbox"] {
 }
 
 .feuille::backdrop {
-  background: rgba(2, 8, 14, 0.6);
+  background: var(--voile);
   backdrop-filter: blur(4px);
 }
 
@@ -423,12 +425,12 @@ input[type="checkbox"] {
 .toast {
   background: var(--verre-plein);
   color: var(--encre);
-  border: 1px solid var(--cyan-trait);
-  box-shadow: var(--glow-cyan), 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--contour);
+  box-shadow: var(--halo-fort);
 }
 
 .toast__action {
-  color: var(--signature);
+  color: var(--signature-texte);
 }
 
 .message {
@@ -504,12 +506,6 @@ input[type="checkbox"] {
   text-shadow: none;
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) .rebours__chiffre {
-    text-shadow: none;
-  }
-}
-
 .a-finir__tete h2 {
   font-weight: 850;
 }
@@ -517,8 +513,7 @@ input[type="checkbox"] {
 /* --------------------------------------------------------------- Listes */
 
 .ligne + .ligne::before {
-  border-top-color: var(--cyan-trait);
-  opacity: 0.6;
+  border-top-color: var(--ligne);
 }
 
 .ligne--frais {
@@ -549,7 +544,7 @@ input[type="checkbox"] {
 
 .niveau {
   font-weight: 700;
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .niveau--fin,
@@ -566,9 +561,9 @@ input[type="checkbox"] {
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
-  color: var(--cyan);
-  background: rgba(63, 216, 255, 0.1);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  color: var(--signature-texte);
+  background: var(--signature-douce);
+  box-shadow: inset 0 0 0 1px var(--trait);
   vertical-align: middle;
 }
 
@@ -580,9 +575,9 @@ input[type="checkbox"] {
 }
 
 .pastille--info {
-  color: var(--signature);
-  background: rgba(224, 86, 226, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(224, 86, 226, 0.4);
+  color: var(--signature-texte);
+  background: var(--signature-douce);
+  box-shadow: inset 0 0 0 1px var(--trait);
   align-self: flex-start;
 }
 
@@ -657,8 +652,8 @@ input[type="checkbox"] {
 }
 
 .jour-carte--aujourdhui {
-  border-color: var(--cyan);
-  box-shadow: var(--glow-cyan);
+  border-color: var(--signature);
+  box-shadow: var(--halo-fort);
 }
 
 .jour-carte__titre {
@@ -670,7 +665,7 @@ input[type="checkbox"] {
 }
 
 .jour-carte__nom {
-  color: var(--cyan);
+  color: var(--signature-texte);
   font-weight: 800;
   text-transform: capitalize;
 }
@@ -703,7 +698,8 @@ input[type="checkbox"] {
   padding: 2px var(--s-1) var(--s-2) var(--s-2);
   border-radius: var(--r-champ);
   background: color-mix(in srgb, var(--nuit-2) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--cyan-trait) 60%, transparent);
+  border: 1px solid var(--ligne);
+  box-shadow: none;
   backdrop-filter: none;
 }
 
@@ -767,7 +763,7 @@ input[type="checkbox"] {
 
 .plat__icone {
   flex: 0 0 auto;
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .plat--exterieur .plat__icone {
@@ -775,7 +771,7 @@ input[type="checkbox"] {
 }
 
 .plat--recette .plat__icone {
-  color: var(--signature);
+  color: var(--signature-texte);
 }
 
 .plat__note {
@@ -801,7 +797,7 @@ input[type="checkbox"] {
   min-height: 52px;
   padding: var(--s-2) var(--s-3);
   border-radius: var(--r-champ);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  box-shadow: inset 0 0 0 1px var(--trait);
   cursor: pointer;
 }
 
@@ -812,7 +808,7 @@ input[type="checkbox"] {
 }
 
 .type-repas svg {
-  color: var(--cyan);
+  color: var(--signature-texte);
   flex: 0 0 auto;
 }
 
@@ -822,16 +818,16 @@ input[type="checkbox"] {
 }
 
 .type-repas--actif {
-  background: rgba(224, 86, 226, 0.12);
+  background: var(--signature-douce);
   box-shadow: inset 0 0 0 1px var(--signature), 0 0 16px -6px var(--signature-halo);
 }
 
 .type-repas--actif svg {
-  color: var(--signature);
+  color: var(--signature-texte);
 }
 
 .type-repas:has(input:focus-visible) {
-  outline: 2px solid var(--cyan);
+  outline: 2px solid var(--signature);
 }
 
 @media (min-width: 860px) {
@@ -897,7 +893,7 @@ input[type="checkbox"] {
   align-items: center;
   gap: var(--s-2);
   padding: var(--s-2) 0;
-  border-top: 1px solid var(--cyan-trait);
+  border-top: 1px solid var(--ligne);
 }
 
 .archivage__ligne > select,
@@ -1023,7 +1019,7 @@ input[type="checkbox"] {
 
 .bilan__sous-titre {
   font-size: var(--t-sm);
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .top3 {
@@ -1048,8 +1044,8 @@ input[type="checkbox"] {
   border-radius: 50%;
   font-size: 12px;
   font-weight: 900;
-  color: var(--cyan);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  color: var(--signature-texte);
+  box-shadow: inset 0 0 0 1px var(--trait);
 }
 
 .top3__nom {
@@ -1133,11 +1129,11 @@ input[type="checkbox"] {
 }
 
 .ticket[open] .ticket__tete {
-  border-bottom: 1px dashed var(--cyan-trait);
+  border-bottom: 1px dashed var(--trait);
 }
 
 .ticket[open] .ticket__total {
-  color: var(--signature);
+  color: var(--signature-texte);
 }
 
 .ticket__corps {
@@ -1168,7 +1164,7 @@ input[type="checkbox"] {
 .ticket__rayon h4 {
   margin: 0 0 var(--s-1);
   font-size: var(--t-sm);
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .ticket__ligne {
@@ -1177,7 +1173,7 @@ input[type="checkbox"] {
   align-items: baseline;
   gap: var(--s-2);
   padding: 6px 0;
-  border-bottom: 1px dotted color-mix(in srgb, var(--cyan-trait) 80%, transparent);
+  border-bottom: 1px dotted var(--trait);
   font-size: var(--t-sm);
 }
 
@@ -1227,22 +1223,22 @@ input[type="checkbox"] {
   gap: var(--s-2);
   padding: var(--s-6) var(--s-4);
   border-radius: var(--r-groupe);
-  border: 1.5px dashed var(--cyan);
-  background: rgba(63, 216, 255, 0.05);
+  border: 1.5px dashed var(--signature);
+  background: var(--signature-legere);
   text-align: center;
   cursor: pointer;
   transition: box-shadow var(--duree), background var(--duree);
 }
 
 .depot svg {
-  color: var(--cyan);
-  filter: drop-shadow(0 0 8px var(--cyan-halo));
+  color: var(--signature-texte);
+  filter: drop-shadow(0 0 8px var(--signature-halo));
 }
 
 .depot:hover,
 .depot:focus-within {
-  background: rgba(63, 216, 255, 0.09);
-  box-shadow: var(--glow-cyan);
+  background: var(--signature-douce);
+  box-shadow: var(--halo);
 }
 
 .depot__titre {
@@ -1259,7 +1255,7 @@ input[type="checkbox"] {
   flex-direction: column;
   gap: var(--s-2);
   padding: var(--s-3) 0;
-  border-top: 1px solid var(--cyan-trait);
+  border-top: 1px solid var(--ligne);
 }
 
 .apercu__brut {
@@ -1316,7 +1312,7 @@ input[type="checkbox"] {
 
 .budget__tete h3 {
   font-size: var(--t-sm);
-  color: var(--cyan);
+  color: var(--signature-texte);
 }
 
 .budget__montant {
@@ -1339,7 +1335,7 @@ input[type="checkbox"] {
   height: 8px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--nuit-2) 70%, transparent);
-  box-shadow: inset 0 0 0 1px var(--cyan-trait);
+  box-shadow: inset 0 0 0 1px var(--trait);
   overflow: hidden;
 }
 
@@ -1347,8 +1343,8 @@ input[type="checkbox"] {
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: var(--cyan);
-  box-shadow: 0 0 10px var(--cyan-halo);
+  background: var(--signature);
+  box-shadow: 0 0 10px var(--signature-halo);
 }
 
 .budget--alimentaire .jauge-budget > span {
@@ -1450,13 +1446,13 @@ input[type="checkbox"] {
 }
 
 .graphique__grille {
-  stroke: var(--cyan-trait);
+  stroke: var(--ligne);
   stroke-width: 1;
   stroke-dasharray: 2 4;
 }
 
 .graphique__axe {
-  stroke: var(--cyan-trait);
+  stroke: var(--trait);
   stroke-width: 1;
 }
 
@@ -1513,7 +1509,7 @@ g:focus {
   padding: var(--s-2) var(--s-3);
   border-radius: var(--r-champ);
   background: var(--verre-plein);
-  box-shadow: var(--glow-cyan), 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--halo-fort);
   font-size: var(--t-xs);
   pointer-events: none;
   white-space: nowrap;
@@ -1521,7 +1517,7 @@ g:focus {
 
 .graphique__tableau summary {
   cursor: pointer;
-  color: var(--cyan);
+  color: var(--signature-texte);
   font-size: var(--t-sm);
   font-weight: 650;
   min-height: 44px;
@@ -1540,7 +1536,7 @@ g:focus {
 .graphique__tableau td {
   padding: 6px 4px;
   text-align: right;
-  border-bottom: 1px solid var(--cyan-trait);
+  border-bottom: 1px solid var(--ligne);
 }
 
 .graphique__tableau th:first-child,
@@ -1621,7 +1617,7 @@ g:focus {
 /* ---------------------------------------------------------- Connexion */
 
 .connexion__nom {
-  color: var(--cyan);
+  color: var(--signature-texte);
   text-shadow: var(--texte-neon);
 }
 
