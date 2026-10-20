@@ -2,14 +2,14 @@
   <!-- atelier_Cuisine : version simplifiée de l'icône (charte néon, carré arrondi seul) -->
   <defs>
     <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#12304a"/>
-      <stop offset="1" stop-color="#06121e"/>
+      <stop offset="0" stop-color="#49124a"/>
+      <stop offset="1" stop-color="#1e061e"/>
     </linearGradient>
     <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#e6f7ff"/>
-      <stop offset="0.35" stop-color="#3fd8ff"/>
-      <stop offset="0.7" stop-color="#1c7fa6"/>
-      <stop offset="1" stop-color="#3fd8ff"/>
+      <stop offset="0" stop-color="#ffe6ff"/>
+      <stop offset="0.35" stop-color="#fc3fff"/>
+      <stop offset="0.7" stop-color="#a41ca6"/>
+      <stop offset="1" stop-color="#fc3fff"/>
     </linearGradient>
     <linearGradient id="orchidee" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#f6a8f7"/>
@@ -28,9 +28,9 @@
   <rect width="1024" height="1024" rx="230" fill="url(#fond)"/>
   <!-- cadre chromé lumineux -->
   <rect x="44" y="44" width="936" height="936" rx="196" fill="none" stroke="url(#chrome)" stroke-width="22" filter="url(#halo-fin)"/>
-  <rect x="70" y="70" width="884" height="884" rx="174" fill="none" stroke="#3fd8ff" stroke-opacity="0.25" stroke-width="4"/>
+  <rect x="70" y="70" width="884" height="884" rx="174" fill="none" stroke="#fc3fff" stroke-opacity="0.25" stroke-width="4"/>
   <!-- vapeur -->
-  <g fill="none" stroke="#3fd8ff" stroke-width="30" stroke-linecap="round" filter="url(#halo-fin)">
+  <g fill="none" stroke="#fc3fff" stroke-width="30" stroke-linecap="round" filter="url(#halo-fin)">
     <path d="M392 268c-34 40 34 70 0 112"/>
     <path d="M512 228c-40 50 40 86 0 140"/>
     <path d="M632 268c-34 40 34 70 0 112"/>
@@ -45,7 +45,7 @@
   </g>
   <!-- reflets spéculaires -->
   <path d="M330 580v70c0 40 24 74 60 90" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="16" stroke-linecap="round"/>
-  <circle cx="210" cy="132" r="9" fill="#e6f7ff"/>
-  <circle cx="210" cy="132" r="26" fill="#e6f7ff" opacity="0.18"/>
-  <circle cx="862" cy="880" r="7" fill="#e6f7ff"/>
+  <circle cx="210" cy="132" r="9" fill="#ffe6ff"/>
+  <circle cx="210" cy="132" r="26" fill="#ffe6ff" opacity="0.18"/>
+  <circle cx="862" cy="880" r="7" fill="#ffe6ff"/>
 </svg>

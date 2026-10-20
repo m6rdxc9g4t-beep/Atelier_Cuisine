@@ -91,9 +91,9 @@ Mise en page : barre d'onglets en bas sur iPhone (zone de sécurité respectée)
 
 ## Icône
 
-L'icône garde pour l'instant le dessin de la v1 (cadre cyan) : elle n'a pas été redessinée avec la charte v2.
+L'icône suit la charte v2 : tout le dessin est dans l'orchidée (les anciens cyan et bleu nuit ont pris la teinte de la signature).
 
-Version simplifiée de la charte (le carré arrondi seul, lisible à 64 px) : fond nuit, cadre chromé cyan lumineux, cocotte orchidée et vapeur cyan, étincelles sur les arêtes. Sources dans [`icone/`](icone/) : `icone-carre.svg` pour l'iPhone, `icone-mac.svg` et `icone-mac-1024.png` pour macOS. Les PNG de l'app se régénèrent avec `node frontend/scripts/icones.mjs` et `npx tauri icon design/icone/icone-mac-1024.png`.
+Version simplifiée de la charte (le carré arrondi seul, lisible à 64 px) : fond aubergine très sombre, cadre chromé orchidée lumineux, cocotte et vapeur orchidée, étincelles sur les arêtes. Logo complet (avec l'étiquette `atelier_Cuisine`) : [`logo-atelier-cuisine.png`](logo-atelier-cuisine.png). Sources dans [`icone/`](icone/) : `icone-carre.svg` pour l'iPhone, `icone-mac.svg` et `icone-mac-1024.png` pour macOS. Les PNG de l'app se régénèrent avec `node frontend/scripts/icones.mjs` et `npx tauri icon design/icone/icone-mac-1024.png`.
 
 ## Captures
 
