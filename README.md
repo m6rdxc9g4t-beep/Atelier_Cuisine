@@ -97,7 +97,7 @@ Les nouvelles fonctions de l'app ont besoin des migrations du 21/10/2026. À app
 
 ```bash
 supabase link --project-ref hcdiuxznceuixindcvhp
-supabase db push                                   # 6 nouvelles migrations
+supabase db push                                   # 7 nouvelles migrations
 supabase secrets set ANTHROPIC_API_KEY=sk-ant-...  # mode Cloud de lecture des tickets
 supabase functions deploy lire-ticket
 ```

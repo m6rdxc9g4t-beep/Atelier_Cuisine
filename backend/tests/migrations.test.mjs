@@ -152,6 +152,13 @@ await en(A, "insert into budgets (scope, period, amount) values ('alimentaire', 
 assert.equal((await en(B, "select count(*)::int n from budgets"))[0].n, 0);
 console.log("✓ RLS : chaque compte ne voit que ses données, le catalogue commun reste lisible");
 
+// --- Anciennes apps : les anciennes catégories sont converties à l'écriture
+await en(A, "insert into pantry_items (name, category, location) values ('Crème', 'cremerie', 'frigo'), ('Bidule', 'nimporte', 'placard')");
+await en(A, "insert into shopping_items (name, category) values ('Farine', 'epicerie')");
+const compat = await en(A, "select name, category from pantry_items where name in ('Crème', 'Bidule') union all select name, category from shopping_items where name = 'Farine' order by name");
+assert.deepEqual(compat.map((r) => r.category), ["autre", "produits_frais", "epicerie_salee"]);
+console.log("✓ anciennes apps : catégories converties à l'écriture (cremerie → produits_frais, inconnue → autre)");
+
 const pub = (await db.query("select tablename from pg_publication_tables where pubname = 'supabase_realtime' order by 1")).rows.map((r) => r.tablename);
 console.log("✓ temps réel :", pub.join(", "));
 console.log("\nTous les tests passent.");
