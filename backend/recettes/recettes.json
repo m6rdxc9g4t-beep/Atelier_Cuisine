@@ -1,0 +1,618 @@
+{
+  "_format": "Chaque ingrédient : [nom, quantité, unité, mot-clé de rapprochement (singulier, sans accent), catégorie]. La catégorie 'base' marque un produit de placard supposé toujours présent (sel, huile…).",
+  "recettes": [
+    {
+      "titre": "Omelette aux champignons", "emoji": "🍳", "minutes": 10, "portions": 2,
+      "resume": "Le dîner express quand il reste des œufs et quelques champignons.",
+      "tags": ["rapide", "végétarien"],
+      "ingredients": [
+        ["Œufs", 4, null, "oeuf", "cremerie"],
+        ["Champignons de Paris", 150, "g", "champignon", "fruits_legumes"],
+        ["Beurre", 10, "g", "beurre", "cremerie"],
+        ["Persil", null, null, "persil", "fruits_legumes"],
+        ["Sel, poivre", null, null, "sel", "base"]
+      ],
+      "etapes": [
+        "Émincer les champignons et les faire revenir 5 min dans le beurre.",
+        "Battre les œufs avec sel, poivre et persil ciselé.",
+        "Verser sur les champignons, cuire à feu moyen en ramenant les bords vers le centre.",
+        "Plier l'omelette quand le dessus est encore baveux."
+      ]
+    },
+    {
+      "titre": "Quiche lorraine", "emoji": "🥧", "minutes": 50, "portions": 6,
+      "resume": "Pâte brisée, lardons et appareil crémeux.",
+      "tags": ["four", "classique"],
+      "ingredients": [
+        ["Pâte brisée", 1, null, "pate brisee", "cremerie"],
+        ["Lardons", 200, "g", "lardon", "viande_poisson"],
+        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Crème fraîche", 20, "cl", "creme", "cremerie"],
+        ["Lait", 20, "cl", "lait", "cremerie"],
+        ["Muscade, sel, poivre", null, null, "muscade", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 180 °C et foncer un moule avec la pâte.",
+        "Faire dorer les lardons à sec, puis les répartir sur la pâte.",
+        "Battre œufs, crème et lait, assaisonner de muscade et poivre.",
+        "Verser sur les lardons et cuire 35 min jusqu'à ce que la quiche soit dorée."
+      ]
+    },
+    {
+      "titre": "Ratatouille", "emoji": "🍆", "minutes": 60, "portions": 4,
+      "resume": "Pour écouler les légumes du bac en une seule cocotte.",
+      "tags": ["végétarien", "anti-gaspi"],
+      "ingredients": [
+        ["Aubergine", 1, null, "aubergine", "fruits_legumes"],
+        ["Courgettes", 2, null, "courgette", "fruits_legumes"],
+        ["Poivrons", 2, null, "poivron", "fruits_legumes"],
+        ["Tomates", 4, null, "tomate", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Ail", 2, "gousses", "ail", "base"],
+        ["Herbes de Provence", null, null, "herbes de provence", "base"],
+        ["Huile d'olive", null, null, "huile", "base"]
+      ],
+      "etapes": [
+        "Couper tous les légumes en dés de taille égale.",
+        "Faire revenir oignon et ail dans l'huile d'olive.",
+        "Ajouter poivrons et aubergine, cuire 10 min, puis courgettes et tomates.",
+        "Assaisonner, ajouter les herbes et laisser mijoter 35 min à couvert."
+      ]
+    },
+    {
+      "titre": "Gratin dauphinois", "emoji": "🥔", "minutes": 75, "portions": 6,
+      "resume": "Pommes de terre fondantes cuites dans la crème et le lait.",
+      "tags": ["four", "végétarien", "classique"],
+      "ingredients": [
+        ["Pommes de terre", 1, "kg", "pomme de terre", "fruits_legumes"],
+        ["Crème fraîche", 40, "cl", "creme", "cremerie"],
+        ["Lait", 40, "cl", "lait", "cremerie"],
+        ["Ail", 1, "gousse", "ail", "base"],
+        ["Muscade, sel, poivre", null, null, "muscade", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 160 °C et frotter le plat avec l'ail.",
+        "Éplucher et trancher finement les pommes de terre, sans les laver.",
+        "Les porter à frémissement 10 min dans le lait et la crème assaisonnés.",
+        "Verser dans le plat et cuire 1 h jusqu'à ce que le dessus soit doré."
+      ]
+    },
+    {
+      "titre": "Soupe de légumes", "emoji": "🥕", "minutes": 40, "portions": 4,
+      "resume": "La soupe qui sauve les légumes un peu fatigués.",
+      "tags": ["végétarien", "anti-gaspi", "saison"],
+      "ingredients": [
+        ["Carottes", 3, null, "carotte", "fruits_legumes"],
+        ["Poireaux", 2, null, "poireau", "fruits_legumes"],
+        ["Pommes de terre", 3, null, "pomme de terre", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Bouillon de légumes", 1, "cube", "bouillon", "base"]
+      ],
+      "etapes": [
+        "Éplucher et couper les légumes en morceaux.",
+        "Faire suer l'oignon et les poireaux 5 min dans un peu de matière grasse.",
+        "Ajouter le reste, couvrir d'eau avec le bouillon et cuire 25 min.",
+        "Mixer et rectifier l'assaisonnement."
+      ]
+    },
+    {
+      "titre": "Pâtes carbonara", "emoji": "🍝", "minutes": 20, "portions": 4,
+      "resume": "La vraie, sans crème : œufs, lardons et parmesan.",
+      "tags": ["rapide"],
+      "ingredients": [
+        ["Spaghetti", 400, "g", "pate", "epicerie"],
+        ["Lardons", 200, "g", "lardon", "viande_poisson"],
+        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Parmesan", 50, "g", "parmesan", "cremerie"],
+        ["Poivre", null, null, "poivre", "base"]
+      ],
+      "etapes": [
+        "Cuire les pâtes al dente dans une grande casserole d'eau salée.",
+        "Faire dorer les lardons à sec.",
+        "Battre les œufs avec le parmesan et beaucoup de poivre.",
+        "Hors du feu, mélanger pâtes, lardons et œufs avec un peu d'eau de cuisson."
+      ]
+    },
+    {
+      "titre": "Croque-monsieur", "emoji": "🥪", "minutes": 15, "portions": 4,
+      "resume": "Pain de mie, jambon, fromage : le soir où on n'a pas envie.",
+      "tags": ["rapide", "four"],
+      "ingredients": [
+        ["Pain de mie", 8, "tranches", "pain de mie", "boulangerie"],
+        ["Jambon", 4, "tranches", "jambon", "viande_poisson"],
+        ["Emmental râpé", 100, "g", "emmental", "cremerie"],
+        ["Beurre", 30, "g", "beurre", "cremerie"]
+      ],
+      "etapes": [
+        "Beurrer les tranches de pain sur une face.",
+        "Garnir de jambon et d'emmental, refermer face beurrée à l'extérieur.",
+        "Parsemer d'emmental et cuire 10 min au four à 200 °C."
+      ]
+    },
+    {
+      "titre": "Poulet rôti et pommes de terre", "emoji": "🍗", "minutes": 90, "portions": 4,
+      "resume": "Le repas du dimanche, tout cuit dans le même plat.",
+      "tags": ["four", "classique"],
+      "ingredients": [
+        ["Poulet entier", 1, null, "poulet", "viande_poisson"],
+        ["Pommes de terre", 800, "g", "pomme de terre", "fruits_legumes"],
+        ["Thym", null, null, "thym", "base"],
+        ["Ail", 4, "gousses", "ail", "base"],
+        ["Huile d'olive", null, null, "huile", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 200 °C.",
+        "Couper les pommes de terre en quartiers et les mettre autour du poulet.",
+        "Arroser d'huile, ajouter ail en chemise, thym, sel et poivre.",
+        "Cuire 1 h 15 en arrosant le poulet toutes les 20 min."
+      ]
+    },
+    {
+      "titre": "Salade niçoise", "emoji": "🥗", "minutes": 20, "portions": 4,
+      "resume": "Thon, œufs durs, haricots verts et olives.",
+      "tags": ["froid", "rapide"],
+      "ingredients": [
+        ["Thon en boîte", 1, "boîte", "thon", "epicerie"],
+        ["Tomates", 3, null, "tomate", "fruits_legumes"],
+        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Haricots verts", 200, "g", "haricot vert", "fruits_legumes"],
+        ["Olives noires", 50, "g", "olive", "epicerie"],
+        ["Salade", 1, null, "salade", "fruits_legumes"],
+        ["Vinaigrette", null, null, "vinaigre", "base"]
+      ],
+      "etapes": [
+        "Cuire les œufs 9 min, les rafraîchir et les écaler.",
+        "Cuire les haricots verts 8 min à l'eau salée, les refroidir.",
+        "Disposer salade, tomates, haricots, thon, œufs et olives.",
+        "Assaisonner de vinaigrette au moment de servir."
+      ]
+    },
+    {
+      "titre": "Chili con carne", "emoji": "🌶️", "minutes": 60, "portions": 6,
+      "resume": "Viande hachée, haricots rouges et épices, servi avec du riz.",
+      "tags": ["mijoté"],
+      "ingredients": [
+        ["Viande hachée", 500, "g", "hache", "viande_poisson"],
+        ["Haricots rouges", 1, "boîte", "haricot rouge", "epicerie"],
+        ["Tomates concassées", 1, "boîte", "tomate", "epicerie"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Poivron", 1, null, "poivron", "fruits_legumes"],
+        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Cumin, piment", null, null, "cumin", "base"]
+      ],
+      "etapes": [
+        "Faire revenir l'oignon et le poivron émincés.",
+        "Ajouter la viande et la faire dorer en l'égrenant.",
+        "Ajouter tomates, épices et haricots égouttés, mijoter 40 min.",
+        "Servir avec le riz cuit."
+      ]
+    },
+    {
+      "titre": "Riz cantonais", "emoji": "🍚", "minutes": 25, "portions": 4,
+      "resume": "Parfait pour finir un reste de riz et de jambon.",
+      "tags": ["rapide", "anti-gaspi"],
+      "ingredients": [
+        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Petits pois", 150, "g", "petit pois", "surgeles"],
+        ["Jambon", 2, "tranches", "jambon", "viande_poisson"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Sauce soja", null, null, "sauce soja", "base"]
+      ],
+      "etapes": [
+        "Cuire le riz la veille ou le laisser bien refroidir.",
+        "Faire une omelette fine, la rouler et la couper en lanières.",
+        "Faire sauter oignon, petits pois et jambon en dés.",
+        "Ajouter le riz, la sauce soja et l'omelette, sauter 3 min à feu vif."
+      ]
+    },
+    {
+      "titre": "Curry de légumes au lait de coco", "emoji": "🍛", "minutes": 35, "portions": 4,
+      "resume": "Pois chiches, épinards et carottes dans une sauce douce.",
+      "tags": ["végétarien", "mijoté"],
+      "ingredients": [
+        ["Lait de coco", 40, "cl", "lait de coco", "epicerie"],
+        ["Pois chiches", 1, "boîte", "pois chiche", "epicerie"],
+        ["Épinards", 200, "g", "epinard", "fruits_legumes"],
+        ["Carottes", 2, null, "carotte", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Curry", null, null, "curry", "base"]
+      ],
+      "etapes": [
+        "Faire revenir l'oignon avec 2 c. à soupe de curry.",
+        "Ajouter les carottes en rondelles et le lait de coco, cuire 15 min.",
+        "Ajouter pois chiches et épinards, cuire encore 5 min.",
+        "Servir avec le riz."
+      ]
+    },
+    {
+      "titre": "Crêpes", "emoji": "🥞", "minutes": 30, "portions": 4,
+      "resume": "Une pâte qui écoule le lait et les œufs.",
+      "tags": ["sucré", "végétarien"],
+      "ingredients": [
+        ["Farine", 250, "g", "farine", "epicerie"],
+        ["Œufs", 4, null, "oeuf", "cremerie"],
+        ["Lait", 50, "cl", "lait", "cremerie"],
+        ["Beurre", 50, "g", "beurre", "cremerie"],
+        ["Sucre", null, null, "sucre", "base"]
+      ],
+      "etapes": [
+        "Mélanger farine et sucre, ajouter les œufs puis le lait progressivement.",
+        "Incorporer le beurre fondu et laisser reposer 30 min si possible.",
+        "Cuire les crêpes une à une dans une poêle chaude légèrement graissée."
+      ]
+    },
+    {
+      "titre": "Pain perdu", "emoji": "🍞", "minutes": 15, "portions": 4,
+      "resume": "Le meilleur destin pour le pain rassis.",
+      "tags": ["sucré", "anti-gaspi", "rapide"],
+      "ingredients": [
+        ["Pain rassis", 8, "tranches", "pain", "boulangerie"],
+        ["Œufs", 2, null, "oeuf", "cremerie"],
+        ["Lait", 25, "cl", "lait", "cremerie"],
+        ["Beurre", 30, "g", "beurre", "cremerie"],
+        ["Sucre", null, null, "sucre", "base"]
+      ],
+      "etapes": [
+        "Battre œufs, lait et sucre dans une assiette creuse.",
+        "Tremper les tranches de pain des deux côtés.",
+        "Les dorer 2 min par face dans le beurre et saupoudrer de sucre."
+      ]
+    },
+    {
+      "titre": "Velouté de potiron", "emoji": "🎃", "minutes": 40, "portions": 4,
+      "resume": "Doux et orange, c'est la soupe de l'automne.",
+      "tags": ["végétarien", "saison"],
+      "ingredients": [
+        ["Potiron", 1, "kg", "potiron", "fruits_legumes"],
+        ["Pomme de terre", 1, null, "pomme de terre", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Crème fraîche", 10, "cl", "creme", "cremerie"],
+        ["Bouillon de légumes", 1, "cube", "bouillon", "base"]
+      ],
+      "etapes": [
+        "Éplucher le potiron et la pomme de terre, les couper en cubes.",
+        "Faire suer l'oignon, ajouter les légumes et couvrir d'eau avec le bouillon.",
+        "Cuire 25 min, mixer avec la crème et poivrer."
+      ]
+    },
+    {
+      "titre": "Hachis parmentier", "emoji": "🥘", "minutes": 60, "portions": 6,
+      "resume": "Purée maison sur viande hachée, gratinée au four.",
+      "tags": ["four", "classique"],
+      "ingredients": [
+        ["Viande hachée", 500, "g", "hache", "viande_poisson"],
+        ["Pommes de terre", 1, "kg", "pomme de terre", "fruits_legumes"],
+        ["Lait", 20, "cl", "lait", "cremerie"],
+        ["Beurre", 50, "g", "beurre", "cremerie"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Emmental râpé", 80, "g", "emmental", "cremerie"]
+      ],
+      "etapes": [
+        "Cuire les pommes de terre à l'eau, les écraser avec lait et beurre.",
+        "Faire revenir l'oignon puis la viande, assaisonner.",
+        "Étaler la viande dans un plat, couvrir de purée et d'emmental.",
+        "Gratiner 20 min au four à 200 °C."
+      ]
+    },
+    {
+      "titre": "Saumon en papillote", "emoji": "🐟", "minutes": 25, "portions": 2,
+      "resume": "Cuisson douce au four, citron et courgette.",
+      "tags": ["four", "léger"],
+      "ingredients": [
+        ["Pavés de saumon", 2, null, "saumon", "viande_poisson"],
+        ["Citron", 1, null, "citron", "fruits_legumes"],
+        ["Courgette", 1, null, "courgette", "fruits_legumes"],
+        ["Riz", 150, "g", "riz", "epicerie"],
+        ["Huile d'olive", null, null, "huile", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 200 °C.",
+        "Poser chaque pavé sur une feuille de papier cuisson avec des rubans de courgette.",
+        "Ajouter rondelles de citron, filet d'huile, sel, poivre, et fermer.",
+        "Cuire 15 min et servir avec le riz."
+      ]
+    },
+    {
+      "titre": "Tarte aux pommes", "emoji": "🍎", "minutes": 50, "portions": 6,
+      "resume": "Pâte feuilletée et pommes fines en rosace.",
+      "tags": ["sucré", "four"],
+      "ingredients": [
+        ["Pâte feuilletée", 1, null, "pate feuilletee", "cremerie"],
+        ["Pommes", 5, null, "pomme", "fruits_legumes"],
+        ["Beurre", 30, "g", "beurre", "cremerie"],
+        ["Sucre", null, null, "sucre", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 200 °C et étaler la pâte dans un moule.",
+        "Éplucher et trancher finement les pommes, les disposer en rosace.",
+        "Parsemer de noisettes de beurre et de sucre.",
+        "Cuire 35 min jusqu'à ce que les pommes soient caramélisées."
+      ]
+    },
+    {
+      "titre": "Banana bread", "emoji": "🍌", "minutes": 60, "portions": 8,
+      "resume": "Les bananes trop mûres deviennent un gâteau moelleux.",
+      "tags": ["sucré", "anti-gaspi", "four"],
+      "ingredients": [
+        ["Bananes bien mûres", 3, null, "banane", "fruits_legumes"],
+        ["Farine", 250, "g", "farine", "epicerie"],
+        ["Œufs", 2, null, "oeuf", "cremerie"],
+        ["Beurre", 80, "g", "beurre", "cremerie"],
+        ["Sucre, levure chimique", null, null, "levure", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 180 °C.",
+        "Écraser les bananes, ajouter beurre fondu, sucre et œufs.",
+        "Incorporer farine et levure sans trop travailler la pâte.",
+        "Verser dans un moule à cake et cuire 45 min."
+      ]
+    },
+    {
+      "titre": "Salade de lentilles", "emoji": "🫘", "minutes": 30, "portions": 4,
+      "resume": "Lentilles tièdes, carottes et lardons, vinaigrette moutardée.",
+      "tags": ["froid"],
+      "ingredients": [
+        ["Lentilles vertes", 250, "g", "lentille", "epicerie"],
+        ["Carottes", 2, null, "carotte", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Lardons", 150, "g", "lardon", "viande_poisson"],
+        ["Moutarde, vinaigre", null, null, "moutarde", "base"]
+      ],
+      "etapes": [
+        "Cuire les lentilles 20 min avec la carotte en dés et l'oignon.",
+        "Faire dorer les lardons.",
+        "Égoutter, mélanger avec les lardons et une vinaigrette bien moutardée."
+      ]
+    },
+    {
+      "titre": "Wok de poulet aux légumes", "emoji": "🥢", "minutes": 25, "portions": 4,
+      "resume": "Sauté vif de poulet, poivron, carotte et courgette.",
+      "tags": ["rapide"],
+      "ingredients": [
+        ["Filets de poulet", 400, "g", "poulet", "viande_poisson"],
+        ["Poivron", 1, null, "poivron", "fruits_legumes"],
+        ["Carottes", 2, null, "carotte", "fruits_legumes"],
+        ["Courgette", 1, null, "courgette", "fruits_legumes"],
+        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Sauce soja", null, null, "sauce soja", "base"]
+      ],
+      "etapes": [
+        "Couper le poulet en lanières et les légumes en bâtonnets.",
+        "Saisir le poulet à feu vif, réserver.",
+        "Sauter les légumes 5 min, remettre le poulet et la sauce soja.",
+        "Servir avec le riz."
+      ]
+    },
+    {
+      "titre": "Lasagnes bolognaises", "emoji": "🍝", "minutes": 90, "portions": 6,
+      "resume": "Bolognaise maison, béchamel et emmental gratiné.",
+      "tags": ["four", "classique"],
+      "ingredients": [
+        ["Viande hachée", 500, "g", "hache", "viande_poisson"],
+        ["Plaques de lasagne", 250, "g", "lasagne", "epicerie"],
+        ["Tomates concassées", 2, "boîtes", "tomate", "epicerie"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Carotte", 1, null, "carotte", "fruits_legumes"],
+        ["Lait", 50, "cl", "lait", "cremerie"],
+        ["Beurre", 50, "g", "beurre", "cremerie"],
+        ["Farine", 50, "g", "farine", "epicerie"],
+        ["Emmental râpé", 100, "g", "emmental", "cremerie"]
+      ],
+      "etapes": [
+        "Faire revenir oignon et carotte, ajouter la viande puis les tomates, mijoter 30 min.",
+        "Préparer une béchamel avec beurre, farine et lait.",
+        "Alterner plaques, bolognaise et béchamel dans un plat.",
+        "Couvrir d'emmental et cuire 40 min à 180 °C."
+      ]
+    },
+    {
+      "titre": "Gratin de courgettes", "emoji": "🥒", "minutes": 45, "portions": 4,
+      "resume": "Courgettes, œufs et crème, un gratin léger.",
+      "tags": ["four", "végétarien"],
+      "ingredients": [
+        ["Courgettes", 4, null, "courgette", "fruits_legumes"],
+        ["Œufs", 2, null, "oeuf", "cremerie"],
+        ["Crème fraîche", 20, "cl", "creme", "cremerie"],
+        ["Emmental râpé", 80, "g", "emmental", "cremerie"]
+      ],
+      "etapes": [
+        "Couper les courgettes en rondelles et les faire revenir 10 min.",
+        "Battre œufs et crème, assaisonner.",
+        "Mettre les courgettes dans un plat, verser l'appareil, couvrir d'emmental.",
+        "Cuire 25 min à 190 °C."
+      ]
+    },
+    {
+      "titre": "Tartines avocat et œuf", "emoji": "🥑", "minutes": 10, "portions": 2,
+      "resume": "Un brunch rapide pour un avocat juste mûr.",
+      "tags": ["rapide", "végétarien"],
+      "ingredients": [
+        ["Pain", 4, "tranches", "pain", "boulangerie"],
+        ["Avocat", 1, null, "avocat", "fruits_legumes"],
+        ["Œufs", 2, null, "oeuf", "cremerie"],
+        ["Citron", 1, null, "citron", "fruits_legumes"]
+      ],
+      "etapes": [
+        "Faire griller le pain.",
+        "Écraser l'avocat avec un filet de citron, sel et poivre.",
+        "Cuire les œufs au plat ou mollets et les poser sur les tartines."
+      ]
+    },
+    {
+      "titre": "Risotto aux champignons", "emoji": "🍄", "minutes": 35, "portions": 4,
+      "resume": "Crémeux sans crème, grâce au parmesan et à la patience.",
+      "tags": ["végétarien", "saison"],
+      "ingredients": [
+        ["Riz à risotto", 300, "g", "riz", "epicerie"],
+        ["Champignons", 250, "g", "champignon", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Parmesan", 60, "g", "parmesan", "cremerie"],
+        ["Beurre", 30, "g", "beurre", "cremerie"],
+        ["Bouillon de légumes", 1, "litre", "bouillon", "base"]
+      ],
+      "etapes": [
+        "Faire revenir les champignons, réserver.",
+        "Faire suer l'oignon, ajouter le riz et le nacrer 2 min.",
+        "Ajouter le bouillon chaud louche par louche en remuant, environ 18 min.",
+        "Hors du feu, ajouter champignons, beurre et parmesan."
+      ]
+    },
+    {
+      "titre": "Steak et haricots verts", "emoji": "🥩", "minutes": 20, "portions": 2,
+      "resume": "Simple, rapide, et les haricots sautés à l'ail.",
+      "tags": ["rapide"],
+      "ingredients": [
+        ["Steaks", 2, null, "steak", "viande_poisson"],
+        ["Haricots verts", 300, "g", "haricot vert", "fruits_legumes"],
+        ["Beurre", 20, "g", "beurre", "cremerie"],
+        ["Ail", 1, "gousse", "ail", "base"]
+      ],
+      "etapes": [
+        "Cuire les haricots 8 min à l'eau salée.",
+        "Les faire sauter au beurre avec l'ail haché.",
+        "Saisir les steaks 2 à 3 min par face selon la cuisson voulue."
+      ]
+    },
+    {
+      "titre": "Gâteau au yaourt", "emoji": "🍰", "minutes": 45, "portions": 8,
+      "resume": "On mesure tout avec le pot : idéal pour un yaourt à finir.",
+      "tags": ["sucré", "anti-gaspi", "four"],
+      "ingredients": [
+        ["Yaourt nature", 1, "pot", "yaourt", "cremerie"],
+        ["Farine", 3, "pots", "farine", "epicerie"],
+        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Sucre, huile, levure", null, null, "levure", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 180 °C.",
+        "Mélanger le yaourt, 2 pots de sucre et les œufs.",
+        "Ajouter 3 pots de farine, la levure puis ½ pot d'huile.",
+        "Cuire 35 min dans un moule beurré."
+      ]
+    },
+    {
+      "titre": "Tarte fine tomate-moutarde", "emoji": "🍅", "minutes": 35, "portions": 4,
+      "resume": "Pâte feuilletée, moutarde et tomates en rondelles.",
+      "tags": ["four", "végétarien"],
+      "ingredients": [
+        ["Pâte feuilletée", 1, null, "pate feuilletee", "cremerie"],
+        ["Tomates", 4, null, "tomate", "fruits_legumes"],
+        ["Emmental râpé", 60, "g", "emmental", "cremerie"],
+        ["Moutarde", null, null, "moutarde", "base"]
+      ],
+      "etapes": [
+        "Préchauffer le four à 200 °C et étaler la pâte.",
+        "Badigeonner de moutarde, parsemer d'emmental.",
+        "Couvrir de rondelles de tomates, saler, poivrer, filet d'huile.",
+        "Cuire 25 min."
+      ]
+    },
+    {
+      "titre": "Velouté de brocoli", "emoji": "🥦", "minutes": 30, "portions": 4,
+      "resume": "Vert vif, onctueux, prêt en une demi-heure.",
+      "tags": ["végétarien", "léger"],
+      "ingredients": [
+        ["Brocoli", 1, null, "brocoli", "fruits_legumes"],
+        ["Pomme de terre", 1, null, "pomme de terre", "fruits_legumes"],
+        ["Crème fraîche", 10, "cl", "creme", "cremerie"],
+        ["Bouillon de légumes", 1, "cube", "bouillon", "base"]
+      ],
+      "etapes": [
+        "Détailler le brocoli en fleurettes et la pomme de terre en cubes.",
+        "Cuire 20 min dans l'eau avec le bouillon.",
+        "Mixer avec la crème et poivrer."
+      ]
+    },
+    {
+      "titre": "Shakshuka", "emoji": "🍳", "minutes": 30, "portions": 2,
+      "resume": "Œufs pochés dans une sauce tomate épicée au poivron.",
+      "tags": ["végétarien"],
+      "ingredients": [
+        ["Œufs", 4, null, "oeuf", "cremerie"],
+        ["Tomates concassées", 1, "boîte", "tomate", "epicerie"],
+        ["Poivron", 1, null, "poivron", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Cumin, paprika", null, null, "cumin", "base"]
+      ],
+      "etapes": [
+        "Faire revenir oignon et poivron émincés 8 min.",
+        "Ajouter tomates et épices, mijoter 10 min.",
+        "Creuser 4 puits, y casser les œufs, couvrir et cuire 6 min."
+      ]
+    },
+    {
+      "titre": "Tartiflette", "emoji": "🧀", "minutes": 60, "portions": 4,
+      "resume": "Pommes de terre, lardons, oignons et reblochon fondu.",
+      "tags": ["four", "saison"],
+      "ingredients": [
+        ["Pommes de terre", 1, "kg", "pomme de terre", "fruits_legumes"],
+        ["Reblochon", 1, null, "reblochon", "cremerie"],
+        ["Lardons", 200, "g", "lardon", "viande_poisson"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Crème fraîche", 10, "cl", "creme", "cremerie"]
+      ],
+      "etapes": [
+        "Cuire les pommes de terre à l'eau et les couper en rondelles.",
+        "Faire revenir oignon et lardons.",
+        "Mélanger dans un plat avec la crème, poser le reblochon coupé en deux.",
+        "Cuire 25 min à 200 °C."
+      ]
+    },
+    {
+      "titre": "Salade de pâtes", "emoji": "🥗", "minutes": 20, "portions": 4,
+      "resume": "Pâtes froides, tomates, mozzarella et olives.",
+      "tags": ["froid", "rapide", "végétarien"],
+      "ingredients": [
+        ["Pâtes courtes", 300, "g", "pate", "epicerie"],
+        ["Tomates cerises", 250, "g", "tomate", "fruits_legumes"],
+        ["Mozzarella", 1, null, "mozzarella", "cremerie"],
+        ["Olives noires", 50, "g", "olive", "epicerie"],
+        ["Huile d'olive, basilic", null, null, "huile", "base"]
+      ],
+      "etapes": [
+        "Cuire les pâtes, les rincer à l'eau froide.",
+        "Couper tomates et mozzarella.",
+        "Mélanger le tout avec olives, huile et basilic."
+      ]
+    },
+    {
+      "titre": "Fajitas au poulet", "emoji": "🌯", "minutes": 30, "portions": 4,
+      "resume": "Galettes garnies de poulet épicé et de poivrons.",
+      "tags": ["rapide"],
+      "ingredients": [
+        ["Tortillas", 8, null, "tortilla", "epicerie"],
+        ["Filets de poulet", 400, "g", "poulet", "viande_poisson"],
+        ["Poivrons", 2, null, "poivron", "fruits_legumes"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Crème fraîche", 10, "cl", "creme", "cremerie"],
+        ["Épices à fajitas", null, null, "epice", "base"]
+      ],
+      "etapes": [
+        "Émincer poulet, poivrons et oignon.",
+        "Saisir le poulet avec les épices, ajouter les légumes 5 min.",
+        "Chauffer les tortillas et garnir avec une cuillère de crème."
+      ]
+    },
+    {
+      "titre": "Dahl de lentilles corail", "emoji": "🍲", "minutes": 35, "portions": 4,
+      "resume": "Lentilles fondantes au lait de coco et aux épices.",
+      "tags": ["végétarien", "mijoté"],
+      "ingredients": [
+        ["Lentilles corail", 250, "g", "lentille", "epicerie"],
+        ["Lait de coco", 40, "cl", "lait de coco", "epicerie"],
+        ["Tomates concassées", 1, "boîte", "tomate", "epicerie"],
+        ["Oignon", 1, null, "oignon", "fruits_legumes"],
+        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Curry", null, null, "curry", "base"]
+      ],
+      "etapes": [
+        "Faire revenir l'oignon avec le curry.",
+        "Ajouter lentilles rincées, tomates, lait de coco et 30 cl d'eau.",
+        "Cuire 20 min en remuant, jusqu'à ce que les lentilles fondent.",
+        "Servir avec le riz."
+      ]
+    }
+  ]
+}

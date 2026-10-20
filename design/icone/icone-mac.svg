@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- Gabarit macOS : 824 px utiles, 100 px de marge, coins arrondis -->
+  <defs>
+    <filter id="ombre" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="#2a1b2e" filter="url(#ombre)"/>
+  <g transform="translate(512 512) scale(0.805) translate(-512 -512)">
+    <rect x="217" y="290" width="148" height="38" rx="12" fill="#efe9f1"/>
+    <rect x="203" y="350" width="176" height="400" rx="38" fill="none" stroke="#efe9f1" stroke-width="16"/>
+    <rect x="223" y="392" width="136" height="346" rx="20" fill="#5fbf8a"/>
+    <rect x="438" y="290" width="148" height="38" rx="12" fill="#efe9f1"/>
+    <rect x="424" y="350" width="176" height="400" rx="38" fill="none" stroke="#efe9f1" stroke-width="16"/>
+    <rect x="444" y="512" width="136" height="226" rx="20" fill="#e7b94a"/>
+    <rect x="659" y="290" width="148" height="38" rx="12" fill="#efe9f1"/>
+    <rect x="645" y="350" width="176" height="400" rx="38" fill="none" stroke="#efe9f1" stroke-width="16"/>
+    <rect x="665" y="625" width="136" height="113" rx="20" fill="#ff7a63"/>
+  </g>
+</svg>

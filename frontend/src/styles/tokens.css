@@ -1,0 +1,117 @@
+/*
+ * Atelier Cuisine — jetons de design
+ * Source de vérité, documentée dans design/DESIGN.md.
+ *
+ * Palette « faïence & aubergine » : fond céladon pâle de carrelage de cuisine,
+ * encre aubergine, et trois couleurs de fraîcheur tirées du marché
+ * (basilic → moutarde → tomate).
+ */
+@import "@fontsource-variable/bricolage-grotesque/standard.css";
+
+:root {
+  /* Couleurs de base */
+  --faience: #edf1ec;        /* fond de l'app */
+  --faience-2: #e2e8e2;      /* fond secondaire, zones creusées */
+  --porcelaine: #ffffff;     /* surfaces */
+  --aubergine: #2a1b2e;      /* encre principale */
+  --aubergine-2: #6b5d6e;    /* texte secondaire */
+  --aubergine-3: #a39aa5;    /* texte tertiaire, placeholders */
+  --trait: #d3dad3;          /* séparateurs */
+
+  /* Fraîcheur */
+  --basilic: #2e6b4e;        /* frais, actions principales */
+  --basilic-pale: #dcebe2;
+  --moutarde: #8a6100;       /* bientôt (texte, contraste AA) */
+  --moutarde-vif: #d9a520;   /* bientôt (pastille, barre) */
+  --moutarde-pale: #fbefcf;
+  --tomate: #c0392b;         /* à consommer aujourd'hui / périmé */
+  --tomate-pale: #fbe1dc;
+
+  /* Accent repas */
+  --lavande: #dcd5ec;
+  --lavande-encre: #4b3d73;
+
+  /* Rôles */
+  --bg: var(--faience);
+  --bg-creux: var(--faience-2);
+  --surface: var(--porcelaine);
+  --encre: var(--aubergine);
+  --encre-2: var(--aubergine-2);
+  --encre-3: var(--aubergine-3);
+  --action: var(--basilic);
+  --action-encre: #ffffff;
+  --focus: #5b3fd1;
+
+  /* Typographie : une seule famille, Bricolage Grotesque (axe optique) */
+  --font: "Bricolage Grotesque Variable", "Avenir Next", system-ui, sans-serif;
+  --t-xs: 0.8125rem;   /* 13 */
+  --t-sm: 0.9375rem;   /* 15 */
+  --t-md: 1.0625rem;   /* 17 — corps, taille iOS */
+  --t-lg: 1.375rem;    /* 22 */
+  --t-xl: 2rem;        /* 32 — titres d'écran */
+  --t-xxl: 3.25rem;    /* 52 — chiffres de compte à rebours */
+
+  /* Espacements (grille de 4) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+
+  /* Rayons : hiérarchiques, pas un seul rayon partout */
+  --r-pastille: 999px;  /* pastilles, puces */
+  --r-tuile: 20px;      /* tuiles « à cuisiner vite » */
+  --r-groupe: 14px;     /* groupes de liste */
+  --r-champ: 10px;      /* champs, boutons */
+
+  --ombre-feuille: 0 -8px 40px rgba(42, 27, 46, 0.18);
+  --duree: 180ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1320;
+    --bg-creux: #140e18;
+    --surface: #261c2b;
+    --encre: #f1ecf2;
+    --encre-2: #b9adbc;
+    --encre-3: #7d7180;
+    --trait: #3a2e3f;
+    --action: #6fc59a;
+    --action-encre: #10261a;
+    --basilic: #6fc59a;
+    --basilic-pale: #1f3a2c;
+    --moutarde: #e7b94a;
+    --moutarde-vif: #e7b94a;
+    --moutarde-pale: #3d3015;
+    --tomate: #ff7a63;
+    --tomate-pale: #4a211b;
+    --lavande: #3a3152;
+    --lavande-encre: #d4cbf0;
+    --focus: #b6a6ff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1b1320;
+  --bg-creux: #140e18;
+  --surface: #261c2b;
+  --encre: #f1ecf2;
+  --encre-2: #b9adbc;
+  --encre-3: #7d7180;
+  --trait: #3a2e3f;
+  --action: #6fc59a;
+  --action-encre: #10261a;
+  --basilic: #6fc59a;
+  --basilic-pale: #1f3a2c;
+  --moutarde: #e7b94a;
+  --moutarde-vif: #e7b94a;
+  --moutarde-pale: #3d3015;
+  --tomate: #ff7a63;
+  --tomate-pale: #4a211b;
+  --lavande: #3a3152;
+  --lavande-encre: #d4cbf0;
+  --focus: #b6a6ff;
+}
