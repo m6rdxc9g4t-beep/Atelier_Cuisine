@@ -1,20 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { CalendarDays, ChefHat, Refrigerator, Settings, ShoppingBasket } from "lucide-react";
+import { Calendar, Receipt, Refrigerator, Settings, ShoppingCart, Wallet } from "lucide-react";
 import { FournisseurToast } from "./components/Toast";
 import { FournisseurDonnees, useDonnees, useReglages } from "./lib/donnees";
-import { fraicheur } from "./lib/dates";
+import { useCatalogue } from "./lib/catalogue";
+import { aAlerter } from "./lib/dates";
 import { alerterAuDemarrage } from "./lib/notifications";
 import { estTauri } from "./lib/plateforme";
 import { supabase } from "./lib/supabase";
 import { Connexion, MarqueFraicheur, NouveauMotDePasse } from "./screens/Connexion";
+import { Budget } from "./screens/Budget";
 import { Courses } from "./screens/Courses";
 import { GardeManger } from "./screens/GardeManger";
-import { Idees } from "./screens/Idees";
+import { Recap } from "./screens/Recap";
 import { Reglages } from "./screens/Reglages";
 import { Repas } from "./screens/Repas";
 
-type Onglet = "garde-manger" | "courses" | "repas" | "idees";
+type Onglet = "garde-manger" | "repas" | "courses" | "recap" | "budget";
+const ONGLETS: Onglet[] = ["garde-manger", "repas", "courses", "recap", "budget"];
 
 export default function App() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
@@ -50,24 +53,33 @@ export default function App() {
   );
 }
 
-function lireOnglet(): Onglet {
+function lireHash(): { onglet: Onglet; idees: boolean } {
   const h = window.location.hash.replace("#", "");
-  return (["garde-manger", "courses", "repas", "idees"] as const).find((o) => o === h) ?? "garde-manger";
+  // Ancien lien « #idees » : les idées vivent désormais dans l'onglet Repas
+  if (h === "idees") return { onglet: "repas", idees: true };
+  return { onglet: ONGLETS.find((o) => o === h) ?? "garde-manger", idees: false };
 }
 
 function Coque({ email }: { email: string }) {
   const { pantry, shopping, erreur } = useDonnees();
   const [{ joursAlerte }] = useReglages();
-  const [onglet, setOnglet] = useState<Onglet>(lireOnglet);
+  const [onglet, setOnglet] = useState<Onglet>(() => lireHash().onglet);
+  const [vueRepas, setVueRepas] = useState<"planning" | "idees">(() => (lireHash().idees ? "idees" : "planning"));
   const [reglages, setReglages] = useState(false);
+  useCatalogue(); // charge le catalogue de produits (devinette des rayons)
 
   useEffect(() => {
-    const surHash = () => setOnglet(lireOnglet());
+    const surHash = () => {
+      const h = lireHash();
+      setOnglet(h.onglet);
+      if (h.idees) setVueRepas("idees");
+    };
     window.addEventListener("hashchange", surHash);
     return () => window.removeEventListener("hashchange", surHash);
   }, []);
 
-  const aller = (o: Onglet) => {
+  const aller = (o: Onglet, idees = false) => {
+    setVueRepas(idees ? "idees" : "planning");
     if (window.location.hash !== "#" + o) window.history.replaceState(null, "", "#" + o);
     setOnglet(o);
     document.getElementById("contenu")?.scrollTo({ top: 0 });
@@ -75,7 +87,7 @@ function Coque({ email }: { email: string }) {
   };
 
   const nbAlertes = useMemo(
-    () => pantry.filter((p) => ["perime", "urgent", "bientot"].includes(fraicheur(p.expires_on, joursAlerte))).length,
+    () => pantry.filter((p) => aAlerter(p.expires_on, joursAlerte)).length,
     [pantry, joursAlerte],
   );
   const nbCourses = shopping.filter((s) => !s.checked).length;
@@ -95,10 +107,11 @@ function Coque({ email }: { email: string }) {
   }, [nbAlertes]);
 
   const onglets: { id: Onglet; label: string; icone: typeof Refrigerator; compte?: number; alerte?: boolean }[] = [
-    { id: "garde-manger", label: "Garde-manger", icone: Refrigerator, compte: nbAlertes, alerte: true },
-    { id: "courses", label: "Courses", icone: ShoppingBasket, compte: nbCourses },
-    { id: "repas", label: "Repas", icone: CalendarDays },
-    { id: "idees", label: "Idées", icone: ChefHat },
+    { id: "garde-manger", label: "Stock", icone: Refrigerator, compte: nbAlertes, alerte: true },
+    { id: "repas", label: "Repas", icone: Calendar },
+    { id: "courses", label: "Courses", icone: ShoppingCart, compte: nbCourses },
+    { id: "recap", label: "Récap", icone: Receipt },
+    { id: "budget", label: "Budget", icone: Wallet },
   ];
 
   return (
@@ -106,7 +119,9 @@ function Coque({ email }: { email: string }) {
       <nav className="navigation" aria-label="Sections">
         <div className="navigation__marque" data-tauri-drag-region>
           <MarqueFraicheur petite />
-          <span>Atelier Cuisine</span>
+          <span className="navigation__nom">
+            atelier_<strong>Cuisine</strong>
+          </span>
         </div>
         <ul className="navigation__liste">
           {onglets.map((o) => (
@@ -147,10 +162,11 @@ function Coque({ email }: { email: string }) {
             Synchronisation impossible pour le moment. Les modifications reprendront dès le retour du réseau.
           </p>
         )}
-        {onglet === "garde-manger" && <GardeManger versIdees={() => aller("idees")} />}
+        {onglet === "garde-manger" && <GardeManger versIdees={() => aller("repas", true)} />}
+        {onglet === "repas" && <Repas key={vueRepas} vue={vueRepas} versGardeManger={() => aller("garde-manger")} />}
         {onglet === "courses" && <Courses />}
-        {onglet === "repas" && <Repas />}
-        {onglet === "idees" && <Idees versGardeManger={() => aller("garde-manger")} />}
+        {onglet === "recap" && <Recap />}
+        {onglet === "budget" && <Budget />}
       </main>
 
       <Reglages ouverte={reglages} onFermer={() => setReglages(false)} email={email} />

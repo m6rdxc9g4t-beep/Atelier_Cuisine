@@ -19,13 +19,13 @@ export default defineConfig({
       manifest: {
         name: "Atelier Cuisine",
         short_name: "Cuisine",
-        description: "Liste de courses, repas, idées de plats et alertes de péremption.",
+        description: "Stock, planning des repas, courses, tickets de caisse et budget du foyer.",
         lang: "fr",
         start_url: "/",
         scope: "/",
         display: "standalone",
-        background_color: "#edf1ec",
-        theme_color: "#edf1ec",
+        background_color: "#0a1a2a",
+        theme_color: "#0a1a2a",
         icons: [
           { src: "icone-192.png", sizes: "192x192", type: "image/png" },
           { src: "icone-512.png", sizes: "512x512", type: "image/png" },

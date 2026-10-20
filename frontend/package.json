@@ -9,14 +9,16 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "tauri": "tauri",
-    "mac": "tauri build --target universal-apple-darwin"
+    "mac": "tauri build --target universal-apple-darwin",
+    "test": "vitest run"
   },
   "dependencies": {
-    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/nunito": "^5.3.0",
     "@supabase/supabase-js": "^2.118.0",
     "@tauri-apps/api": "^2.12.4",
     "@tauri-apps/plugin-notification": "^2.7.0",
     "lucide-react": "^1.60.0",
+    "pdfjs-dist": "^6.4.299",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
@@ -30,6 +32,7 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.0.5",
     "workbox-core": "^7.4.1",
     "workbox-precaching": "^7.4.1"
   }

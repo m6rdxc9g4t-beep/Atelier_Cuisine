@@ -1,0 +1,97 @@
+{
+  "_format": "Produits habituels d'Auré & François, par rayon (CONTEXT_SPEC.md §3). 'details' précise l'unité, la quantité habituelle ('qte_hab' + 'unite_hab') ou une note. 'cles' remplace les mots-clés de rapprochement calculés depuis le nom (singulier, sans accent).",
+  "rayons": {
+    "fruits_legumes": [
+      "Gingembre", "Tomate", "Avocat", "Salade", "Compote", "Nectarine", "Pêche", "Cerise", "Myrtilles", "Kaki",
+      "Fraise", "Bleuet", "Ananas", "Banane", "Raisins", "Clémentine", "Mangue", "Concombre", "Kiwi jaune",
+      "Kiwi vert", "Maïs", "Patates", "Betterave", "Citron", "Oignon", "Brocolis", "Champignon", "Choux fleur",
+      "Courgette", "Haricot vert", "Carottes", "Échalote", "Ail"
+    ],
+    "viandes_poissons": [
+      "Jambon", "Saumon", "Poulet", "Saumon fumé", "Lardon", "Saucisse", "Crevettes", "Cordon bleu", "Moules",
+      "Steak haché", "Calamar"
+    ],
+    "produits_frais": [
+      "Fromage", "Beurre", "Râpé", "Œufs", "Yaourt grecque", "Cheddar", "Yaourts", "Crème liquide", "Lait",
+      "Crème fraîche"
+    ],
+    "feculents": [
+      "Céréales (Miel Pops)", "Riz", "Pain burger", "Vermicelles / nouilles", "Pain de mie", "Raviolis",
+      "Croque monsieur", "Spaghettis", "Penne / torsades / farfalle", "Tagliatelles"
+    ],
+    "surgeles": [
+      "Glace", "Pomme noisette / duchesse / rissolée", "Frites", "Poêlée"
+    ],
+    "epicerie_sucree": [
+      "Nutella", "Bonbons", "Bready", "Fondant chocolat", "Biscuit Nutella", "Pop corn", "Chantilly",
+      "Sauce chocolat", "Tablette chocolat pâtissier", "Sucre", "Sucre vanillé", "Sucre glace", "Miel"
+    ],
+    "epicerie_salee": [
+      "Vinaigre", "Sauce tartare", "Ciboulette", "Huile d’olive", "Ketchup", "Sauce tomate", "Sauce soja salée",
+      "Cornichons", "Sauce barbecue", "Mayo", "Farine T45 ou 55", "Échalote morceaux", "Aneth", "Sauce soja sucrée",
+      "Poivre", "Levure", "Sel", "Ail moulu", "Mix salade", "Bouquet garni", "Sauce salade", "Persillade",
+      "Huile de sésame", "Sauce huître", "Vinaigre de riz", "Extrait de vanille"
+    ],
+    "boissons": [
+      "Eau", "Limonade", "Bières", "Jus d’orange", "Vin muscat / Sauternes", "Grenadine"
+    ],
+    "apero": [
+      "Saucissons", "Chips", "Biscuits apéro (bretzels)", "Cacahuètes", "Noix de cajou"
+    ],
+    "hygiene": [
+      "Bain de bouche", "Savon", "Dissolvant", "Dentifrice", "Crème pieds (vaseline)", "Gel douche", "Papier humide",
+      "Déodorant", "Démaquillant", "Coton-tiges", "Crème Nivea", "Petit coton", "Gros coton", "Protections",
+      "Saforelle"
+    ],
+    "entretien": [
+      "Pink Stuff", "Pliz / Fée du logis", "Alcool ménager citron", "Vinaigre blanc (14° ménager)", "Soupline",
+      "Gel lave-vaisselle", "Papier toilette", "Mouchoirs", "Glade spray toilette", "Bloc WC", "Éponges",
+      "Liquide vaisselle", "Essuie-tout", "Nettoyant multi-usage (Ajax)", "Lessive couleur", "Lessive noir",
+      "Bicarbonate de soude", "Harpic Active Fresh", "Déboucheur canalisations"
+    ]
+  },
+  "details": {
+    "Jambon": { "qte_hab": 2, "unite_hab": "paquets" },
+    "Saucisse": { "qte_hab": 2 },
+    "Steak haché": { "qte_hab": 6 },
+    "Lait": { "unite": "ml", "qte_hab": 2, "unite_hab": "bouteilles" },
+    "Riz": { "qte_hab": 1, "unite_hab": "paquet" },
+    "Jus d’orange": { "qte_hab": 2, "unite_hab": "bouteilles" },
+    "Crevettes": { "unite": "g" },
+    "Vermicelles / nouilles": { "unite": "g" },
+    "Spaghettis": { "unite": "g" },
+    "Tagliatelles": { "unite": "g" },
+    "Farine T45 ou 55": { "unite": "g" },
+    "Beurre": { "unite": "g" },
+    "Sucre": { "unite": "g" },
+    "Penne / torsades / farfalle": { "unite": "g", "note": "racheter les pâtes que tu veux" },
+    "Poêlée": { "note": "on a les légumes" }
+  },
+  "cles": {
+    "Céréales (Miel Pops)": ["cereale", "miel pop"],
+    "Vermicelles / nouilles": ["vermicelle", "nouille"],
+    "Penne / torsades / farfalle": ["penne", "torsade", "farfalle", "pate"],
+    "Spaghettis": ["spaghetti"],
+    "Pomme noisette / duchesse / rissolée": ["pomme noisette", "pomme duchesse", "pomme rissolee", "pommes noisette"],
+    "Farine T45 ou 55": ["farine"],
+    "Vin muscat / Sauternes": ["muscat", "sauterne"],
+    "Biscuits apéro (bretzels)": ["biscuit apero", "bretzel"],
+    "Crème pieds (vaseline)": ["creme pied", "vaseline"],
+    "Pliz / Fée du logis": ["pliz", "fee du logi"],
+    "Vinaigre blanc (14° ménager)": ["vinaigre blanc", "vinaigre menager"],
+    "Nettoyant multi-usage (Ajax)": ["nettoyant", "ajax"],
+    "Choux fleur": ["chou fleur", "choux fleur"],
+    "Patates": ["patate", "pomme de terre"],
+    "Œufs": ["oeuf"],
+    "Râpé": ["rape", "emmental rape", "gruyere rape"],
+    "Mayo": ["mayo", "mayonnaise"],
+    "Bières": ["biere"],
+    "Eau": ["eau minerale", "eau de source", "eau"],
+    "Steak haché": ["steak hache", "hache"],
+    "Yaourt grecque": ["yaourt grec"],
+    "Échalote morceaux": ["echalote morceau", "echalote lyophilisee"],
+    "Sauce soja salée": ["sauce soja salee", "sauce soja"],
+    "Croque monsieur": ["croque monsieur"],
+    "Pop corn": ["pop corn", "popcorn"]
+  }
+}

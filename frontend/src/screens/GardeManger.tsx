@@ -1,5 +1,5 @@
 import { useMemo, useState, type FormEvent } from "react";
-import { Check, ChefHat, Plus, Trash2 } from "lucide-react";
+import { Check, ChefHat, Package, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { ChoixDate } from "../components/ChoixDate";
 import { Feuille } from "../components/Feuille";
 import { CompteARebours, Echeance } from "../components/Fraicheur";
@@ -10,9 +10,11 @@ import {
   deviner,
   EMPLACEMENTS,
   formatQuantite,
+  labelNiveau,
+  NIVEAUX,
   type Emplacement,
 } from "../lib/aliments";
-import { ajouterJours, aujourdhui, fraicheur, versDate } from "../lib/dates";
+import { aAlerter, ajouterJours, aujourdhui, fraicheur, versDate } from "../lib/dates";
 import { useDonnees, useReglages } from "../lib/donnees";
 import { messageErreur, supabase, type PantryItem } from "../lib/supabase";
 
@@ -27,7 +29,7 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
   const [edition, setEdition] = useState<PantryItem | null>(null);
 
   const aFinir = useMemo(
-    () => pantry.filter((p) => ["perime", "urgent", "bientot"].includes(fraicheur(p.expires_on, joursAlerte))),
+    () => pantry.filter((p) => aAlerter(p.expires_on, joursAlerte)),
     [pantry, joursAlerte],
   );
 
@@ -49,6 +51,7 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
       category: apercu.categorie,
       location: filtre === "tout" ? apercu.emplacement : filtre,
       expires_on: apercu.jours != null ? ajouterJours(aujourdhui(), apercu.jours) : null,
+      product_id: apercu.produit?.id ?? null,
     };
     setSaisie("");
     const { data, error } = await supabase.from("pantry_items").insert(ligne).select().single();
@@ -74,8 +77,10 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
       action: {
         label: "Annuler",
         faire: async () => {
-          const { id, name, quantity, unit, category, location, expires_on } = item;
-          await supabase.from("pantry_items").insert({ id, name, quantity, unit, category, location, expires_on });
+          const { id, name, quantity, unit, category, location, expires_on, stock_level, opened_on, in_container, note, product_id } = item;
+          await supabase
+            .from("pantry_items")
+            .insert({ id, name, quantity, unit, category, location, expires_on, stock_level, opened_on, in_container, note, product_id });
           setPantry((l) => trier([...l, item]));
         },
       },
@@ -85,7 +90,7 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
   return (
     <div className="ecran">
       <header className="ecran__tete">
-        <h1>Garde-manger</h1>
+        <h1>Stock</h1>
         <p className="ecran__sous-titre">
           {pantry.length === 0
             ? "Ce que tu as à la maison"
@@ -105,13 +110,13 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
             {aFinir.map((p) => (
               <li key={p.id}>
                 <button
-                  className={`tuile tuile--${fraicheur(p.expires_on, joursAlerte)}`}
+                  className={`tuile tuile--${fraicheur(p.expires_on)}` + (p.in_container ? " tuile--boite" : "")}
                   onClick={() => setEdition(p)}
                 >
-                  <CompteARebours date={p.expires_on} joursAlerte={joursAlerte} />
+                  <CompteARebours date={p.expires_on} />
                   <span className="tuile__nom">{p.name}</span>
                   <span className="tuile__lieu">
-                    {EMPLACEMENTS.find((e) => e.id === p.location)?.label}
+                    {p.in_container && <Package size={12} aria-hidden />} {EMPLACEMENTS.find((e) => e.id === p.location)?.label}
                   </span>
                 </button>
               </li>
@@ -138,6 +143,7 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
         </button>
         {apercu && (
           <p className="ajout-rapide__apercu">
+            {apercu.produit ? `${apercu.produit.name} · ` : ""}
             {CATEGORIES.find((c) => c.id === apercu.categorie)?.label}
             {", "}
             {EMPLACEMENTS.find((e) => e.id === (filtre === "tout" ? apercu.emplacement : filtre))?.label.toLowerCase()}
@@ -157,7 +163,7 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
             className="segment"
             onClick={() => setFiltre(e.id)}
           >
-            {e.id === "corbeille" ? "Corbeille" : e.id === "congelateur" ? "Congélo" : e.label}
+            {"court" in e ? e.court : e.label}
           </button>
         ))}
       </div>
@@ -165,7 +171,7 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
       {!chargement && visibles.length === 0 && (
         <div className="vide">
           <p className="vide__titre">
-            {pantry.length === 0 ? "Le garde-manger est vide" : "Rien à cet endroit"}
+            {pantry.length === 0 ? "Le stock est vide" : "Rien à cet endroit"}
           </p>
           <p>
             {pantry.length === 0
@@ -180,13 +186,19 @@ export function GardeManger({ versIdees }: { versIdees: () => void }) {
           {filtre === "tout" && <h2 className="groupe__titre">{g.label}</h2>}
           <ul className="liste">
             {g.items.map((p) => (
-              <li key={p.id} className={`ligne ligne--${fraicheur(p.expires_on, joursAlerte)}`}>
+              <li
+                key={p.id}
+                className={`ligne ligne--${p.in_container ? "boite" : fraicheur(p.expires_on)}`}
+              >
                 <button className="ligne__principal" onClick={() => setEdition(p)}>
                   <span className="ligne__nom">{p.name}</span>
                   <span className="ligne__detail">
                     {formatQuantite(p.quantity, p.unit) && <span>{formatQuantite(p.quantity, p.unit)}</span>}
-                    <Echeance date={p.expires_on} joursAlerte={joursAlerte} />
+                    {p.stock_level && <span className={`niveau niveau--${p.stock_level}`}>{labelNiveau(p.stock_level)}</span>}
+                    {(p.expires_on || !p.stock_level) && <Echeance date={p.expires_on} boite={p.in_container} ouvertLe={p.opened_on} />}
+                    {!p.expires_on && p.stock_level && p.in_container && <Echeance date={null} boite ouvertLe={p.opened_on} />}
                   </span>
+                  {p.note && <span className="ligne__note">{p.note}</span>}
                 </button>
                 <button
                   className="bouton-icone ligne__fini"
@@ -230,7 +242,7 @@ function EditionProduit({
   onFermer: () => void;
   onRetirer: (p: PantryItem) => void;
 }) {
-  const { setPantry } = useDonnees();
+  const { setPantry, recharger } = useDonnees();
   const toast = useToast();
   const [brouillon, setBrouillon] = useState<PantryItem | null>(item);
   const [enCours, setEnCours] = useState(false);
@@ -241,15 +253,30 @@ function EditionProduit({
     e.preventDefault();
     if (!b) return;
     setEnCours(true);
-    const { id, name, quantity, unit, category, location, expires_on } = b;
+    const { id, name, quantity, unit, category, location, expires_on, stock_level, opened_on, in_container } = b;
+    const note = b.note?.trim() || null;
     const { error } = await supabase
       .from("pantry_items")
-      .update({ name: name.trim(), quantity, unit: unit?.trim() || null, category, location, expires_on })
+      .update({ name: name.trim(), quantity, unit: unit?.trim() || null, category, location, expires_on, stock_level, opened_on, in_container, note })
       .eq("id", id);
     setEnCours(false);
     if (error) return toast(messageErreur(error), { erreur: true });
-    setPantry((l) => trier(l.map((p) => (p.id === id ? { ...b, name: name.trim() } : p))));
+    setPantry((l) => trier(l.map((p) => (p.id === id ? { ...b, name: name.trim(), note } : p))));
     onFermer();
+  }
+
+  async function aRacheter() {
+    if (!b) return;
+    const { error } = await supabase.from("shopping_items").insert({
+      name: b.name,
+      category: b.category,
+      product_id: b.product_id,
+      source: "a_racheter",
+      note: b.note,
+    });
+    if (error) return toast(messageErreur(error), { erreur: true });
+    recharger("shopping_items");
+    toast(`${b.name} ajouté à la liste de courses`);
   }
 
   return (
@@ -262,6 +289,9 @@ function EditionProduit({
           <>
             <button type="button" className="bouton bouton--discret" onClick={() => onRetirer(b)}>
               <Trash2 size={18} aria-hidden /> Retirer
+            </button>
+            <button type="button" className="bouton bouton--discret" onClick={aRacheter}>
+              <RotateCcw size={18} aria-hidden /> À racheter
             </button>
             <button type="submit" form="form-produit" className="bouton bouton--action" disabled={enCours}>
               Enregistrer
@@ -308,14 +338,67 @@ function EditionProduit({
               />
             </label>
           </div>
+          <fieldset className="champ-groupe">
+            <legend>Niveau (au lieu d'une quantité exacte)</legend>
+            <div className="puces" role="group">
+              {NIVEAUX.map((n) => (
+                <button
+                  key={n.id}
+                  type="button"
+                  className="puce"
+                  aria-pressed={b.stock_level === n.id}
+                  onClick={() => setBrouillon({ ...b, stock_level: b.stock_level === n.id ? null : n.id })}
+                >
+                  {n.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
           <div className="champ-groupe">
-            <label htmlFor="date-produit">À consommer avant</label>
+            <label htmlFor="date-produit">Date de l'emballage (à consommer avant)</label>
             <ChoixDate
               id="date-produit"
               valeur={b.expires_on}
               onChange={(d) => setBrouillon({ ...b, expires_on: d })}
             />
           </div>
+          <div className="champ-groupe">
+            <button
+              type="button"
+              className={"bascule" + (b.in_container ? " bascule--actif bascule--boite" : "")}
+              role="switch"
+              aria-checked={b.in_container}
+              onClick={() =>
+                setBrouillon({ ...b, in_container: !b.in_container, opened_on: !b.in_container ? (b.opened_on ?? aujourdhui()) : b.opened_on })
+              }
+            >
+              <Package size={18} aria-hidden />
+              <span>Mis dans une boîte hermétique</span>
+              <span className="bascule__piste" aria-hidden>
+                <span className="bascule__curseur" />
+              </span>
+            </button>
+          </div>
+          <label className="champ-groupe">
+            <span>{b.in_container ? "Mis dans la boîte le" : "Ouvert le (facultatif)"}</span>
+            <input
+              className="champ"
+              type="date"
+              value={b.opened_on ?? ""}
+              max={aujourdhui()}
+              onChange={(e) => setBrouillon({ ...b, opened_on: e.target.value || null })}
+            />
+          </label>
+          <label className="champ-groupe">
+            <span>Note</span>
+            <input
+              className="champ"
+              maxLength={200}
+              placeholder="je pense assez jusqu'aux prochaines courses…"
+              value={b.note ?? ""}
+              onChange={(e) => setBrouillon({ ...b, note: e.target.value })}
+            />
+          </label>
           <div className="formulaire__ligne">
             <label className="champ-groupe">
               <span>Rangé dans</span>

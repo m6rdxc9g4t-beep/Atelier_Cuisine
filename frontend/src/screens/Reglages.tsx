@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Minus, Plus } from "lucide-react";
+import { Cloud, Cpu, Minus, Plus, Sparkles, Wand2 } from "lucide-react";
 import { Feuille } from "../components/Feuille";
 import { useToast } from "../components/Toast";
-import { useReglages } from "../lib/donnees";
+import { useDonnees, useReglages } from "../lib/donnees";
+import { ollamaDisponible, type ModeIA } from "../lib/ia";
 import {
   activerNotifications,
   desactiverPush,
@@ -11,16 +12,36 @@ import {
   type EtatNotif,
 } from "../lib/notifications";
 import { estInstallee, estIOS, estTauri } from "../lib/plateforme";
-import { supabase } from "../lib/supabase";
+import { messageErreur, supabase } from "../lib/supabase";
 
 export function Reglages({ ouverte, onFermer, email }: { ouverte: boolean; onFermer: () => void; email: string }) {
   const [r, maj] = useReglages();
   const toast = useToast();
+  const { recharger } = useDonnees();
   const [notif, setNotif] = useState<EtatNotif | null>(null);
+  const [ollama, setOllama] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (ouverte) etatNotifications().then(setNotif);
   }, [ouverte]);
+
+  // Ollama répond-il ? Vérifié à l'ouverture et quand l'adresse change.
+  useEffect(() => {
+    if (!ouverte || r.modeIA === "cloud") return;
+    let annule = false;
+    setOllama(null);
+    ollamaDisponible(r.ollamaUrl).then((ok) => !annule && setOllama(ok));
+    return () => {
+      annule = true;
+    };
+  }, [ouverte, r.modeIA, r.ollamaUrl]);
+
+  async function exemples() {
+    const { data, error } = await supabase.rpc("ajouter_exemples_foyer");
+    if (error) return toast(messageErreur(error), { erreur: true });
+    recharger();
+    toast(data ? `${data} exemple${data > 1 ? "s" : ""} ajouté${data > 1 ? "s" : ""}` : "Les exemples sont déjà là");
+  }
 
   const iPhoneNonInstalle = estIOS && !estInstallee && !estTauri;
 
@@ -107,13 +128,74 @@ export function Reglages({ ouverte, onFermer, email }: { ouverte: boolean; onFer
         </section>
 
         <section>
+          <h3>Lecture des tickets par l'IA</h3>
+          <div className="segments" role="radiogroup" aria-label="Moteur IA">
+            {(
+              [
+                ["auto", "Auto", Sparkles],
+                ["local", "Local", Cpu],
+                ["cloud", "Cloud", Cloud],
+              ] as const
+            ).map(([v, l, Icone]) => (
+              <button
+                key={v}
+                role="radio"
+                aria-checked={r.modeIA === v}
+                aria-selected={r.modeIA === v}
+                className="segment"
+                onClick={() => maj({ modeIA: v as ModeIA })}
+              >
+                <Icone size={16} aria-hidden /> {l}
+              </button>
+            ))}
+          </div>
+          <p className="note">
+            {r.modeIA === "local"
+              ? "Ollama sur ce Mac, hors ligne et gratuit."
+              : r.modeIA === "cloud"
+                ? "Claude, via la fonction sécurisée de l'app : fonctionne partout, iPhone compris."
+                : "Ollama s'il répond en moins de 3 secondes, sinon Claude."}{" "}
+            Les e-tickets Carrefour sont lus sans IA.
+          </p>
+          {r.modeIA !== "cloud" && (
+            <>
+              <p className={"etat-ia" + (ollama ? " etat-ia--ok" : ollama === false ? " etat-ia--ko" : "")} role="status">
+                {ollama == null ? "Recherche d'Ollama…" : ollama ? "Ollama répond" : "Ollama ne répond pas"}
+              </p>
+              {ollama === false && (
+                <p className="note">
+                  Lance l'app Ollama (ou « ollama serve »), puis installe les modèles : « ollama pull {r.ollamaModele} » et « ollama pull{" "}
+                  {r.ollamaModeleVision} » pour les photos.{!estTauri && " Dans le navigateur, autorise aussi cette adresse avec la variable OLLAMA_ORIGINS."}
+                </p>
+              )}
+              <div className="formulaire">
+                <label className="champ-groupe">
+                  <span>Adresse d'Ollama</span>
+                  <input className="champ" value={r.ollamaUrl} onChange={(e) => maj({ ollamaUrl: e.target.value })} />
+                </label>
+                <div className="formulaire__ligne">
+                  <label className="champ-groupe">
+                    <span>Modèle texte</span>
+                    <input className="champ" value={r.ollamaModele} onChange={(e) => maj({ ollamaModele: e.target.value })} />
+                  </label>
+                  <label className="champ-groupe">
+                    <span>Modèle photo</span>
+                    <input className="champ" value={r.ollamaModeleVision} onChange={(e) => maj({ ollamaModeleVision: e.target.value })} />
+                  </label>
+                </div>
+              </div>
+            </>
+          )}
+        </section>
+
+        <section>
           <h3>Apparence</h3>
           <div className="segments" role="radiogroup" aria-label="Thème">
             {(
               [
-                ["auto", "Automatique"],
+                ["dark", "Néon"],
                 ["light", "Clair"],
-                ["dark", "Sombre"],
+                ["auto", "Selon le système"],
               ] as const
             ).map(([v, l]) => (
               <button
@@ -140,6 +222,19 @@ export function Reglages({ ouverte, onFermer, email }: { ouverte: boolean; onFer
             </ol>
           </section>
         )}
+
+        <section>
+          <h3>Données d'exemple</h3>
+          <div className="reglage">
+            <span>
+              Ajouter les exemples du foyer
+              <span className="note">La boîte de jambon, les niveaux de stock et les pâtes à racheter. Rien n'est ajouté en double.</span>
+            </span>
+            <button className="bouton bouton--discret" onClick={exemples}>
+              <Wand2 size={16} aria-hidden /> Ajouter
+            </button>
+          </div>
+        </section>
 
         <section>
           <h3>Compte</h3>

@@ -28,13 +28,23 @@ export function joursRestants(iso: string | null): number | null {
 
 export type Fraicheur = "perime" | "urgent" | "bientot" | "frais" | "sans_date";
 
-export function fraicheur(iso: string | null, joursAlerte = 2): Fraicheur {
+/**
+ * Couleur de fraîcheur (CONTEXT_SPEC.md) : rouge à moins de 2 jours,
+ * orange jusqu'à 5 jours, vert au-delà. Le bleu « mis en boîte » est géré à part.
+ */
+export function fraicheur(iso: string | null): Fraicheur {
   const j = joursRestants(iso);
   if (j == null) return "sans_date";
   if (j < 0) return "perime";
   if (j <= 1) return "urgent";
-  if (j <= joursAlerte) return "bientot";
+  if (j <= 5) return "bientot";
   return "frais";
+}
+
+/** Le produit doit-il figurer dans « À finir en premier » et les notifications ? */
+export function aAlerter(iso: string | null, joursAlerte: number): boolean {
+  const j = joursRestants(iso);
+  return j != null && j <= joursAlerte;
 }
 
 /** Compte à rebours court : chiffre + unité, pour l'affichage en grand. */
@@ -78,4 +88,28 @@ export function debutSemaine(iso: string): string {
   const d = versDate(iso);
   const decalage = (d.getDay() + 6) % 7;
   return ajouterJours(iso, -decalage);
+}
+
+/** "14 nov. 2025" */
+export function dateCourte(iso: string): string {
+  const d = iso.length > 10 ? new Date(iso) : versDate(iso);
+  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+}
+
+/** Bornes (incluses) de la semaine ou du mois contenant la date. */
+export function periode(iso: string, type: "semaine" | "mois"): { debut: string; fin: string } {
+  if (type === "semaine") {
+    const debut = debutSemaine(iso);
+    return { debut, fin: ajouterJours(debut, 6) };
+  }
+  const d = versDate(iso);
+  return {
+    debut: isoLocal(new Date(d.getFullYear(), d.getMonth(), 1)),
+    fin: isoLocal(new Date(d.getFullYear(), d.getMonth() + 1, 0)),
+  };
+}
+
+/** Jour local (AAAA-MM-JJ) d'un horodatage ISO complet. */
+export function jourDe(horodatage: string): string {
+  return isoLocal(new Date(horodatage));
 }

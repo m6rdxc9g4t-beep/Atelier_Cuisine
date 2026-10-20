@@ -1,20 +1,13 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Check, Clock, Plus, Search, ShoppingBasket } from "lucide-react";
+import { FeuilleCuisiner } from "../components/Cuisiner";
 import { Feuille } from "../components/Feuille";
 import { useToast } from "../components/Toast";
 import { analyserSaisie, capitaliser, deviner, formatQuantite } from "../lib/aliments";
-import { aujourdhui, fraicheur } from "../lib/dates";
+import { fraicheur } from "../lib/dates";
 import { chargerRecettes, useDonnees, useRecettes, type RecetteComplete } from "../lib/donnees";
 import { cleAliment, correspond } from "../lib/normaliser";
-import {
-  creneauDuMoment,
-  messageErreur,
-  SLOTS,
-  supabase,
-  type Meal,
-  type PantryItem,
-  type Suggestion,
-} from "../lib/supabase";
+import { messageErreur, supabase, type PantryItem, type Suggestion } from "../lib/supabase";
 
 const FILTRES = [
   { id: "tout", label: "Tout" },
@@ -29,7 +22,7 @@ type Filtre = (typeof FILTRES)[number]["id"];
 const passeFiltre = (f: Filtre, tags: string[], minutes: number | null) =>
   f === "tout" || (f === "rapide" ? (minutes ?? 99) <= 20 || tags.includes("rapide") : tags.includes(f));
 
-export function Idees({ versGardeManger }: { versGardeManger: () => void }) {
+export function Idees({ versGardeManger, embarque }: { versGardeManger: () => void; embarque?: boolean }) {
   const { pantry, recharger } = useDonnees();
   const toast = useToast();
   const { recettes, recharger: rechargerRecettes } = useRecettes();
@@ -78,11 +71,13 @@ export function Idees({ versGardeManger }: { versGardeManger: () => void }) {
   }
 
   return (
-    <div className="ecran">
-      <header className="ecran__tete">
-        <h1>Idées</h1>
-        <p className="ecran__sous-titre">Des plats avec ce qu'il te reste, en commençant par ce qui presse</p>
-      </header>
+    <div className={embarque ? "idees-embarquees" : "ecran"}>
+      {!embarque && (
+        <header className="ecran__tete">
+          <h1>Idées</h1>
+          <p className="ecran__sous-titre">Des plats avec ce qu'il te reste, en commençant par ce qui presse</p>
+        </header>
+      )}
 
       <div className="puces puces--defile" role="group" aria-label="Filtrer">
         {FILTRES.map((f) => (
@@ -201,7 +196,10 @@ export function Idees({ versGardeManger }: { versGardeManger: () => void }) {
         onAjouterManquants={ajouterManquants}
       />
       <FeuilleCuisiner
-        recette={recettes?.find((r) => r.id === aCuisiner) ?? null}
+        quoi={(() => {
+          const r = recettes?.find((x) => x.id === aCuisiner);
+          return r ? { type: "recette", recette: r } : null;
+        })()}
         onFermer={() => setACuisiner(null)}
       />
       <FeuilleNouvelleRecette
@@ -314,135 +312,6 @@ function FeuilleRecette({
   );
 }
 
-/** Note le repas et retire du garde-manger ce qui a été utilisé. */
-export function FeuilleCuisiner({
-  recette,
-  onFermer,
-  dateInitiale,
-  creneauInitial,
-}: {
-  recette: RecetteComplete | null;
-  onFermer: () => void;
-  dateInitiale?: string;
-  creneauInitial?: Meal["slot"];
-}) {
-  const { pantry, setPantry, setMeals } = useDonnees();
-  const toast = useToast();
-  const [date, setDate] = useState(aujourdhui());
-  const [creneau, setCreneau] = useState<Meal["slot"]>(creneauDuMoment());
-  const [aRetirer, setARetirer] = useState<Set<string>>(new Set());
-  const [pour, setPour] = useState<string | null>(null);
-  const [enCours, setEnCours] = useState(false);
-
-  const utilises = useMemo(() => {
-    if (!recette) return [];
-    const vus = new Map<string, PantryItem>();
-    for (const { ing, produits } of correspondances(recette, pantry)) {
-      if (ing.is_staple) continue;
-      // le produit qui périme le plus tôt est celui qu'on utilise
-      const p = [...produits].sort((a, b) => (a.expires_on ?? "9").localeCompare(b.expires_on ?? "9"))[0];
-      if (p) vus.set(p.id, p);
-    }
-    return [...vus.values()];
-  }, [recette, pantry]);
-
-  // Réinitialise à chaque nouvelle recette
-  if (recette && pour !== recette.id) {
-    setPour(recette.id);
-    setDate(dateInitiale ?? aujourdhui());
-    setCreneau(creneauInitial ?? creneauDuMoment());
-    setARetirer(new Set(utilises.map((u) => u.id)));
-  }
-  if (!recette && pour) setPour(null);
-
-  async function valider() {
-    if (!recette) return;
-    setEnCours(true);
-    const { data, error } = await supabase
-      .from("meals")
-      .insert({ title: recette.title, recipe_id: recette.id, eaten_on: date, slot: creneau })
-      .select()
-      .single();
-    if (error) {
-      setEnCours(false);
-      return toast(messageErreur(error), { erreur: true });
-    }
-    setMeals((l) => [data as Meal, ...l]);
-    const ids = [...aRetirer];
-    if (ids.length) {
-      const { error: e2 } = await supabase.from("pantry_items").delete().in("id", ids);
-      if (!e2) setPantry((l) => l.filter((p) => !ids.includes(p.id)));
-    }
-    setEnCours(false);
-    toast(
-      ids.length
-        ? `Repas noté, ${ids.length} produit${ids.length > 1 ? "s" : ""} retiré${ids.length > 1 ? "s" : ""} du garde-manger`
-        : "Repas noté",
-    );
-    onFermer();
-  }
-
-  return (
-    <Feuille
-      ouverte={!!recette}
-      titre={recette ? `Cuisiner : ${recette.title}` : ""}
-      onFermer={onFermer}
-      pied={
-        <button className="bouton bouton--action bouton--plein" onClick={valider} disabled={enCours}>
-          Noter le repas
-        </button>
-      }
-    >
-      <div className="formulaire">
-        <div className="formulaire__ligne">
-          <label className="champ-groupe">
-            <span>Jour</span>
-            <input className="champ" type="date" value={date} onChange={(e) => setDate(e.target.value || aujourdhui())} />
-          </label>
-          <label className="champ-groupe">
-            <span>Repas</span>
-            <select className="champ" value={creneau} onChange={(e) => setCreneau(e.target.value as Meal["slot"])}>
-              {SLOTS.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        {utilises.length > 0 ? (
-          <fieldset className="champ-groupe">
-            <legend>Retirer du garde-manger</legend>
-            <ul className="cases">
-              {utilises.map((p) => (
-                <li key={p.id}>
-                  <label className="case-ligne">
-                    <input
-                      type="checkbox"
-                      checked={aRetirer.has(p.id)}
-                      onChange={(e) => {
-                        const n = new Set(aRetirer);
-                        if (e.target.checked) n.add(p.id);
-                        else n.delete(p.id);
-                        setARetirer(n);
-                      }}
-                    />
-                    <span>{p.name}</span>
-                    <span className="case-ligne__detail">{formatQuantite(p.quantity, p.unit)}</span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-            <p className="note">Décoche ce qu'il te reste après le repas.</p>
-          </fieldset>
-        ) : (
-          <p className="note">Aucun produit du garde-manger n'est utilisé par cette recette.</p>
-        )}
-      </div>
-    </Feuille>
-  );
-}
-
 const DESCRIPTEURS = new Set(
   "frais fraiche rape rapee fume nature bio entier entiere coupe coupee en boite de du des la le les d bien mur mure rassi gros grosse petit petite moyen moyenne".split(
     " ",
@@ -470,7 +339,7 @@ function FeuilleNouvelleRecette({
   const toast = useToast();
   const [titre, setTitre] = useState("");
   const [minutes, setMinutes] = useState("");
-  const [portions, setPortions] = useState("4");
+  const [portions, setPortions] = useState("2");
   const [ingredients, setIngredients] = useState("");
   const [etapes, setEtapes] = useState("");
   const [enCours, setEnCours] = useState(false);
@@ -506,7 +375,7 @@ function FeuilleNouvelleRecette({
         quantity: s.quantity,
         unit: s.unit,
         match_key: cle,
-        category: base ? "epicerie" : deviner(s.name).categorie,
+        category: base ? "epicerie_salee" : deviner(s.name).categorie,
         is_staple: base,
         position,
       };
