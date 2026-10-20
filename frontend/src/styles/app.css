@@ -1118,7 +1118,7 @@ textarea.champ {
   font-stretch: 75%;
   font-size: var(--t-lg);
   line-height: 1.1;
-  color: var(--basilic);
+  color: var(--signature-texte);
 }
 
 .etapes--compactes > li::before {
@@ -1191,7 +1191,7 @@ textarea.champ {
 }
 
 .jour--aujourdhui .jour__num {
-  color: var(--basilic);
+  color: var(--signature-texte);
 }
 
 .jour[aria-pressed="true"] {
@@ -1299,7 +1299,7 @@ textarea.champ {
 }
 
 .creneau__ajout:hover {
-  color: var(--basilic);
+  color: var(--signature-texte);
 }
 
 @media (max-width: 420px) {

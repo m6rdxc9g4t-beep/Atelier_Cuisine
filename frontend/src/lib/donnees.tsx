@@ -259,12 +259,26 @@ function lireReglages(): Reglages {
 let reglagesActuels = lireReglages();
 const abonnes = new Set<() => void>();
 
+// Fond de la charte (--atelier-bg pour l'orchidée), pour la barre d'état et le manifeste
+const COULEUR_FOND = { dark: "#110b14", light: "#fbf3fc" } as const;
+const systemeClair = typeof window !== "undefined" ? window.matchMedia?.("(prefers-color-scheme: light)") : undefined;
+
+/**
+ * Pose les marqueurs de thème de la suite Atelier sur <html> :
+ * néon = data-theme="dark" + classe « dark », clair = data-theme="light".
+ * « Selon le système » suit prefers-color-scheme (même logique que le script anti-flash d'index.html).
+ */
 function appliquerTheme(theme: Reglages["theme"]) {
   const racine = document.documentElement;
-  if (theme === "auto") racine.removeAttribute("data-theme");
-  else racine.setAttribute("data-theme", theme);
+  const resolu = theme === "auto" ? (systemeClair?.matches ? "light" : "dark") : theme;
+  racine.setAttribute("data-theme", resolu);
+  racine.classList.toggle("dark", resolu === "dark");
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", COULEUR_FOND[resolu]);
 }
 appliquerTheme(reglagesActuels.theme);
+systemeClair?.addEventListener?.("change", () => {
+  if (reglagesActuels.theme === "auto") appliquerTheme("auto");
+});
 
 export function majReglages(p: Partial<Reglages>) {
   reglagesActuels = { ...reglagesActuels, ...p };
