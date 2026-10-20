@@ -2,7 +2,7 @@
 """Génère la migration SQL du catalogue de recettes à partir de recettes.json.
 
 Usage :
-  python3 backend/recettes/generer_sql.py > backend/supabase/migrations/20261020120200_catalogue_recettes.sql
+  python3 backend/recettes/generer_sql.py > backend/supabase/migrations/20261021080300_catalogue_recettes.sql
 
 Les identifiants sont stables (uuid5) : relancer la migration met à jour les
 recettes existantes au lieu de créer des doublons.
@@ -20,6 +20,12 @@ EXCLUSIONS = {
     "lait": ["lait de coco"],
     "pate": ["pate brisee", "pate feuilletee", "pate a"],
     "creme": ["creme dessert"],
+    "sauce soja": ["sauce soja sucree"],
+}
+
+RAYONS = {
+    "fruits_legumes", "viandes_poissons", "produits_frais", "feculents", "surgeles", "epicerie_sucree",
+    "epicerie_salee", "boissons", "apero", "hygiene", "entretien", "base",
 }
 
 SQL = """-- Catalogue de recettes commun (généré par backend/recettes/generer_sql.py)
@@ -50,13 +56,16 @@ purge as (
 ),
 ins as (
   insert into public.recipe_ingredients
-    (recipe_id, name, quantity, unit, match_key, exclude_keys, category, is_staple, position)
+    (recipe_id, name, quantity, unit, match_key, exclude_keys, category, is_staple, position,
+     quantity_max, note, is_optional, alt_group)
   select (recs.x->>'id')::uuid,
          i->>0, (i->>1)::numeric, i->>2, i->>3,
          array(select jsonb_array_elements_text(coalesce(i->5, '[]'::jsonb))),
-         case when i->>4 = 'base' then 'epicerie' else i->>4 end,
+         case when i->>4 = 'base' then 'epicerie_salee' else i->>4 end,
          i->>4 = 'base',
-         (pos - 1)::int
+         (pos - 1)::int,
+         (i->6->>'max')::numeric, i->6->>'note',
+         coalesce((i->6->>'optionnel')::boolean, false), i->6->>'groupe'
   from recs, jsonb_array_elements(recs.x->'ingredients') with ordinality as t(i, pos)
   returning id
 )
@@ -72,10 +81,13 @@ def main():
     for r in data["recettes"]:
         rec = {k: r[k] for k in ("titre", "resume", "emoji", "minutes", "portions", "etapes", "tags")}
         rec["id"] = str(uuid.uuid5(NS, r["titre"]))
-        rec["ingredients"] = [
-            [nom, qte, unite, cle, cat] + ([EXCLUSIONS[cle]] if cle in EXCLUSIONS else [])
-            for nom, qte, unite, cle, cat in r["ingredients"]
-        ]
+        rec["ingredients"] = []
+        for ing in r["ingredients"]:
+            nom, qte, unite, cle, cat = ing[:5]
+            options = ing[5] if len(ing) > 5 else {}
+            assert cat in RAYONS, f"{r['titre']} / {nom} : rayon inconnu « {cat} »"
+            assert set(options) <= {"max", "note", "optionnel", "groupe"}, f"{nom} : option inconnue"
+            rec["ingredients"].append([nom, qte, unite, cle, cat, EXCLUSIONS.get(cle, []), options])
         compact.append(rec)
     payload = json.dumps(compact, ensure_ascii=False, separators=(",", ":"))
     assert "$catalogue$" not in payload

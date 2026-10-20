@@ -1,0 +1,23 @@
+{
+  "_format": "Repas favoris d'Auré & François, proposés en autocomplétion dans le planning (CONTEXT_SPEC.md §2). type : recette (liée à une recette du catalogue par son titre), assemblage (produits déduits du stock) ou exterieur. Chaque produit : [nom, mot-clé, quantité pour 2, unité] ; une quantité nulle déduit une portion de repas. Les compositions sont des valeurs de départ, modifiables.",
+  "favoris": [
+    { "nom": "Poêlée poulet", "type": "assemblage", "produits": [["Poulet", "poulet", null, null], ["Poêlée", "poelee", null, null]] },
+    { "nom": "Pizza", "type": "assemblage", "produits": [] },
+    { "nom": "Nouilles sautées crevettes", "type": "recette", "recette": "Nouilles sautées crevettes" },
+    { "nom": "Burger frites", "type": "assemblage", "produits": [["Pain burger", "pain burger", 2, null], ["Steak haché", "steak hache", 2, null], ["Cheddar", "cheddar", null, null], ["Frites", "frite", null, null]] },
+    { "nom": "Pâtes/saucisses", "type": "assemblage", "produits": [["Pâtes", "penne", null, null], ["Saucisse", "saucisse", 2, null]] },
+    { "nom": "Salade composée", "type": "assemblage", "produits": [["Salade", "salade", null, null]] },
+    { "nom": "Moules frites", "type": "assemblage", "produits": [["Moules", "moule", null, null], ["Frites", "frite", null, null]] },
+    { "nom": "Croque-monsieur salade", "type": "assemblage", "produits": [["Croque monsieur", "croque monsieur", 2, null], ["Salade", "salade", null, null]] },
+    { "nom": "Saumon riz", "type": "assemblage", "produits": [["Saumon", "saumon", 2, null], ["Riz", "riz", null, null]] },
+    { "nom": "Pâtes Carbonara (Carbo)", "type": "recette", "recette": "Pâtes carbonara" },
+    { "nom": "Pomme noisette et cordon bleu", "type": "assemblage", "produits": [["Pommes noisette", "pomme noisette", null, null], ["Cordon bleu", "cordon bleu", 2, null]] },
+    { "nom": "Raviolis", "type": "assemblage", "produits": [["Raviolis", "ravioli", null, null]] },
+    { "nom": "Steak poêlé", "type": "assemblage", "produits": [["Steak haché", "steak hache", 2, null]] },
+    { "nom": "Omelette salade", "type": "assemblage", "produits": [["Œufs", "oeuf", 4, null], ["Salade", "salade", null, null]] },
+    { "nom": "Brunch", "type": "assemblage", "produits": [] },
+    { "nom": "Gaufres", "type": "recette", "recette": "Gaufres classiques", "favori": false },
+    { "nom": "Crêpes", "type": "recette", "recette": "Crêpes", "favori": false },
+    { "nom": "Resto / repas séparés", "type": "exterieur", "favori": false }
+  ]
+}

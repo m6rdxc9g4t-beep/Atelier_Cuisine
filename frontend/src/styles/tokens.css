@@ -1,49 +1,73 @@
 /*
- * Atelier Cuisine — jetons de design
+ * atelier_Cuisine — jetons de design
  * Source de vérité, documentée dans design/DESIGN.md.
  *
- * Palette « faïence & aubergine » : fond céladon pâle de carrelage de cuisine,
- * encre aubergine, et trois couleurs de fraîcheur tirées du marché
- * (basilic → moutarde → tomate).
+ * Charte « néon holographique 3D » commune aux apps atelier_ :
+ *  - bleu nuit pour le fond, verre poli pour les surfaces ;
+ *  - cyan électrique pour la structure (contours, icônes, glow) ;
+ *  - blanc bleuté pour le texte et les reflets ;
+ *  - une couleur signature par app. Pour atelier_Cuisine : l'orchidée,
+ *    l'aubergine passée sous les néons (bouton principal, onglet actif, liens) ;
+ *  - vert / orange / rouge réservés aux données de fraîcheur, bleu acier pour
+ *    « mis en boîte », vert et violet pour les deux budgets.
  */
-@import "@fontsource-variable/bricolage-grotesque/standard.css";
+@import "@fontsource-variable/nunito/wght.css";
 
 :root {
-  /* Couleurs de base */
-  --faience: #edf1ec;        /* fond de l'app */
-  --faience-2: #e2e8e2;      /* fond secondaire, zones creusées */
-  --porcelaine: #ffffff;     /* surfaces */
-  --aubergine: #2a1b2e;      /* encre principale */
-  --aubergine-2: #6b5d6e;    /* texte secondaire */
-  --aubergine-3: #a39aa5;    /* texte tertiaire, placeholders */
-  --trait: #d3dad3;          /* séparateurs */
+  /* Couleurs de base — néon (par défaut) */
+  --nuit: #0a1a2a;              /* fond des écrans */
+  --nuit-2: #06121e;            /* zones creusées, barre latérale */
+  --verre: rgba(17, 42, 64, 0.62);
+  --verre-plein: #0f2438;       /* surfaces opaques (feuilles, listes) */
+  --verre-haut: rgba(230, 247, 255, 0.07); /* reflet spéculaire en haut des panneaux */
+  --cyan: #3fd8ff;              /* structure */
+  --cyan-trait: rgba(63, 216, 255, 0.22);
+  --cyan-halo: rgba(63, 216, 255, 0.28);
+  --reflet: #e6f7ff;            /* texte, arêtes */
+  --signature: #e056e2;         /* orchidée : couleur signature d'atelier_Cuisine */
+  --signature-encre: #1c0a20;
+  --signature-halo: rgba(224, 86, 226, 0.45);
 
-  /* Fraîcheur */
-  --basilic: #2e6b4e;        /* frais, actions principales */
-  --basilic-pale: #dcebe2;
-  --moutarde: #8a6100;       /* bientôt (texte, contraste AA) */
-  --moutarde-vif: #d9a520;   /* bientôt (pastille, barre) */
-  --moutarde-pale: #fbefcf;
-  --tomate: #c0392b;         /* à consommer aujourd'hui / périmé */
-  --tomate-pale: #fbe1dc;
+  /* Données */
+  --frais: #3ddc97;
+  --bientot: #ffb347;
+  --urgent: #ff5c6c;            /* aussi : montants négatifs */
+  --boite: #78b4ff;             /* mis en boîte */
+  --data-ali: #22a86b;          /* budget alimentaire */
+  --data-maison: #9d7bf0;       /* budget maison & hygiène */
 
-  /* Accent repas */
-  --lavande: #dcd5ec;
-  --lavande-encre: #4b3d73;
+  /* Rôles (noms historiques conservés pour app.css) */
+  --bg: var(--nuit);
+  --bg-creux: var(--nuit-2);
+  --surface: var(--verre-plein);
+  --encre: var(--reflet);
+  --encre-2: #9dbbd0;
+  --encre-3: #6b8aa3;
+  --trait: var(--cyan-trait);
+  --action: var(--signature);
+  --action-encre: var(--signature-encre);
+  --focus: var(--cyan);
+  --basilic: var(--frais);
+  --basilic-pale: rgba(61, 220, 151, 0.16);
+  --moutarde: var(--bientot);
+  --moutarde-vif: var(--bientot);
+  --moutarde-pale: rgba(255, 179, 71, 0.14);
+  --tomate: var(--urgent);
+  --tomate-pale: rgba(255, 92, 108, 0.15);
+  --lavande: rgba(224, 86, 226, 0.16);
+  --lavande-encre: #f6b9f7;
 
-  /* Rôles */
-  --bg: var(--faience);
-  --bg-creux: var(--faience-2);
-  --surface: var(--porcelaine);
-  --encre: var(--aubergine);
-  --encre-2: var(--aubergine-2);
-  --encre-3: var(--aubergine-3);
-  --action: var(--basilic);
-  --action-encre: #ffffff;
-  --focus: #5b3fd1;
+  /* Lumière */
+  --glow-cyan: 0 0 0 1px var(--cyan-trait), 0 0 22px -6px var(--cyan-halo);
+  --glow-signature: 0 0 0 1px rgba(224, 86, 226, 0.6), 0 0 24px -4px var(--signature-halo);
+  --texte-neon: 0 0 12px rgba(63, 216, 255, 0.55);
+  --fond-ambiance:
+    radial-gradient(1200px 600px at 12% -8%, rgba(63, 216, 255, 0.13), transparent 60%),
+    radial-gradient(900px 500px at 105% 0%, rgba(224, 86, 226, 0.09), transparent 55%),
+    linear-gradient(180deg, #0b1d30 0%, var(--nuit) 45%, #081624 100%);
 
-  /* Typographie : une seule famille, Bricolage Grotesque (axe optique) */
-  --font: "Bricolage Grotesque Variable", "Avenir Next", system-ui, sans-serif;
+  /* Typographie : Nunito, sans-serif arrondie de la charte */
+  --font: "Nunito Variable", "SF Pro Rounded", ui-rounded, system-ui, sans-serif;
   --t-xs: 0.8125rem;   /* 13 */
   --t-sm: 0.9375rem;   /* 15 */
   --t-md: 1.0625rem;   /* 17 — corps, taille iOS */
@@ -60,58 +84,88 @@
   --s-6: 32px;
   --s-7: 48px;
 
-  /* Rayons : hiérarchiques, pas un seul rayon partout */
+  /* Rayons hiérarchiques */
   --r-pastille: 999px;  /* pastilles, puces */
-  --r-tuile: 20px;      /* tuiles « à cuisiner vite » */
-  --r-groupe: 14px;     /* groupes de liste */
-  --r-champ: 10px;      /* champs, boutons */
+  --r-tuile: 22px;      /* enseignes « à finir » */
+  --r-groupe: 16px;     /* panneaux de verre */
+  --r-champ: 12px;      /* champs, boutons */
 
-  --ombre-feuille: 0 -8px 40px rgba(42, 27, 46, 0.18);
+  --ombre-feuille: 0 -10px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--cyan-trait);
   --duree: 180ms;
+
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #1b1320;
-    --bg-creux: #140e18;
-    --surface: #261c2b;
-    --encre: #f1ecf2;
-    --encre-2: #b9adbc;
-    --encre-3: #7d7180;
-    --trait: #3a2e3f;
-    --action: #6fc59a;
-    --action-encre: #10261a;
-    --basilic: #6fc59a;
-    --basilic-pale: #1f3a2c;
-    --moutarde: #e7b94a;
-    --moutarde-vif: #e7b94a;
-    --moutarde-pale: #3d3015;
-    --tomate: #ff7a63;
-    --tomate-pale: #4a211b;
-    --lavande: #3a3152;
-    --lavande-encre: #d4cbf0;
-    --focus: #b6a6ff;
+/* Variante claire : verre givré, même structure cyan et même signature.
+   Répétée pour « Selon le système » (CSS sans préprocesseur). */
+:root[data-theme="light"] {
+  --nuit: #eaf4f9;
+  --nuit-2: #dbe9f1;
+  --verre: rgba(255, 255, 255, 0.74);
+  --verre-plein: #ffffff;
+  --verre-haut: rgba(255, 255, 255, 0.9);
+  --cyan: #0a87b2;
+  --cyan-trait: rgba(10, 135, 178, 0.24);
+  --cyan-halo: rgba(10, 135, 178, 0.18);
+  --reflet: #0a1a2a;
+  --signature: #b02fb3;
+  --signature-encre: #ffffff;
+  --signature-halo: rgba(176, 47, 179, 0.3);
+  --frais: #12804f;
+  --bientot: #a85f00;
+  --urgent: #cc2b3b;
+  --boite: #2f6fd6;
+  --data-ali: #1a8f5b;
+  --data-maison: #7a56d8;
+  --encre-2: #3d5a70;
+  --encre-3: #6c8497;
+  --basilic-pale: rgba(18, 128, 79, 0.12);
+  --moutarde-pale: rgba(168, 95, 0, 0.12);
+  --tomate-pale: rgba(204, 43, 59, 0.1);
+  --lavande: rgba(176, 47, 179, 0.1);
+  --lavande-encre: #7d1f80;
+  --texte-neon: none;
+  --fond-ambiance:
+    radial-gradient(1200px 600px at 12% -8%, rgba(10, 135, 178, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 105% 0%, rgba(176, 47, 179, 0.07), transparent 55%),
+    linear-gradient(180deg, #f2f9fc 0%, var(--nuit) 100%);
+  --ombre-feuille: 0 -10px 40px rgba(10, 26, 42, 0.18), 0 0 0 1px var(--cyan-trait);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --nuit: #eaf4f9;
+    --nuit-2: #dbe9f1;
+    --verre: rgba(255, 255, 255, 0.74);
+    --verre-plein: #ffffff;
+    --verre-haut: rgba(255, 255, 255, 0.9);
+    --cyan: #0a87b2;
+    --cyan-trait: rgba(10, 135, 178, 0.24);
+    --cyan-halo: rgba(10, 135, 178, 0.18);
+    --reflet: #0a1a2a;
+    --signature: #b02fb3;
+    --signature-encre: #ffffff;
+    --signature-halo: rgba(176, 47, 179, 0.3);
+    --frais: #12804f;
+    --bientot: #a85f00;
+    --urgent: #cc2b3b;
+    --boite: #2f6fd6;
+    --data-ali: #1a8f5b;
+    --data-maison: #7a56d8;
+    --encre-2: #3d5a70;
+    --encre-3: #6c8497;
+    --basilic-pale: rgba(18, 128, 79, 0.12);
+    --moutarde-pale: rgba(168, 95, 0, 0.12);
+    --tomate-pale: rgba(204, 43, 59, 0.1);
+    --lavande: rgba(176, 47, 179, 0.1);
+    --lavande-encre: #7d1f80;
+    --texte-neon: none;
+    --fond-ambiance:
+      radial-gradient(1200px 600px at 12% -8%, rgba(10, 135, 178, 0.12), transparent 60%),
+      radial-gradient(900px 500px at 105% 0%, rgba(176, 47, 179, 0.07), transparent 55%),
+      linear-gradient(180deg, #f2f9fc 0%, var(--nuit) 100%);
+    --ombre-feuille: 0 -10px 40px rgba(10, 26, 42, 0.18), 0 0 0 1px var(--cyan-trait);
+    color-scheme: light;
   }
-}
-
-:root[data-theme="dark"] {
-  --bg: #1b1320;
-  --bg-creux: #140e18;
-  --surface: #261c2b;
-  --encre: #f1ecf2;
-  --encre-2: #b9adbc;
-  --encre-3: #7d7180;
-  --trait: #3a2e3f;
-  --action: #6fc59a;
-  --action-encre: #10261a;
-  --basilic: #6fc59a;
-  --basilic-pale: #1f3a2c;
-  --moutarde: #e7b94a;
-  --moutarde-vif: #e7b94a;
-  --moutarde-pale: #3d3015;
-  --tomate: #ff7a63;
-  --tomate-pale: #4a211b;
-  --lavande: #3a3152;
-  --lavande-encre: #d4cbf0;
-  --focus: #b6a6ff;
 }

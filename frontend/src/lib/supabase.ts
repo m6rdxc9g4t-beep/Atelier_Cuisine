@@ -11,14 +11,23 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
 });
 
+export type Emplacement = "frigo" | "congelateur" | "placard" | "corbeille" | "maison";
+export type NiveauStock = "plein" | "moitie" | "un_repas" | "fin";
+
 export interface PantryItem {
   id: string;
   name: string;
   quantity: number | null;
   unit: string | null;
   category: string;
-  location: "frigo" | "congelateur" | "placard" | "corbeille";
+  location: Emplacement;
   expires_on: string | null;
+  stock_level: NiveauStock | null;
+  opened_on: string | null;
+  in_container: boolean;
+  note: string | null;
+  product_id: string | null;
+  purchase_price: number | null;
   created_at: string;
 }
 
@@ -29,9 +38,19 @@ export interface ShoppingItem {
   unit: string | null;
   category: string;
   checked: boolean;
+  checked_at?: string | null;
   recipe_id: string | null;
+  product_id: string | null;
+  source: "manuel" | "planning" | "a_racheter" | "ticket";
+  meal_id: string | null;
+  note: string | null;
+  unit_price: number | null;
+  total_price: number | null;
+  expires_on: string | null;
   created_at: string;
 }
+
+export type TypeRepas = "recette" | "assemblage" | "exterieur" | "libre";
 
 export interface Meal {
   id: string;
@@ -41,6 +60,11 @@ export interface Meal {
   recipe_id: string | null;
   servings: number | null;
   notes: string | null;
+  meal_type: TypeRepas;
+  status: "prevu" | "cuisine";
+  cooked_at: string | null;
+  template_id: string | null;
+  external_cost: number | null;
   created_at: string;
 }
 
@@ -67,6 +91,10 @@ export interface RecipeIngredient {
   category: string;
   is_staple: boolean;
   position: number;
+  quantity_max: number | null;
+  note: string | null;
+  is_optional: boolean;
+  alt_group: string | null;
 }
 
 export interface Suggestion {
@@ -81,6 +109,82 @@ export interface Suggestion {
   missing: string[];
   urgent: string[];
   score: number;
+}
+
+/** Produit du catalogue (référentiel commun si user_id est nul). */
+export interface Product {
+  id: string;
+  user_id: string | null;
+  name: string;
+  aisle_id: string;
+  keywords: string[];
+  default_unit: string | null;
+  usual_quantity: number | null;
+  usual_unit: string | null;
+  note: string | null;
+}
+
+export interface MealTemplate {
+  id: string;
+  user_id: string | null;
+  name: string;
+  meal_type: Exclude<TypeRepas, "libre">;
+  recipe_id: string | null;
+  is_favorite: boolean;
+  position: number;
+}
+
+export interface MealTemplateItem {
+  id: string;
+  template_id: string;
+  name: string;
+  match_key: string;
+  quantity: number | null;
+  unit: string | null;
+  position: number;
+}
+
+export type SourceSession = "liste" | "ticket_pdf" | "ticket_photo" | "ticket_texte" | "manuel";
+
+export interface ShoppingSession {
+  id: string;
+  purchased_at: string;
+  store_name: string;
+  payment_method: string | null;
+  total_amount: number;
+  food_subtotal: number;
+  home_subtotal: number;
+  items_count: number;
+  notes: string | null;
+  source: SourceSession;
+  created_at: string;
+}
+
+export interface ShoppingSessionItem {
+  id: string;
+  session_id: string;
+  position: number;
+  raw_label: string;
+  matched_name: string | null;
+  product_id: string | null;
+  brand: string | null;
+  packaging_size: string | null;
+  category: string;
+  tva_rate: number | null;
+  quantity: number;
+  unit_price: number;
+  total_price: number;
+  is_food: boolean;
+  expires_on: string | null;
+}
+
+export type PerimetreBudget = "global" | "alimentaire" | "maison" | "sorties";
+
+export interface Budget {
+  id: string;
+  scope: PerimetreBudget;
+  period: "semaine" | "mois";
+  amount: number;
 }
 
 export const SLOTS: { id: Meal["slot"]; label: string }[] = [

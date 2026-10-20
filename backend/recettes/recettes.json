@@ -1,14 +1,14 @@
 {
-  "_format": "Chaque ingrédient : [nom, quantité, unité, mot-clé de rapprochement (singulier, sans accent), catégorie]. La catégorie 'base' marque un produit de placard supposé toujours présent (sel, huile…).",
+  "_format": "Chaque ingrédient : [nom, quantité, unité, mot-clé de rapprochement (singulier, sans accent), rayon, options facultatives]. Le rayon est l'un des 11 rayons (fruits_legumes, viandes_poissons, produits_frais, feculents, surgeles, epicerie_sucree, epicerie_salee, boissons, apero, hygiene, entretien) ou 'base' pour un produit de placard supposé toujours présent (sel, huile…). Options : {\"max\": borne haute de quantité, \"note\": précision, \"optionnel\": true, \"groupe\": ingrédients interchangeables}.",
   "recettes": [
     {
       "titre": "Omelette aux champignons", "emoji": "🍳", "minutes": 10, "portions": 2,
       "resume": "Le dîner express quand il reste des œufs et quelques champignons.",
       "tags": ["rapide", "végétarien"],
       "ingredients": [
-        ["Œufs", 4, null, "oeuf", "cremerie"],
+        ["Œufs", 4, null, "oeuf", "produits_frais"],
         ["Champignons de Paris", 150, "g", "champignon", "fruits_legumes"],
-        ["Beurre", 10, "g", "beurre", "cremerie"],
+        ["Beurre", 10, "g", "beurre", "produits_frais"],
         ["Persil", null, null, "persil", "fruits_legumes"],
         ["Sel, poivre", null, null, "sel", "base"]
       ],
@@ -24,11 +24,11 @@
       "resume": "Pâte brisée, lardons et appareil crémeux.",
       "tags": ["four", "classique"],
       "ingredients": [
-        ["Pâte brisée", 1, null, "pate brisee", "cremerie"],
-        ["Lardons", 200, "g", "lardon", "viande_poisson"],
-        ["Œufs", 3, null, "oeuf", "cremerie"],
-        ["Crème fraîche", 20, "cl", "creme", "cremerie"],
-        ["Lait", 20, "cl", "lait", "cremerie"],
+        ["Pâte brisée", 1, null, "pate brisee", "produits_frais"],
+        ["Lardons", 200, "g", "lardon", "viandes_poissons"],
+        ["Œufs", 3, null, "oeuf", "produits_frais"],
+        ["Crème fraîche", 20, "cl", "creme", "produits_frais"],
+        ["Lait", 20, "cl", "lait", "produits_frais"],
         ["Muscade, sel, poivre", null, null, "muscade", "base"]
       ],
       "etapes": [
@@ -65,8 +65,8 @@
       "tags": ["four", "végétarien", "classique"],
       "ingredients": [
         ["Pommes de terre", 1, "kg", "pomme de terre", "fruits_legumes"],
-        ["Crème fraîche", 40, "cl", "creme", "cremerie"],
-        ["Lait", 40, "cl", "lait", "cremerie"],
+        ["Crème fraîche", 40, "cl", "creme", "produits_frais"],
+        ["Lait", 40, "cl", "lait", "produits_frais"],
         ["Ail", 1, "gousse", "ail", "base"],
         ["Muscade, sel, poivre", null, null, "muscade", "base"]
       ],
@@ -100,10 +100,10 @@
       "resume": "La vraie, sans crème : œufs, lardons et parmesan.",
       "tags": ["rapide"],
       "ingredients": [
-        ["Spaghetti", 400, "g", "pate", "epicerie"],
-        ["Lardons", 200, "g", "lardon", "viande_poisson"],
-        ["Œufs", 3, null, "oeuf", "cremerie"],
-        ["Parmesan", 50, "g", "parmesan", "cremerie"],
+        ["Spaghetti", 400, "g", "pate", "feculents"],
+        ["Lardons", 200, "g", "lardon", "viandes_poissons"],
+        ["Œufs", 3, null, "oeuf", "produits_frais"],
+        ["Parmesan", 50, "g", "parmesan", "produits_frais"],
         ["Poivre", null, null, "poivre", "base"]
       ],
       "etapes": [
@@ -118,10 +118,10 @@
       "resume": "Pain de mie, jambon, fromage : le soir où on n'a pas envie.",
       "tags": ["rapide", "four"],
       "ingredients": [
-        ["Pain de mie", 8, "tranches", "pain de mie", "boulangerie"],
-        ["Jambon", 4, "tranches", "jambon", "viande_poisson"],
-        ["Emmental râpé", 100, "g", "emmental", "cremerie"],
-        ["Beurre", 30, "g", "beurre", "cremerie"]
+        ["Pain de mie", 8, "tranches", "pain de mie", "feculents"],
+        ["Jambon", 4, "tranches", "jambon", "viandes_poissons"],
+        ["Emmental râpé", 100, "g", "emmental", "produits_frais"],
+        ["Beurre", 30, "g", "beurre", "produits_frais"]
       ],
       "etapes": [
         "Beurrer les tranches de pain sur une face.",
@@ -134,7 +134,7 @@
       "resume": "Le repas du dimanche, tout cuit dans le même plat.",
       "tags": ["four", "classique"],
       "ingredients": [
-        ["Poulet entier", 1, null, "poulet", "viande_poisson"],
+        ["Poulet entier", 1, null, "poulet", "viandes_poissons"],
         ["Pommes de terre", 800, "g", "pomme de terre", "fruits_legumes"],
         ["Thym", null, null, "thym", "base"],
         ["Ail", 4, "gousses", "ail", "base"],
@@ -152,11 +152,11 @@
       "resume": "Thon, œufs durs, haricots verts et olives.",
       "tags": ["froid", "rapide"],
       "ingredients": [
-        ["Thon en boîte", 1, "boîte", "thon", "epicerie"],
+        ["Thon en boîte", 1, "boîte", "thon", "epicerie_salee"],
         ["Tomates", 3, null, "tomate", "fruits_legumes"],
-        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Œufs", 3, null, "oeuf", "produits_frais"],
         ["Haricots verts", 200, "g", "haricot vert", "fruits_legumes"],
-        ["Olives noires", 50, "g", "olive", "epicerie"],
+        ["Olives noires", 50, "g", "olive", "epicerie_salee"],
         ["Salade", 1, null, "salade", "fruits_legumes"],
         ["Vinaigrette", null, null, "vinaigre", "base"]
       ],
@@ -172,12 +172,12 @@
       "resume": "Viande hachée, haricots rouges et épices, servi avec du riz.",
       "tags": ["mijoté"],
       "ingredients": [
-        ["Viande hachée", 500, "g", "hache", "viande_poisson"],
-        ["Haricots rouges", 1, "boîte", "haricot rouge", "epicerie"],
-        ["Tomates concassées", 1, "boîte", "tomate", "epicerie"],
+        ["Viande hachée", 500, "g", "hache", "viandes_poissons"],
+        ["Haricots rouges", 1, "boîte", "haricot rouge", "epicerie_salee"],
+        ["Tomates concassées", 1, "boîte", "tomate", "epicerie_salee"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
         ["Poivron", 1, null, "poivron", "fruits_legumes"],
-        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Riz", 300, "g", "riz", "feculents"],
         ["Cumin, piment", null, null, "cumin", "base"]
       ],
       "etapes": [
@@ -192,10 +192,10 @@
       "resume": "Parfait pour finir un reste de riz et de jambon.",
       "tags": ["rapide", "anti-gaspi"],
       "ingredients": [
-        ["Riz", 300, "g", "riz", "epicerie"],
-        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Riz", 300, "g", "riz", "feculents"],
+        ["Œufs", 3, null, "oeuf", "produits_frais"],
         ["Petits pois", 150, "g", "petit pois", "surgeles"],
-        ["Jambon", 2, "tranches", "jambon", "viande_poisson"],
+        ["Jambon", 2, "tranches", "jambon", "viandes_poissons"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
         ["Sauce soja", null, null, "sauce soja", "base"]
       ],
@@ -211,12 +211,12 @@
       "resume": "Pois chiches, épinards et carottes dans une sauce douce.",
       "tags": ["végétarien", "mijoté"],
       "ingredients": [
-        ["Lait de coco", 40, "cl", "lait de coco", "epicerie"],
-        ["Pois chiches", 1, "boîte", "pois chiche", "epicerie"],
+        ["Lait de coco", 40, "cl", "lait de coco", "epicerie_salee"],
+        ["Pois chiches", 1, "boîte", "pois chiche", "epicerie_salee"],
         ["Épinards", 200, "g", "epinard", "fruits_legumes"],
         ["Carottes", 2, null, "carotte", "fruits_legumes"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Riz", 300, "g", "riz", "feculents"],
         ["Curry", null, null, "curry", "base"]
       ],
       "etapes": [
@@ -227,20 +227,26 @@
       ]
     },
     {
-      "titre": "Crêpes", "emoji": "🥞", "minutes": 30, "portions": 4,
-      "resume": "Une pâte qui écoule le lait et les œufs.",
+      "titre": "Crêpes", "emoji": "🥞", "minutes": null, "portions": 2,
+      "resume": "Les crêpes classiques de la maison, pour deux. Pâte à laisser reposer 15 à 30 min.",
       "tags": ["sucré", "végétarien"],
       "ingredients": [
-        ["Farine", 250, "g", "farine", "epicerie"],
-        ["Œufs", 4, null, "oeuf", "cremerie"],
-        ["Lait", 50, "cl", "lait", "cremerie"],
-        ["Beurre", 50, "g", "beurre", "cremerie"],
-        ["Sucre", null, null, "sucre", "base"]
+        ["Farine", 90, "g", "farine", "epicerie_salee"],
+        ["Œuf", 1, null, "oeuf", "produits_frais"],
+        ["Lait", 150, "ml", "lait", "produits_frais"],
+        ["Sucre", 0.5, "càs", "sucre", "base"],
+        ["Sel", 1, "pincée", "sel", "base"],
+        ["Levure chimique", 1.5, "càc", "levure", "base"],
+        ["Beurre fondu", 22, "g", "beurre", "produits_frais", {"note": "1,5 càs"}],
+        ["Extrait de vanille", 0.25, "càc", "vanille", "epicerie_salee", {"optionnel": true, "groupe": "vanille"}],
+        ["Sucre vanillé", 0.5, "sachet", "sucre vanille", "epicerie_sucree", {"optionnel": true, "groupe": "vanille", "note": "3 à 4 g, à la place de l'extrait"}]
       ],
       "etapes": [
-        "Mélanger farine et sucre, ajouter les œufs puis le lait progressivement.",
-        "Incorporer le beurre fondu et laisser reposer 30 min si possible.",
-        "Cuire les crêpes une à une dans une poêle chaude légèrement graissée."
+        "Battre l'œuf, le lait, le beurre fondu et le sucre.",
+        "Dans un autre bol, mélanger la farine, le sel et la levure.",
+        "Incorporer doucement les ingrédients secs au mélange liquide.",
+        "Laisser reposer la pâte 15 à 30 minutes.",
+        "Faire chauffer une poêle légèrement beurrée, verser une petite louche (3 càs) et cuire 4 à 6 minutes."
       ]
     },
     {
@@ -248,10 +254,10 @@
       "resume": "Le meilleur destin pour le pain rassis.",
       "tags": ["sucré", "anti-gaspi", "rapide"],
       "ingredients": [
-        ["Pain rassis", 8, "tranches", "pain", "boulangerie"],
-        ["Œufs", 2, null, "oeuf", "cremerie"],
-        ["Lait", 25, "cl", "lait", "cremerie"],
-        ["Beurre", 30, "g", "beurre", "cremerie"],
+        ["Pain rassis", 8, "tranches", "pain", "feculents"],
+        ["Œufs", 2, null, "oeuf", "produits_frais"],
+        ["Lait", 25, "cl", "lait", "produits_frais"],
+        ["Beurre", 30, "g", "beurre", "produits_frais"],
         ["Sucre", null, null, "sucre", "base"]
       ],
       "etapes": [
@@ -268,7 +274,7 @@
         ["Potiron", 1, "kg", "potiron", "fruits_legumes"],
         ["Pomme de terre", 1, null, "pomme de terre", "fruits_legumes"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Crème fraîche", 10, "cl", "creme", "cremerie"],
+        ["Crème fraîche", 10, "cl", "creme", "produits_frais"],
         ["Bouillon de légumes", 1, "cube", "bouillon", "base"]
       ],
       "etapes": [
@@ -282,12 +288,12 @@
       "resume": "Purée maison sur viande hachée, gratinée au four.",
       "tags": ["four", "classique"],
       "ingredients": [
-        ["Viande hachée", 500, "g", "hache", "viande_poisson"],
+        ["Viande hachée", 500, "g", "hache", "viandes_poissons"],
         ["Pommes de terre", 1, "kg", "pomme de terre", "fruits_legumes"],
-        ["Lait", 20, "cl", "lait", "cremerie"],
-        ["Beurre", 50, "g", "beurre", "cremerie"],
+        ["Lait", 20, "cl", "lait", "produits_frais"],
+        ["Beurre", 50, "g", "beurre", "produits_frais"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Emmental râpé", 80, "g", "emmental", "cremerie"]
+        ["Emmental râpé", 80, "g", "emmental", "produits_frais"]
       ],
       "etapes": [
         "Cuire les pommes de terre à l'eau, les écraser avec lait et beurre.",
@@ -301,10 +307,10 @@
       "resume": "Cuisson douce au four, citron et courgette.",
       "tags": ["four", "léger"],
       "ingredients": [
-        ["Pavés de saumon", 2, null, "saumon", "viande_poisson"],
+        ["Pavés de saumon", 2, null, "saumon", "viandes_poissons"],
         ["Citron", 1, null, "citron", "fruits_legumes"],
         ["Courgette", 1, null, "courgette", "fruits_legumes"],
-        ["Riz", 150, "g", "riz", "epicerie"],
+        ["Riz", 150, "g", "riz", "feculents"],
         ["Huile d'olive", null, null, "huile", "base"]
       ],
       "etapes": [
@@ -319,9 +325,9 @@
       "resume": "Pâte feuilletée et pommes fines en rosace.",
       "tags": ["sucré", "four"],
       "ingredients": [
-        ["Pâte feuilletée", 1, null, "pate feuilletee", "cremerie"],
+        ["Pâte feuilletée", 1, null, "pate feuilletee", "produits_frais"],
         ["Pommes", 5, null, "pomme", "fruits_legumes"],
-        ["Beurre", 30, "g", "beurre", "cremerie"],
+        ["Beurre", 30, "g", "beurre", "produits_frais"],
         ["Sucre", null, null, "sucre", "base"]
       ],
       "etapes": [
@@ -337,9 +343,9 @@
       "tags": ["sucré", "anti-gaspi", "four"],
       "ingredients": [
         ["Bananes bien mûres", 3, null, "banane", "fruits_legumes"],
-        ["Farine", 250, "g", "farine", "epicerie"],
-        ["Œufs", 2, null, "oeuf", "cremerie"],
-        ["Beurre", 80, "g", "beurre", "cremerie"],
+        ["Farine", 250, "g", "farine", "epicerie_salee"],
+        ["Œufs", 2, null, "oeuf", "produits_frais"],
+        ["Beurre", 80, "g", "beurre", "produits_frais"],
         ["Sucre, levure chimique", null, null, "levure", "base"]
       ],
       "etapes": [
@@ -354,10 +360,10 @@
       "resume": "Lentilles tièdes, carottes et lardons, vinaigrette moutardée.",
       "tags": ["froid"],
       "ingredients": [
-        ["Lentilles vertes", 250, "g", "lentille", "epicerie"],
+        ["Lentilles vertes", 250, "g", "lentille", "feculents"],
         ["Carottes", 2, null, "carotte", "fruits_legumes"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Lardons", 150, "g", "lardon", "viande_poisson"],
+        ["Lardons", 150, "g", "lardon", "viandes_poissons"],
         ["Moutarde, vinaigre", null, null, "moutarde", "base"]
       ],
       "etapes": [
@@ -371,11 +377,11 @@
       "resume": "Sauté vif de poulet, poivron, carotte et courgette.",
       "tags": ["rapide"],
       "ingredients": [
-        ["Filets de poulet", 400, "g", "poulet", "viande_poisson"],
+        ["Filets de poulet", 400, "g", "poulet", "viandes_poissons"],
         ["Poivron", 1, null, "poivron", "fruits_legumes"],
         ["Carottes", 2, null, "carotte", "fruits_legumes"],
         ["Courgette", 1, null, "courgette", "fruits_legumes"],
-        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Riz", 300, "g", "riz", "feculents"],
         ["Sauce soja", null, null, "sauce soja", "base"]
       ],
       "etapes": [
@@ -390,15 +396,15 @@
       "resume": "Bolognaise maison, béchamel et emmental gratiné.",
       "tags": ["four", "classique"],
       "ingredients": [
-        ["Viande hachée", 500, "g", "hache", "viande_poisson"],
-        ["Plaques de lasagne", 250, "g", "lasagne", "epicerie"],
-        ["Tomates concassées", 2, "boîtes", "tomate", "epicerie"],
+        ["Viande hachée", 500, "g", "hache", "viandes_poissons"],
+        ["Plaques de lasagne", 250, "g", "lasagne", "feculents"],
+        ["Tomates concassées", 2, "boîtes", "tomate", "epicerie_salee"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
         ["Carotte", 1, null, "carotte", "fruits_legumes"],
-        ["Lait", 50, "cl", "lait", "cremerie"],
-        ["Beurre", 50, "g", "beurre", "cremerie"],
-        ["Farine", 50, "g", "farine", "epicerie"],
-        ["Emmental râpé", 100, "g", "emmental", "cremerie"]
+        ["Lait", 50, "cl", "lait", "produits_frais"],
+        ["Beurre", 50, "g", "beurre", "produits_frais"],
+        ["Farine", 50, "g", "farine", "epicerie_salee"],
+        ["Emmental râpé", 100, "g", "emmental", "produits_frais"]
       ],
       "etapes": [
         "Faire revenir oignon et carotte, ajouter la viande puis les tomates, mijoter 30 min.",
@@ -413,9 +419,9 @@
       "tags": ["four", "végétarien"],
       "ingredients": [
         ["Courgettes", 4, null, "courgette", "fruits_legumes"],
-        ["Œufs", 2, null, "oeuf", "cremerie"],
-        ["Crème fraîche", 20, "cl", "creme", "cremerie"],
-        ["Emmental râpé", 80, "g", "emmental", "cremerie"]
+        ["Œufs", 2, null, "oeuf", "produits_frais"],
+        ["Crème fraîche", 20, "cl", "creme", "produits_frais"],
+        ["Emmental râpé", 80, "g", "emmental", "produits_frais"]
       ],
       "etapes": [
         "Couper les courgettes en rondelles et les faire revenir 10 min.",
@@ -429,9 +435,9 @@
       "resume": "Un brunch rapide pour un avocat juste mûr.",
       "tags": ["rapide", "végétarien"],
       "ingredients": [
-        ["Pain", 4, "tranches", "pain", "boulangerie"],
+        ["Pain", 4, "tranches", "pain", "feculents"],
         ["Avocat", 1, null, "avocat", "fruits_legumes"],
-        ["Œufs", 2, null, "oeuf", "cremerie"],
+        ["Œufs", 2, null, "oeuf", "produits_frais"],
         ["Citron", 1, null, "citron", "fruits_legumes"]
       ],
       "etapes": [
@@ -445,11 +451,11 @@
       "resume": "Crémeux sans crème, grâce au parmesan et à la patience.",
       "tags": ["végétarien", "saison"],
       "ingredients": [
-        ["Riz à risotto", 300, "g", "riz", "epicerie"],
+        ["Riz à risotto", 300, "g", "riz", "feculents"],
         ["Champignons", 250, "g", "champignon", "fruits_legumes"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Parmesan", 60, "g", "parmesan", "cremerie"],
-        ["Beurre", 30, "g", "beurre", "cremerie"],
+        ["Parmesan", 60, "g", "parmesan", "produits_frais"],
+        ["Beurre", 30, "g", "beurre", "produits_frais"],
         ["Bouillon de légumes", 1, "litre", "bouillon", "base"]
       ],
       "etapes": [
@@ -464,9 +470,9 @@
       "resume": "Simple, rapide, et les haricots sautés à l'ail.",
       "tags": ["rapide"],
       "ingredients": [
-        ["Steaks", 2, null, "steak", "viande_poisson"],
+        ["Steaks", 2, null, "steak", "viandes_poissons"],
         ["Haricots verts", 300, "g", "haricot vert", "fruits_legumes"],
-        ["Beurre", 20, "g", "beurre", "cremerie"],
+        ["Beurre", 20, "g", "beurre", "produits_frais"],
         ["Ail", 1, "gousse", "ail", "base"]
       ],
       "etapes": [
@@ -480,9 +486,9 @@
       "resume": "On mesure tout avec le pot : idéal pour un yaourt à finir.",
       "tags": ["sucré", "anti-gaspi", "four"],
       "ingredients": [
-        ["Yaourt nature", 1, "pot", "yaourt", "cremerie"],
-        ["Farine", 3, "pots", "farine", "epicerie"],
-        ["Œufs", 3, null, "oeuf", "cremerie"],
+        ["Yaourt nature", 1, "pot", "yaourt", "produits_frais"],
+        ["Farine", 3, "pots", "farine", "epicerie_salee"],
+        ["Œufs", 3, null, "oeuf", "produits_frais"],
         ["Sucre, huile, levure", null, null, "levure", "base"]
       ],
       "etapes": [
@@ -497,9 +503,9 @@
       "resume": "Pâte feuilletée, moutarde et tomates en rondelles.",
       "tags": ["four", "végétarien"],
       "ingredients": [
-        ["Pâte feuilletée", 1, null, "pate feuilletee", "cremerie"],
+        ["Pâte feuilletée", 1, null, "pate feuilletee", "produits_frais"],
         ["Tomates", 4, null, "tomate", "fruits_legumes"],
-        ["Emmental râpé", 60, "g", "emmental", "cremerie"],
+        ["Emmental râpé", 60, "g", "emmental", "produits_frais"],
         ["Moutarde", null, null, "moutarde", "base"]
       ],
       "etapes": [
@@ -516,7 +522,7 @@
       "ingredients": [
         ["Brocoli", 1, null, "brocoli", "fruits_legumes"],
         ["Pomme de terre", 1, null, "pomme de terre", "fruits_legumes"],
-        ["Crème fraîche", 10, "cl", "creme", "cremerie"],
+        ["Crème fraîche", 10, "cl", "creme", "produits_frais"],
         ["Bouillon de légumes", 1, "cube", "bouillon", "base"]
       ],
       "etapes": [
@@ -530,8 +536,8 @@
       "resume": "Œufs pochés dans une sauce tomate épicée au poivron.",
       "tags": ["végétarien"],
       "ingredients": [
-        ["Œufs", 4, null, "oeuf", "cremerie"],
-        ["Tomates concassées", 1, "boîte", "tomate", "epicerie"],
+        ["Œufs", 4, null, "oeuf", "produits_frais"],
+        ["Tomates concassées", 1, "boîte", "tomate", "epicerie_salee"],
         ["Poivron", 1, null, "poivron", "fruits_legumes"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
         ["Cumin, paprika", null, null, "cumin", "base"]
@@ -548,10 +554,10 @@
       "tags": ["four", "saison"],
       "ingredients": [
         ["Pommes de terre", 1, "kg", "pomme de terre", "fruits_legumes"],
-        ["Reblochon", 1, null, "reblochon", "cremerie"],
-        ["Lardons", 200, "g", "lardon", "viande_poisson"],
+        ["Reblochon", 1, null, "reblochon", "produits_frais"],
+        ["Lardons", 200, "g", "lardon", "viandes_poissons"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Crème fraîche", 10, "cl", "creme", "cremerie"]
+        ["Crème fraîche", 10, "cl", "creme", "produits_frais"]
       ],
       "etapes": [
         "Cuire les pommes de terre à l'eau et les couper en rondelles.",
@@ -565,10 +571,10 @@
       "resume": "Pâtes froides, tomates, mozzarella et olives.",
       "tags": ["froid", "rapide", "végétarien"],
       "ingredients": [
-        ["Pâtes courtes", 300, "g", "pate", "epicerie"],
+        ["Pâtes courtes", 300, "g", "pate", "feculents"],
         ["Tomates cerises", 250, "g", "tomate", "fruits_legumes"],
-        ["Mozzarella", 1, null, "mozzarella", "cremerie"],
-        ["Olives noires", 50, "g", "olive", "epicerie"],
+        ["Mozzarella", 1, null, "mozzarella", "produits_frais"],
+        ["Olives noires", 50, "g", "olive", "epicerie_salee"],
         ["Huile d'olive, basilic", null, null, "huile", "base"]
       ],
       "etapes": [
@@ -582,11 +588,11 @@
       "resume": "Galettes garnies de poulet épicé et de poivrons.",
       "tags": ["rapide"],
       "ingredients": [
-        ["Tortillas", 8, null, "tortilla", "epicerie"],
-        ["Filets de poulet", 400, "g", "poulet", "viande_poisson"],
+        ["Tortillas", 8, null, "tortilla", "feculents"],
+        ["Filets de poulet", 400, "g", "poulet", "viandes_poissons"],
         ["Poivrons", 2, null, "poivron", "fruits_legumes"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Crème fraîche", 10, "cl", "creme", "cremerie"],
+        ["Crème fraîche", 10, "cl", "creme", "produits_frais"],
         ["Épices à fajitas", null, null, "epice", "base"]
       ],
       "etapes": [
@@ -600,11 +606,11 @@
       "resume": "Lentilles fondantes au lait de coco et aux épices.",
       "tags": ["végétarien", "mijoté"],
       "ingredients": [
-        ["Lentilles corail", 250, "g", "lentille", "epicerie"],
-        ["Lait de coco", 40, "cl", "lait de coco", "epicerie"],
-        ["Tomates concassées", 1, "boîte", "tomate", "epicerie"],
+        ["Lentilles corail", 250, "g", "lentille", "feculents"],
+        ["Lait de coco", 40, "cl", "lait de coco", "epicerie_salee"],
+        ["Tomates concassées", 1, "boîte", "tomate", "epicerie_salee"],
         ["Oignon", 1, null, "oignon", "fruits_legumes"],
-        ["Riz", 300, "g", "riz", "epicerie"],
+        ["Riz", 300, "g", "riz", "feculents"],
         ["Curry", null, null, "curry", "base"]
       ],
       "etapes": [
@@ -612,6 +618,52 @@
         "Ajouter lentilles rincées, tomates, lait de coco et 30 cl d'eau.",
         "Cuire 20 min en remuant, jusqu'à ce que les lentilles fondent.",
         "Servir avec le riz."
+      ]
+    },
+    {
+      "titre": "Nouilles sautées crevettes", "emoji": "🍤", "minutes": 20, "portions": 2,
+      "resume": "Wok de nouilles, crevettes, carotte et brocoli, sauce soja et huître.",
+      "tags": ["rapide", "wok"],
+      "ingredients": [
+        ["Nouilles ou vermicelles", 150, "g", "nouille", "feculents", {"max": 200}],
+        ["Crevettes", 200, "g", "crevette", "viandes_poissons", {"note": "crues ou cuites"}],
+        ["Carotte", 1, null, "carotte", "fruits_legumes"],
+        ["Brocoli", 1, null, "brocoli", "fruits_legumes", {"note": "1 petit"}],
+        ["Ail", 2, "gousses", "ail", "fruits_legumes"],
+        ["Gingembre", 1, "morceau", "gingembre", "fruits_legumes", {"note": "2 à 3 cm"}],
+        ["Huile de sésame", 1, "càs", "huile de sesame", "epicerie_salee", {"note": "+ 1 filet en finition"}],
+        ["Sauce soja salée", 1.5, "càs", "sauce soja", "epicerie_salee"],
+        ["Sauce huître", 1, "càs", "sauce huitre", "epicerie_salee"],
+        ["Vinaigre de riz", 1, "càc", "vinaigre de riz", "epicerie_salee"]
+      ],
+      "etapes": [
+        "Préparation : cuire les nouilles selon le paquet et égoutter. Couper la carotte en fines lamelles et le brocoli en petits morceaux. Hacher l'ail et le gingembre.",
+        "Légumes : chauffer l'huile dans un wok ou une grande poêle. Faire sauter carotte et brocoli 4 à 5 min, ils doivent rester légèrement croquants.",
+        "Crevettes : ajouter l'ail et le gingembre, puis les crevettes. Cuire 2 à 3 min jusqu'à ce qu'elles rosissent.",
+        "Nouilles et sauce : ajouter les nouilles, la sauce soja, la sauce huître et le vinaigre de riz. Mélanger à feu vif 2 à 3 min.",
+        "Finition : ajouter un filet d'huile de sésame et mélanger une dernière fois."
+      ]
+    },
+    {
+      "titre": "Gaufres classiques", "emoji": "🧇", "minutes": null, "portions": 2,
+      "resume": "La pâte à gaufres de la maison, pour deux.",
+      "tags": ["sucré", "végétarien"],
+      "ingredients": [
+        ["Œuf", 1, null, "oeuf", "produits_frais"],
+        ["Farine", 120, "g", "farine", "epicerie_salee"],
+        ["Lait", 210, "ml", "lait", "produits_frais"],
+        ["Sucre", 0.5, "càs", "sucre", "base", {"note": "ou 1,5 càc"}],
+        ["Sel", 0.125, "càc", "sel", "base", {"note": "1 bonne pincée"}],
+        ["Levure chimique", 2, "càc", "levure", "base"],
+        ["Extrait de vanille", 0.25, "càc", "vanille", "epicerie_salee"],
+        ["Beurre fondu refroidi", 56, "g", "beurre", "produits_frais"]
+      ],
+      "etapes": [
+        "Battre l'œuf, le lait et le sucre pendant 2 à 3 minutes.",
+        "Ajouter le beurre fondu refroidi et la vanille, mélanger.",
+        "Dans un autre récipient, mélanger la farine, le sel et la levure chimique.",
+        "Incorporer doucement les ingrédients secs au mélange liquide jusqu'à obtenir une pâte homogène.",
+        "Préchauffer et graisser le gaufrier. Verser 5 càs de pâte par gaufre et cuire 3 à 5 minutes jusqu'à ce qu'elles soient bien dorées."
       ]
     }
   ]

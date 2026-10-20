@@ -1,84 +1,86 @@
-# Atelier Cuisine — design UI
+# atelier_Cuisine — design UI
 
-Une app de cuisine domestique : on y note ce qu'il y a dans le frigo, ce qu'il faut acheter, ce qu'on a mangé, et elle propose quoi cuisiner en commençant par ce qui presse.
+L'app de cuisine du foyer d'Auré et François : le stock du frigo et des placards, le semainier des repas, la liste de courses, les tickets de caisse et le budget.
 
-**Tâche principale de l'interface :** montrer d'un coup d'œil ce qu'il faut finir en premier.
+**Tâche principale de l'interface :** montrer d'un coup d'œil ce qu'il faut finir en premier, puis ce qu'on mange et ce qu'on achète.
 
-## Direction : faïence & aubergine
+## Direction : néon holographique (charte commune des apps atelier_)
 
-Plutôt que le crème + terracotta des apps de recettes, la palette part du carrelage d'une cuisine (céladon pâle) et d'une encre aubergine. Les trois couleurs d'état viennent du marché et racontent la fraîcheur : **basilic** (frais) → **moutarde** (bientôt) → **tomate** (aujourd'hui ou périmé).
+L'app suit la charte « néon holographique 3D » partagée par toutes les applications atelier_ (Projets, Savoir, Nexus, Ciné, Tab, Viz, Trésorerie…) : fond bleu nuit, surfaces en verre poli cerclées d'un liseré cyan, lumière néon réservée à ce qui compte.
 
-| Jeton | Clair | Sombre | Rôle |
+| Jeton | Néon (défaut) | Clair | Rôle |
 |---|---|---|---|
-| `--faience` | `#EDF1EC` | `#1B1320` | fond de l'app |
-| `--porcelaine` | `#FFFFFF` | `#261C2B` | surfaces, listes |
-| `--aubergine` | `#2A1B2E` | `#F1ECF2` | encre |
-| `--basilic` | `#2E6B4E` | `#6FC59A` | frais, actions principales |
-| `--moutarde` | `#8A6100` (texte) / `#D9A520` (barre) | `#E7B94A` | bientôt |
-| `--tomate` | `#C0392B` | `#FF7A63` | aujourd'hui, périmé |
-| `--lavande` | `#DCD5EC` | `#3A3152` | repas notés |
+| `--nuit` | `#0A1A2A` | `#EAF4F9` | fond des écrans |
+| `--verre` / `--verre-plein` | verre bleu nuit translucide / `#0F2438` | blanc givré / `#FFFFFF` | panneaux, listes, feuilles |
+| `--cyan` | `#3FD8FF` | `#0A87B2` | **structure** : contours, icônes, titres de groupe, focus |
+| `--reflet` | `#E6F7FF` | `#0A1A2A` | texte, arêtes |
+| `--signature` | `#E056E2` | `#B02FB3` | **couleur signature d'atelier_Cuisine** |
+| `--frais` / `--bientot` / `--urgent` | `#3DDC97` / `#FFB347` / `#FF5C6C` | `#12804F` / `#A85F00` / `#CC2B3B` | fraîcheur (et montants négatifs pour le rouge) |
+| `--boite` | `#78B4FF` | `#2F6FD6` | produit mis dans une boîte |
+| `--data-ali` / `--data-maison` | `#22A86B` / `#9D7BF0` | `#1A8F5B` / `#7A56D8` | budgets Alimentaire / Maison & hygiène |
 
-Les jetons complets sont dans [`frontend/src/styles/tokens.css`](../frontend/src/styles/tokens.css), qui est la source de vérité.
+Les jetons complets sont dans [`frontend/src/styles/tokens.css`](../frontend/src/styles/tokens.css) ; la couche de matières et les composants dans [`neon.css`](../frontend/src/styles/neon.css).
+
+### Couleur signature : l'orchidée
+
+La charte attribue une couleur à chaque app, répartie sur le cercle chromatique hors de la zone cyan. Cuisine prend l'**orchidée `#E056E2`** (≈ 300°), la teinte la plus éloignée des autres apps (entre le violet de Savoir et le magenta de Ciné), et clin d'œil à l'ancienne identité « aubergine » de l'app : c'est l'aubergine passée sous les néons.
+
+Elle s'applique au bouton principal, à l'onglet actif, aux liens, aux cases cochées et à la courbe des prix. Tout le reste de la structure reste cyan, ce qui fait reconnaître la famille atelier_.
+
+À reporter dans la charte : `atelier_Cuisine | Orchidée | #E056E2 | l'aubergine sous les néons`.
+
+### Couleurs de données
+
+- **Fraîcheur** (spec du foyer) : rouge à moins de 2 jours, orange de 2 à 5 jours, vert au-delà, **bleu** pour un produit mis en boîte.
+- **Budget** : vert pour l'Alimentaire (rayons 1 à 9), violet pour Maison & hygiène (rayons 10 et 11), orchidée pour Sorties / Resto. Palette validée (séparation pour les daltonismes, contraste sur les deux fonds) ; le graphique a une légende, une bulle au survol et une vue tableau.
+- Le rouge ne sert qu'aux alertes et aux hausses de prix.
+
+## Matières
+
+1. **Verre** : panneaux translucides (flou d'arrière-plan), liseré cyan de 1 px, reflet spéculaire en haut. Remplacé par un fond opaque si l'utilisateur réduit la transparence.
+2. **Néon** : réservé aux enseignes « À finir en premier », aux chiffres du compte à rebours et à l'action principale. C'est le seul endroit où l'interface brille vraiment.
+3. **Nuit** : un fond profond avec deux halos discrets (cyan en haut à gauche, orchidée en haut à droite).
 
 ## Typographie
 
-Une seule famille, **Bricolage Grotesque** (variable, axes graisse, largeur et taille optique), embarquée dans l'app pour fonctionner hors ligne sur Mac.
+**Nunito** (variable), la sans-serif arrondie de la charte, embarquée pour fonctionner hors ligne sur Mac. Titres d'écran 32 px (44 px sur Mac) en graisse 850 ; corps 17 px (taille iOS, pas de zoom automatique dans Safari) ; chiffres du compte à rebours 52 px en graisse 900, avec un halo de leur couleur ; montants en chiffres tabulaires. Le nom s'écrit `atelier_Cuisine`, « atelier_ » en cyan lumineux.
 
-- Titres d'écran : 32 px (44 px sur Mac), graisse 780, largeur 86 %.
-- Corps : 17 px, la taille de référence iOS. Les champs restent à 17 px pour éviter le zoom automatique de Safari.
-- **Compte à rebours** : chiffres de 52 px, graisse 800, largeur 75 %, chiffres tabulaires.
+## Les 5 onglets
 
-## L'élément signature : le compte à rebours de fraîcheur
+| Onglet | Icône | Contenu |
+|---|---|---|
+| **Stock** | `Refrigerator` | « À finir en premier » en enseignes néon, saisie en une ligne, produits par emplacement (frigo, corbeille, placard, congélateur, maison) avec niveau rapide, date de l'emballage, mise en boîte et note |
+| **Repas** | `Calendar` | semainier Lundi → Dimanche (ou focus week-end), Midi / Soir, trois types de repas (recette, assemblage rapide, extérieur), cases « cuisiné » ; idées de plats dans le même onglet |
+| **Courses** | `ShoppingCart` | liste par les 11 rayons, articles proposés depuis le planning, mode magasin (prix et date en cochant), « Valider & archiver » |
+| **Récap** | `Receipt` | bilan du dernier panier, tickets façon ticket de caisse (bord dentelé, pointillés, lignes par rayon), import PDF / photo / texte avec vérification |
+| **Budget** | `Wallet` | plafonds par périmètre, indicateurs du mois, six mois en barres, évolution des prix |
 
-En haut du garde-manger, la bande **« À finir en premier »** montre chaque produit urgent sous forme de tuile avec le nombre de jours restants en très grand, dans la couleur de son état. C'est le seul endroit où l'interface « crie » ; le reste reste calme :
-
-- chaque ligne de produit porte une **barre de fraîcheur** de 4 px à gauche (tomate, moutarde ou basilic pâle) ;
-- les libellés d'échéance reprennent la même couleur (« À consommer aujourd'hui », « Dans 2 jours ») ;
-- les idées de plats affichent une **jauge** d'ingrédients disponibles et une ligne « Utilise vite : … » en tomate.
-
-## Mise en page
-
-```
-iPhone                         Mac
-┌──────────────────┐           ┌────────────┬──────────────────────────┐
-│ Titre        ⚙   │           │ ▮▮▮ Atelier│ Titre                    │
-│ À finir en 1er   │           │  Cuisine   │ À finir en premier       │
-│ [1][0][1][2]→    │           │            │ [1][0][1][2]             │
-│ [Ajouter…]   [+] │           │ Garde-m. 4 │ [Ajouter…]           [+] │
-│ Tout|Frigo|…     │           │ Courses  6 │ Tout | Frigo | …         │
-│ ▌Yaourts         │           │ Repas      │ ▌Yaourts                 │
-│ ▌Lait            │           │ Idées      │ ▌Lait                    │
-│ ...              │           │            │ ...                      │
-├──────────────────┤           │ Réglages   │                          │
-│ 🧊  🧺  📅  👨‍🍳 │           └────────────┴──────────────────────────┘
-└──────────────────┘
-```
-
-- **iPhone** : onglets en bas (zone de sécurité respectée), réglages en haut à droite, modales qui montent du bas.
-- **Mac** (≥ 860 px) : barre latérale de 248 px, contenu centré sur 760 px, modales centrées. Dans l'app Mac, la barre de titre est intégrée (boutons de fenêtre au-dessus de la barre latérale).
-- Les listes sont groupées (par emplacement ou par rayon) dans des blocs blancs, pas en cartes identiques ; les rayons suivent l'ordre d'un supermarché.
-- Rayons hiérarchiques : pastilles 999 px, tuiles 20 px, groupes 14 px, champs 10 px.
+Mise en page : barre d'onglets en bas sur iPhone (zone de sécurité respectée), barre latérale de 248 px sur Mac (≥ 860 px), contenu centré sur 760 px, feuilles qui montent du bas sur iPhone et dialogues centrés sur Mac.
 
 ## Principes
 
-1. **Ce qui presse d'abord.** Tri par date partout, couleur d'état cohérente, alertes à la même place.
-2. **Saisie en une ligne.** « 2 kg de pommes de terre » donne quantité, unité, rayon, emplacement et date estimée ; on corrige ensuite si besoin.
-3. **Chaque action dit ce qu'elle fait.** « Ranger 3 achats », « Je cuisine ça », « Ajouter le manquant », et le toast reprend le même verbe, avec « Annuler » quand on retire quelque chose.
-4. **Les états vides guident.** Un garde-manger vide explique quoi faire, au lieu d'afficher « Aucune donnée ».
-5. **Accessibilité.** Cibles de 44 px, focus visible, contrastes AA (la moutarde passe en `#8A6100` pour le texte), `prefers-reduced-motion` respecté, thème sombre automatique.
+1. **Ce qui presse d'abord.** Tri par date partout, mêmes couleurs de fraîcheur partout, alertes à la même place.
+2. **Saisie en une ligne.** « 2 kg de patates » donne quantité, unité, rayon, emplacement et date estimée, grâce au catalogue du foyer.
+3. **Chaque action dit ce qu'elle fait.** « Valider & archiver », « C'est cuisiné », « Confirmer et ajouter au stock & budget » ; le toast reprend le même verbe.
+4. **On vérifie avant d'enregistrer.** Un ticket lu (avec ou sans IA) passe toujours par une modale de vérification ; une déduction de stock se décoche.
+5. **Accessibilité.** Cibles de 44 px, focus cyan visible, contrastes vérifiés sur les deux thèmes, `prefers-reduced-motion` et `prefers-reduced-transparency` respectés.
 
 ## Icône
 
-Trois bocaux de garde-manger sur fond aubergine, remplis à trois niveaux : basilic plein, moutarde à moitié, tomate presque vide. Sources dans [`icone/`](icone/) : `icone-carre.svg` pour l'iPhone, `icone-mac.svg` au gabarit macOS.
+Version simplifiée de la charte (le carré arrondi seul, lisible à 64 px) : fond nuit, cadre chromé cyan lumineux, cocotte orchidée et vapeur cyan, étincelles sur les arêtes. Sources dans [`icone/`](icone/) : `icone-carre.svg` pour l'iPhone, `icone-mac.svg` et `icone-mac-1024.png` pour macOS. Les PNG de l'app se régénèrent avec `node frontend/scripts/icones.mjs` et `npx tauri icon design/icone/icone-mac-1024.png`.
 
 ## Captures
 
 | iPhone | | |
 |---|---|---|
-| ![Garde-manger](captures/iphone-1-garde-manger.png) | ![Courses](captures/iphone-2-courses.png) | ![Idées](captures/iphone-4-idees.png) |
-| ![Repas](captures/iphone-3-repas.png) | ![Recette](captures/iphone-5-recette.png) | ![Thème sombre](captures/iphone-sombre-garde-manger.png) |
+| ![Stock](captures/iphone-1-stock.png) | ![Repas](captures/iphone-2-repas.png) | ![Courses en mode magasin](captures/iphone-3-courses.png) |
+| ![Récap](captures/iphone-4-recap.png) | ![Ticket déplié](captures/iphone-4b-ticket.png) | ![Budget](captures/iphone-5-budget.png) |
+| ![Import du ticket Carrefour](captures/iphone-6-import-ticket.png) | ![Planifier un repas](captures/iphone-7-planifier.png) | ![Cuisiner : déduction FEFO](captures/iphone-8-cuisiner.png) |
+| ![Thème clair](captures/iphone-clair-stock.png) | | |
 
 **Mac**
 
-![Garde-manger sur Mac](captures/mac-1-garde-manger.png)
-![Idées sur Mac](captures/mac-4-idees.png)
+![Stock sur Mac](captures/mac-1-stock.png)
+![Repas sur Mac](captures/mac-2-repas.png)
+![Récap sur Mac](captures/mac-4-recap.png)
+![Budget sur Mac](captures/mac-5-budget.png)

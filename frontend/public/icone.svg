@@ -1,14 +1,51 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" rx="230" fill="#2a1b2e"/>
-  <g>
-    <rect x="217" y="290" width="148" height="38" rx="12" fill="#efe9f1"/>
-    <rect x="203" y="350" width="176" height="400" rx="38" fill="none" stroke="#efe9f1" stroke-width="16"/>
-    <rect x="223" y="392" width="136" height="346" rx="20" fill="#5fbf8a"/>
-    <rect x="438" y="290" width="148" height="38" rx="12" fill="#efe9f1"/>
-    <rect x="424" y="350" width="176" height="400" rx="38" fill="none" stroke="#efe9f1" stroke-width="16"/>
-    <rect x="444" y="512" width="136" height="226" rx="20" fill="#e7b94a"/>
-    <rect x="659" y="290" width="148" height="38" rx="12" fill="#efe9f1"/>
-    <rect x="645" y="350" width="176" height="400" rx="38" fill="none" stroke="#efe9f1" stroke-width="16"/>
-    <rect x="665" y="625" width="136" height="113" rx="20" fill="#ff7a63"/>
+  <!-- atelier_Cuisine : version simplifiée de l'icône (charte néon, carré arrondi seul) -->
+  <defs>
+    <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12304a"/>
+      <stop offset="1" stop-color="#06121e"/>
+    </linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6f7ff"/>
+      <stop offset="0.35" stop-color="#3fd8ff"/>
+      <stop offset="0.7" stop-color="#1c7fa6"/>
+      <stop offset="1" stop-color="#3fd8ff"/>
+    </linearGradient>
+    <linearGradient id="orchidee" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6a8f7"/>
+      <stop offset="0.45" stop-color="#e056e2"/>
+      <stop offset="1" stop-color="#9c2a9e"/>
+    </linearGradient>
+    <filter id="halo" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18" result="flou"/>
+      <feMerge><feMergeNode in="flou"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="halo-fin" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="flou"/>
+      <feMerge><feMergeNode in="flou"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="230" fill="url(#fond)"/>
+  <!-- cadre chromé lumineux -->
+  <rect x="44" y="44" width="936" height="936" rx="196" fill="none" stroke="url(#chrome)" stroke-width="22" filter="url(#halo-fin)"/>
+  <rect x="70" y="70" width="884" height="884" rx="174" fill="none" stroke="#3fd8ff" stroke-opacity="0.25" stroke-width="4"/>
+  <!-- vapeur -->
+  <g fill="none" stroke="#3fd8ff" stroke-width="30" stroke-linecap="round" filter="url(#halo-fin)">
+    <path d="M392 268c-34 40 34 70 0 112"/>
+    <path d="M512 228c-40 50 40 86 0 140"/>
+    <path d="M632 268c-34 40 34 70 0 112"/>
   </g>
+  <!-- cocotte -->
+  <g filter="url(#halo)">
+    <rect x="452" y="398" width="120" height="42" rx="21" fill="url(#orchidee)"/>
+    <path d="M250 470h524a26 26 0 0 1 26 26v0a26 26 0 0 1-26 26H250a26 26 0 0 1-26-26v0a26 26 0 0 1 26-26z" fill="url(#orchidee)"/>
+    <path d="M286 540h452v118c0 76-62 138-138 138H424c-76 0-138-62-138-138z" fill="url(#orchidee)"/>
+    <rect x="178" y="566" width="120" height="48" rx="24" fill="url(#orchidee)"/>
+    <rect x="726" y="566" width="120" height="48" rx="24" fill="url(#orchidee)"/>
+  </g>
+  <!-- reflets spéculaires -->
+  <path d="M330 580v70c0 40 24 74 60 90" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="210" cy="132" r="9" fill="#e6f7ff"/>
+  <circle cx="210" cy="132" r="26" fill="#e6f7ff" opacity="0.18"/>
+  <circle cx="862" cy="880" r="7" fill="#e6f7ff"/>
 </svg>

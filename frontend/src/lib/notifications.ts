@@ -1,4 +1,4 @@
-import { aujourdhui, fraicheur, joursRestants } from "./dates";
+import { aAlerter, aujourdhui, joursRestants } from "./dates";
 import { estTauri } from "./plateforme";
 import { supabase, type PantryItem } from "./supabase";
 
@@ -11,7 +11,7 @@ const VAPID_PUBLIQUE =
 /** Produits à signaler : périmés, à consommer aujourd'hui/demain, ou dans le délai d'alerte. */
 export function produitsAAlerter(pantry: PantryItem[], joursAlerte: number) {
   return pantry
-    .filter((p) => ["perime", "urgent", "bientot"].includes(fraicheur(p.expires_on, joursAlerte)))
+    .filter((p) => aAlerter(p.expires_on, joursAlerte))
     .sort((a, b) => (a.expires_on ?? "").localeCompare(b.expires_on ?? ""));
 }
 

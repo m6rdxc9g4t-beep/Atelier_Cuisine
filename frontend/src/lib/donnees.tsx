@@ -11,26 +11,35 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
+import { REGLAGES_IA_DEFAUT, type ReglagesIA } from "./ia";
 import {
   supabase,
+  type Budget,
   type Meal,
   type PantryItem,
   type Recipe,
   type RecipeIngredient,
   type ShoppingItem,
+  type ShoppingSession,
+  type ShoppingSessionItem,
 } from "./supabase";
 
-type Table = "pantry_items" | "shopping_items" | "meals";
+type Table = "pantry_items" | "shopping_items" | "meals" | "shopping_sessions" | "budgets";
+const TABLES: Table[] = ["pantry_items", "shopping_items", "meals", "shopping_sessions", "budgets"];
 
 interface Donnees {
   pantry: PantryItem[];
   shopping: ShoppingItem[];
   meals: Meal[];
+  sessions: ShoppingSession[];
+  sessionItems: ShoppingSessionItem[];
+  budgets: Budget[];
   chargement: boolean;
   erreur: string | null;
   setPantry: Dispatch<SetStateAction<PantryItem[]>>;
   setShopping: Dispatch<SetStateAction<ShoppingItem[]>>;
   setMeals: Dispatch<SetStateAction<Meal[]>>;
+  setBudgets: Dispatch<SetStateAction<Budget[]>>;
   recharger: (table?: Table) => Promise<void>;
 }
 
@@ -40,12 +49,15 @@ export function FournisseurDonnees({ userId, children }: { userId: string; child
   const [pantry, setPantry] = useState<PantryItem[]>([]);
   const [shopping, setShopping] = useState<ShoppingItem[]>([]);
   const [meals, setMeals] = useState<Meal[]>([]);
+  const [sessions, setSessions] = useState<ShoppingSession[]>([]);
+  const [sessionItems, setSessionItems] = useState<ShoppingSessionItem[]>([]);
+  const [budgets, setBudgets] = useState<Budget[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
   const minuteurs = useRef<Partial<Record<Table, number>>>({});
 
   const recharger = useCallback(async (table?: Table) => {
-    const tables: Table[] = table ? [table] : ["pantry_items", "shopping_items", "meals"];
+    const tables: Table[] = table ? [table] : TABLES;
     try {
       await Promise.all(
         tables.map(async (t) => {
@@ -64,9 +76,33 @@ export function FournisseurDonnees({ userId, children }: { userId: string; child
               .order("created_at", { ascending: true });
             if (error) throw error;
             setShopping(data as ShoppingItem[]);
+          } else if (t === "shopping_sessions") {
+            // Tickets archivés et leurs articles (historique des prix, récapitulatif)
+            const [s, i] = await Promise.all([
+              supabase.from("shopping_sessions").select("*").order("purchased_at", { ascending: false }),
+              supabase.from("shopping_session_items").select("*").order("position"),
+            ]);
+            if (s.error) throw s.error;
+            if (i.error) throw i.error;
+            setSessions((s.data as ShoppingSession[]).map((x) => ({
+              ...x,
+              total_amount: Number(x.total_amount),
+              food_subtotal: Number(x.food_subtotal),
+              home_subtotal: Number(x.home_subtotal),
+            })));
+            setSessionItems((i.data as ShoppingSessionItem[]).map((x) => ({
+              ...x,
+              quantity: Number(x.quantity),
+              unit_price: Number(x.unit_price),
+              total_price: Number(x.total_price),
+            })));
+          } else if (t === "budgets") {
+            const { data, error } = await supabase.from("budgets").select("*");
+            if (error) throw error;
+            setBudgets((data as Budget[]).map((b) => ({ ...b, amount: Number(b.amount) })));
           } else {
-            // 60 derniers jours : suffisant pour l'historique affiché
-            const depuis = new Date(Date.now() - 60 * 86_400_000).toISOString().slice(0, 10);
+            // 120 derniers jours et les repas prévus : historique, budget et planning
+            const depuis = new Date(Date.now() - 120 * 86_400_000).toISOString().slice(0, 10);
             const { data, error } = await supabase
               .from("meals")
               .select("*")
@@ -100,6 +136,12 @@ export function FournisseurDonnees({ userId, children }: { userId: string; child
       .on("postgres_changes", { event: "*", schema: "public", table: "meals" }, () =>
         planifier("meals"),
       )
+      .on("postgres_changes", { event: "*", schema: "public", table: "shopping_sessions" }, () =>
+        planifier("shopping_sessions"),
+      )
+      .on("postgres_changes", { event: "*", schema: "public", table: "budgets" }, () =>
+        planifier("budgets"),
+      )
       .subscribe();
 
     function planifier(t: Table) {
@@ -119,8 +161,22 @@ export function FournisseurDonnees({ userId, children }: { userId: string; child
   }, [userId, recharger]);
 
   const valeur = useMemo(
-    () => ({ pantry, shopping, meals, chargement, erreur, setPantry, setShopping, setMeals, recharger }),
-    [pantry, shopping, meals, chargement, erreur, recharger],
+    () => ({
+      pantry,
+      shopping,
+      meals,
+      sessions,
+      sessionItems,
+      budgets,
+      chargement,
+      erreur,
+      setPantry,
+      setShopping,
+      setMeals,
+      setBudgets,
+      recharger,
+    }),
+    [pantry, shopping, meals, sessions, sessionItems, budgets, chargement, erreur, recharger],
   );
   return <Ctx.Provider value={valeur}>{children}</Ctx.Provider>;
 }
@@ -182,12 +238,14 @@ export function useRecettes() {
 // ---------------------------------------------------------------------------
 // Réglages locaux à l'appareil
 // ---------------------------------------------------------------------------
-export interface Reglages {
+export interface Reglages extends ReglagesIA {
   joursAlerte: number;
   theme: "auto" | "light" | "dark";
+  /** Planning : semaine complète ou focus week-end (vendredi → dimanche) */
+  vuePlanning: "semaine" | "weekend";
 }
 
-const DEFAUT: Reglages = { joursAlerte: 2, theme: "auto" };
+const DEFAUT: Reglages = { joursAlerte: 2, theme: "dark", vuePlanning: "semaine", ...REGLAGES_IA_DEFAUT };
 
 function lireReglages(): Reglages {
   try {

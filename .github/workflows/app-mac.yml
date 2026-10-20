@@ -55,6 +55,8 @@ jobs:
           mkdir -p ../livraison
           cp "$BUNDLE"/dmg/*.dmg ../livraison/Atelier-Cuisine.dmg
           ditto -c -k --keepParent "$BUNDLE/macos/Atelier Cuisine.app" ../livraison/Atelier-Cuisine-app.zip
+          # Archive tar : garde les droits d'exécution et la signature, pour une installation directe
+          COPYFILE_DISABLE=1 tar -czf ../livraison/Atelier-Cuisine-app.tar.gz -C "$BUNDLE/macos" "Atelier Cuisine.app"
           ls -la ../livraison
 
       - name: Garder les fichiers dans le run

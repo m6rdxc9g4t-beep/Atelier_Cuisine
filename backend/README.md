@@ -9,20 +9,30 @@ Le backend est un projet Supabase (Postgres + authentification + temps réel + f
 
 | Élément | Rôle |
 |---|---|
-| `pantry_items` | garde-manger : nom, quantité, emplacement, date de péremption |
-| `shopping_items` | liste de courses, avec case cochée |
-| `meals` | journal des repas par jour et par créneau |
-| `recipes`, `recipe_ingredients` | catalogue commun de 34 recettes (`user_id` nul) et recettes personnelles |
+| `aisles` | les 11 rayons du foyer (+ « Autre »), avec leur budget (alimentaire pour 1 à 9, maison pour 10 et 11), l'emplacement et la conservation par défaut |
+| `products` | catalogue de produits : les 152 produits habituels du foyer (`user_id` nul) et les produits ajoutés par chaque compte, avec leurs mots-clés de rapprochement |
+| `pantry_items` | stock : nom, quantité **ou** niveau rapide, emplacement, date de l'emballage, date d'ouverture / de mise en boîte, note, prix d'achat |
+| `shopping_items` | liste de courses : case cochée, origine (manuel, planning, à racheter, ancien ticket), prix et date saisis en magasin |
+| `meals` | planning : jour, créneau, type (recette, assemblage, extérieur, libre), statut à faire / cuisiné, coût d'un repas extérieur |
+| `meal_templates`, `meal_template_items` | repas types proposés dans le planning (les 15 favoris du foyer) et produits qu'un assemblage rapide déduit |
+| `recipes`, `recipe_ingredients` | catalogue de 36 recettes (`user_id` nul) et recettes personnelles ; fourchettes de quantités, ingrédients facultatifs ou interchangeables |
+| `shopping_sessions`, `shopping_session_items` | tickets archivés : magasin, date, paiement, totaux Alimentaire / Maison, et chaque ligne (libellé brut, produit reconnu, marque, conditionnement, rayon, TVA, prix) |
+| `budgets` | un plafond par semaine ou par mois pour le global, l'alimentaire, la maison et les sorties |
+| `product_prices` (vue) | dernier prix connu de chaque produit, d'après les tickets |
 | `push_subscriptions` | iPhone et navigateurs abonnés aux rappels |
+| `archiver_courses(session, articles, ids)` | valide des courses en une opération : ticket archivé, produits choisis en stock, liste nettoyée ; recalcule les sous-totaux selon les rayons |
+| `cuisiner_repas(repas, consommation)` | marque un repas cuisiné et applique la déduction de stock choisie dans l'app (lot retiré, quantité restante ou niveau) |
 | `suggest_recipes()` | suggestions classées : part d'ingrédients disponibles, plus un bonus par produit qui périme dans les 3 jours |
-| `add_missing_to_shopping(recette)` | ajoute à la liste ce qui manque pour une recette (sans doublon) |
-| `store_shopping_items(articles)` | range les achats cochés dans le garde-manger avec leur date, en une opération atomique |
+| `add_missing_to_shopping(recette)` | ajoute à la liste ce qui manque pour une recette (sans doublon, sans les facultatifs) |
+| `store_shopping_items(articles)` | range des articles cochés dans le stock (ancien parcours, toujours disponible) |
+| `ajouter_exemples_foyer()` | ajoute les exemples de la spec (jambon en boîte, niveaux de stock, pâtes à racheter), sans doublon |
+| fonction Edge `lire-ticket` | lit un ticket (texte, photo ou PDF scanné) avec Claude et renvoie le JSON de la spec ; exige un utilisateur connecté |
 | fonction Edge `alertes-peremption` | envoie chaque matin une notification Web Push aux appareils abonnés |
 | tâche `pg_cron` `alertes-peremption` | appelle la fonction tous les jours à 7 h UTC |
 
-**Sécurité :** RLS activée sur toutes les tables ; chaque compte ne voit que ses données. Le catalogue commun est en lecture seule. Les clés VAPID et le secret d'appel de la fonction sont dans Supabase Vault, lisibles uniquement par le rôle service.
+**Sécurité :** RLS activée sur toutes les tables ; chaque compte ne voit que ses données. Les catalogues communs sont en lecture seule. Les fonctions SQL s'exécutent avec les droits de l'utilisateur (`security invoker`). La clé API Claude est un secret de la fonction `lire-ticket`, jamais dans l'app. Les clés VAPID et le secret d'appel des alertes sont dans Supabase Vault.
 
-**Synchro :** les tables `pantry_items`, `shopping_items` et `meals` sont publiées en temps réel. Une modification sur le Mac apparaît sur l'iPhone sans rafraîchir.
+**Synchro :** stock, liste de courses, repas, tickets et budgets sont publiés en temps réel. Une modification sur le Mac apparaît sur l'iPhone sans rafraîchir.
 
 ## Rapprochement garde-manger ↔ recettes
 
@@ -38,21 +48,43 @@ La même logique existe côté app dans `frontend/src/lib/normaliser.ts`.
 
 ```
 supabase/
-  migrations/                 schéma, fonctions, catalogue, alertes (dans l'ordre)
+  migrations/                 schéma, fonctions, catalogues, alertes (dans l'ordre)
   functions/alertes-peremption/index.ts
+  functions/lire-ticket/index.ts
 recettes/
-  recettes.json               le catalogue, facile à enrichir
-  generer_sql.py              régénère la migration du catalogue
+  recettes.json               le catalogue de recettes, facile à enrichir
+  generer_sql.py              régénère la migration du catalogue de recettes
+catalogue/
+  produits.json               les produits habituels, par rayon
+  favoris.json                les repas favoris du planning
+  generer_sql.py              régénère la migration produits + favoris
+tests/
+  migrations.test.mjs         rejoue toutes les migrations sur PGlite et teste RLS et fonctions
 ```
 
 ### Ajouter des recettes au catalogue
 
-1. Ajoute une entrée dans `recettes/recettes.json`. Chaque ingrédient s'écrit `[nom, quantité, unité, mot-clé, catégorie]` ; la catégorie `base` désigne un produit de placard supposé toujours présent (sel, huile…).
-2. Régénère la migration :
+1. Ajoute une entrée dans `recettes/recettes.json`. Chaque ingrédient s'écrit `[nom, quantité, unité, mot-clé, rayon, options]` ; le rayon `base` désigne un produit de placard supposé toujours présent (sel, huile…), et les options facultatives précisent une borne haute (`max`), une note, un ingrédient facultatif ou interchangeable.
+2. Régénère la migration, puis exécute-la dans l'éditeur SQL de Supabase (elle est relançable, sans doublon) :
    ```bash
-   python3 backend/recettes/generer_sql.py > backend/supabase/migrations/20261020120200_catalogue_recettes.sql
+   python3 backend/recettes/generer_sql.py > backend/supabase/migrations/20261021080300_catalogue_recettes.sql
    ```
-3. Exécute ce fichier dans l'éditeur SQL de Supabase. Il est relançable : les recettes existantes sont mises à jour, sans doublon.
+
+### Ajouter des produits ou des favoris
+
+Modifie `catalogue/produits.json` ou `catalogue/favoris.json`, puis :
+
+```bash
+python3 backend/catalogue/generer_sql.py > backend/supabase/migrations/20261021080400_catalogue_produits_favoris.sql
+```
+
+### Tester les migrations
+
+```bash
+cd backend/tests && npm install && npm test
+```
+
+Le test rejoue les migrations déjà en production puis les nouvelles sur un Postgres local (PGlite), avec de petites simulations de Supabase (auth, rôles, temps réel). Il vérifie la conversion des anciennes catégories, l'idempotence des catalogues, l'archivage d'un ticket, la déduction de stock et l'isolation entre comptes.
 
 ## Recréer le backend sur un autre projet
 
@@ -61,6 +93,8 @@ npm i -g supabase
 supabase link --project-ref <ref>
 supabase db push                              # applique les migrations
 supabase functions deploy alertes-peremption --no-verify-jwt
+supabase functions deploy lire-ticket
+supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 Puis crée les secrets dans l'éditeur SQL. Les commandes sont en tête de `20261020120500_alertes.sql`, et l'URL du projet est à adapter dans la tâche `cron.schedule` de ce même fichier.
