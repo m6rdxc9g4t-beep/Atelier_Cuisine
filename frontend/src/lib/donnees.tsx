@@ -259,8 +259,8 @@ function lireReglages(): Reglages {
 let reglagesActuels = lireReglages();
 const abonnes = new Set<() => void>();
 
-// Fond de la charte (--atelier-bg pour l'orchidée), pour la barre d'état et le manifeste
-const COULEUR_FOND = { dark: "#110b14", light: "#fbf3fc" } as const;
+// Fond de la charte (--atelier-bg pour le gris argent), pour la barre d'état et le manifeste
+const COULEUR_FOND = { dark: "#0f1013", light: "#f5f5f8" } as const;
 const systemeClair = typeof window !== "undefined" ? window.matchMedia?.("(prefers-color-scheme: light)") : undefined;
 
 /**
