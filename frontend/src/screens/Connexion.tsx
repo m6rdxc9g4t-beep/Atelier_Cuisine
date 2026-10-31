@@ -1,20 +1,68 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
+import { CircleAlert, CookingPot, LoaderCircle, Mail } from "lucide-react";
 import { URL_APP } from "../lib/plateforme";
 import { messageErreur, supabase } from "../lib/supabase";
 
 type Mode = "connexion" | "inscription" | "oubli";
 
+/** Mise en page commune aux écrans de connexion : marque, titre néon, accroche (comme atelier_Suivi). */
+function CadreConnexion({ titre, accroche, children }: { titre: string; accroche: string; children: ReactNode }) {
+  return (
+    <main className="connexion" data-tauri-drag-region>
+      <div className="connexion__colonne">
+        {/* Marque commune de la suite Atelier (atelier-brand.css) */}
+        <span className="atelier-brand">
+          <span className="atelier-brand__tile" aria-hidden="true">
+            <CookingPot />
+          </span>
+          <span className="atelier-brand__name">
+            <span className="atelier-brand__prefix">atelier_</span>Cuisine
+          </span>
+        </span>
+        <h1 className="connexion__titre">{titre}</h1>
+        <p className="connexion__accroche">{accroche}</p>
+        {children}
+      </div>
+    </main>
+  );
+}
+
+function MessageErreur({ texte }: { texte: string }) {
+  return (
+    <p className="connexion__erreur" role="alert">
+      <CircleAlert aria-hidden="true" />
+      <span>{texte}</span>
+    </p>
+  );
+}
+
+function BoutonEnvoi({ enCours, libelle, libelleEnCours }: { enCours: boolean; libelle: string; libelleEnCours: string }) {
+  return (
+    <button className="bouton bouton--action bouton--plein connexion__bouton" disabled={enCours}>
+      {enCours && <LoaderCircle className="connexion__chargement" aria-hidden="true" />}
+      {enCours ? libelleEnCours : libelle}
+    </button>
+  );
+}
+
 export function Connexion() {
   const [mode, setMode] = useState<Mode>("connexion");
   const [email, setEmail] = useState("");
   const [mdp, setMdp] = useState("");
-  const [message, setMessage] = useState<{ texte: string; erreur?: boolean } | null>(null);
+  const [erreur, setErreur] = useState<string | null>(null);
+  const [envoye, setEnvoye] = useState<{ titre: string; texte: string } | null>(null);
   const [enCours, setEnCours] = useState(false);
+
+  function changerMode(m: Mode) {
+    setMode(m);
+    setErreur(null);
+    setEnvoye(null);
+  }
 
   async function envoyer(e: FormEvent) {
     e.preventDefault();
     setEnCours(true);
-    setMessage(null);
+    setErreur(null);
     try {
       if (mode === "connexion") {
         const { error } = await supabase.auth.signInWithPassword({ email, password: mdp });
@@ -27,54 +75,65 @@ export function Connexion() {
         });
         if (error) throw error;
         if (!data.session) {
-          setMessage({
-            texte: `Un e-mail de confirmation a été envoyé à ${email}. Ouvre le lien qu'il contient, puis reviens te connecter ici.`,
+          setEnvoye({
+            titre: "Confirme ton adresse",
+            texte: `C'est presque fini ! Ouvre le lien reçu à ${email}, puis reviens te connecter avec ton mot de passe.`,
           });
-          setMode("connexion");
         }
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: URL_APP || undefined,
         });
         if (error) throw error;
-        setMessage({ texte: `Un lien pour choisir un nouveau mot de passe a été envoyé à ${email}.` });
-        setMode("connexion");
+        setEnvoye({
+          titre: "Regarde ta boîte mail",
+          texte: `C'est envoyé ! Ouvre le lien reçu à ${email} pour choisir un nouveau mot de passe.`,
+        });
       }
     } catch (err) {
-      setMessage({ texte: messageErreur(err), erreur: true });
+      setErreur(messageErreur(err));
     } finally {
       setEnCours(false);
     }
   }
 
-  const titres: Record<Mode, string> = {
-    connexion: "Se connecter",
-    inscription: "Créer un compte",
-    oubli: "Mot de passe oublié",
-  };
+  const accroche = "Le frigo, les courses et les repas de la maison, au même endroit sur ton Mac et ton iPhone.";
+
+  if (envoye) {
+    return (
+      <CadreConnexion titre="Tes repas, sans gaspi" accroche={accroche}>
+        <div className="connexion__envoye" role="status">
+          <Mail aria-hidden="true" />
+          <p className="connexion__envoye-titre">{envoye.titre}</p>
+          <p>{envoye.texte}</p>
+        </div>
+        <button type="button" className="connexion__bascule" onClick={() => changerMode("connexion")}>
+          Revenir à la connexion
+        </button>
+      </CadreConnexion>
+    );
+  }
+
+  const bascule = (libelle: ReactNode, cible: Mode) => (
+    <button type="button" className="connexion__bascule" onClick={() => changerMode(cible)}>
+      {libelle}
+    </button>
+  );
 
   return (
-    <main className="connexion" data-tauri-drag-region>
-      <div className="connexion__marque">
-        <MarqueFraicheur />
-        <h1 className="connexion__nom">
-          Atelier
-          <br />
-          Cuisine
-        </h1>
-        <p className="connexion__accroche">
-          Le frigo, les courses et les repas de la maison, au même endroit sur ton Mac et ton iPhone.
-        </p>
-      </div>
-
-      <form className="connexion__form formulaire" onSubmit={envoyer}>
-        <h2>{titres[mode]}</h2>
+    <CadreConnexion
+      titre={mode === "inscription" ? "Ta cuisine, ton compte" : "Tes repas, sans gaspi"}
+      accroche={accroche}
+    >
+      <form className="connexion__form" onSubmit={envoyer}>
         <label className="champ-groupe">
-          <span>E-mail</span>
+          <span>Ton adresse e-mail</span>
           <input
             className="champ"
             type="email"
             autoComplete="email"
+            inputMode="email"
+            placeholder="toi@exemple.fr"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -82,7 +141,7 @@ export function Connexion() {
         </label>
         {mode !== "oubli" && (
           <label className="champ-groupe">
-            <span>Mot de passe</span>
+            <span>{mode === "inscription" ? "Choisis ton mot de passe" : "Ton mot de passe"}</span>
             <input
               className="champ"
               type="password"
@@ -92,58 +151,64 @@ export function Connexion() {
               value={mdp}
               onChange={(e) => setMdp(e.target.value)}
             />
+            {mode === "inscription" && <small className="connexion__aide">6 caractères minimum.</small>}
           </label>
         )}
-        {message && (
-          <p className={message.erreur ? "message message--erreur" : "message"} role="alert">
-            {message.texte}
-          </p>
-        )}
-        <button className="bouton bouton--action bouton--plein" disabled={enCours}>
-          {titres[mode]}
-        </button>
-        <div className="connexion__liens">
-          {mode === "connexion" ? (
-            <>
-              <button type="button" className="lien" onClick={() => setMode("inscription")}>
-                Créer un compte
-              </button>
-              <button type="button" className="lien" onClick={() => setMode("oubli")}>
-                Mot de passe oublié
-              </button>
-            </>
-          ) : (
-            <button type="button" className="lien" onClick={() => setMode("connexion")}>
-              J'ai déjà un compte
-            </button>
-          )}
-        </div>
-      </form>
-    </main>
-  );
-}
+        {erreur && <MessageErreur texte={erreur} />}
 
-/** L'icône de l'app : trois bocaux, du plus frais au plus urgent. */
-export function MarqueFraicheur({ petite }: { petite?: boolean }) {
-  return <img className={"marque" + (petite ? " marque--petite" : "")} src="/icone.svg" alt="" />;
+        {mode === "connexion" && (
+          <>
+            <BoutonEnvoi enCours={enCours} libelle="Se connecter" libelleEnCours="Connexion…" />
+            {bascule(
+              <>
+                Mot de passe oublié ? Recevoir un lien <span className="sans-coupure">par e-mail</span>
+              </>,
+              "oubli",
+            )}
+            {bascule("Pas encore de compte ? Créer ton mot de passe", "inscription")}
+          </>
+        )}
+        {mode === "inscription" && (
+          <>
+            <BoutonEnvoi enCours={enCours} libelle="Créer mon compte" libelleEnCours="Création du compte…" />
+            {bascule("J'ai déjà un compte : me connecter", "connexion")}
+          </>
+        )}
+        {mode === "oubli" && (
+          <>
+            <BoutonEnvoi enCours={enCours} libelle="Recevoir un lien par e-mail" libelleEnCours="Envoi du lien…" />
+            {bascule("Me connecter avec mon mot de passe", "connexion")}
+          </>
+        )}
+      </form>
+    </CadreConnexion>
+  );
 }
 
 /** Choix d'un nouveau mot de passe après un lien de réinitialisation. */
 export function NouveauMotDePasse({ onFini }: { onFini: () => void }) {
   const [mdp, setMdp] = useState("");
   const [erreur, setErreur] = useState<string | null>(null);
+  const [enCours, setEnCours] = useState(false);
+
   async function valider(e: FormEvent) {
     e.preventDefault();
+    setEnCours(true);
+    setErreur(null);
     const { error } = await supabase.auth.updateUser({ password: mdp });
+    setEnCours(false);
     if (error) setErreur(messageErreur(error));
     else onFini();
   }
+
   return (
-    <main className="connexion">
-      <form className="connexion__form formulaire" onSubmit={valider}>
-        <h2>Nouveau mot de passe</h2>
+    <CadreConnexion
+      titre="Un nouveau mot de passe"
+      accroche="Choisis-le maintenant : il servira sur ton Mac comme sur ton iPhone."
+    >
+      <form className="connexion__form" onSubmit={valider}>
         <label className="champ-groupe">
-          <span>Mot de passe</span>
+          <span>Ton nouveau mot de passe</span>
           <input
             className="champ"
             type="password"
@@ -153,10 +218,11 @@ export function NouveauMotDePasse({ onFini }: { onFini: () => void }) {
             value={mdp}
             onChange={(e) => setMdp(e.target.value)}
           />
+          <small className="connexion__aide">6 caractères minimum.</small>
         </label>
-        {erreur && <p className="message message--erreur">{erreur}</p>}
-        <button className="bouton bouton--action bouton--plein">Enregistrer le mot de passe</button>
+        {erreur && <MessageErreur texte={erreur} />}
+        <BoutonEnvoi enCours={enCours} libelle="Enregistrer le mot de passe" libelleEnCours="Enregistrement…" />
       </form>
-    </main>
+    </CadreConnexion>
   );
 }

@@ -1,6 +1,6 @@
 # atelier_Cuisine
 
-L'app de cuisine du foyer d'Auré et François : le stock du frigo et des placards avec les dates de péremption, le semainier des repas, la liste de courses, les tickets de caisse archivés et le budget. Une seule app, sur **Mac** (app à double-cliquer) et sur **iPhone** (app sur l'écran d'accueil), synchronisée en direct, dans la charte « néon monochrome » de la suite Atelier : toute l'app en gris argent.
+L'app de cuisine du foyer d'Auré et François : le stock du frigo et des placards avec les dates de péremption, le semainier des repas, la liste de courses, les tickets de caisse archivés et le budget. Une seule app, sur **Mac** (app à double-cliquer) et sur **iPhone** (app sur l'écran d'accueil), synchronisée en direct, dans la charte « néon monochrome » de la suite Atelier : toute l'app en lilas pastel.
 
 ![Stock sur Mac](design/captures/mac-1-stock.png)
 
