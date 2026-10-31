@@ -2,19 +2,19 @@
   <!-- atelier_Cuisine : version simplifiée de l'icône (charte néon, carré arrondi seul) -->
   <defs>
     <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#49124a"/>
-      <stop offset="1" stop-color="#1e061e"/>
+      <stop offset="0" stop-color="#2b2e34"/>
+      <stop offset="1" stop-color="#0f1013"/>
     </linearGradient>
     <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffe6ff"/>
-      <stop offset="0.35" stop-color="#fc3fff"/>
-      <stop offset="0.7" stop-color="#a41ca6"/>
-      <stop offset="1" stop-color="#fc3fff"/>
+      <stop offset="0" stop-color="#f4f5f7"/>
+      <stop offset="0.35" stop-color="#c3c8d0"/>
+      <stop offset="0.7" stop-color="#6b717b"/>
+      <stop offset="1" stop-color="#c3c8d0"/>
     </linearGradient>
-    <linearGradient id="orchidee" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f6a8f7"/>
-      <stop offset="0.45" stop-color="#e056e2"/>
-      <stop offset="1" stop-color="#9c2a9e"/>
+    <linearGradient id="argent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef0f3"/>
+      <stop offset="0.45" stop-color="#b4bac3"/>
+      <stop offset="1" stop-color="#6b717b"/>
     </linearGradient>
     <filter id="halo" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="18" result="flou"/>
@@ -28,24 +28,24 @@
   <rect width="1024" height="1024" rx="230" fill="url(#fond)"/>
   <!-- cadre chromé lumineux -->
   <rect x="44" y="44" width="936" height="936" rx="196" fill="none" stroke="url(#chrome)" stroke-width="22" filter="url(#halo-fin)"/>
-  <rect x="70" y="70" width="884" height="884" rx="174" fill="none" stroke="#fc3fff" stroke-opacity="0.25" stroke-width="4"/>
+  <rect x="70" y="70" width="884" height="884" rx="174" fill="none" stroke="#c3c8d0" stroke-opacity="0.25" stroke-width="4"/>
   <!-- vapeur -->
-  <g fill="none" stroke="#fc3fff" stroke-width="30" stroke-linecap="round" filter="url(#halo-fin)">
+  <g fill="none" stroke="#c3c8d0" stroke-width="30" stroke-linecap="round" filter="url(#halo-fin)">
     <path d="M392 268c-34 40 34 70 0 112"/>
     <path d="M512 228c-40 50 40 86 0 140"/>
     <path d="M632 268c-34 40 34 70 0 112"/>
   </g>
   <!-- cocotte -->
   <g filter="url(#halo)">
-    <rect x="452" y="398" width="120" height="42" rx="21" fill="url(#orchidee)"/>
-    <path d="M250 470h524a26 26 0 0 1 26 26v0a26 26 0 0 1-26 26H250a26 26 0 0 1-26-26v0a26 26 0 0 1 26-26z" fill="url(#orchidee)"/>
-    <path d="M286 540h452v118c0 76-62 138-138 138H424c-76 0-138-62-138-138z" fill="url(#orchidee)"/>
-    <rect x="178" y="566" width="120" height="48" rx="24" fill="url(#orchidee)"/>
-    <rect x="726" y="566" width="120" height="48" rx="24" fill="url(#orchidee)"/>
+    <rect x="452" y="398" width="120" height="42" rx="21" fill="url(#argent)"/>
+    <path d="M250 470h524a26 26 0 0 1 26 26v0a26 26 0 0 1-26 26H250a26 26 0 0 1-26-26v0a26 26 0 0 1 26-26z" fill="url(#argent)"/>
+    <path d="M286 540h452v118c0 76-62 138-138 138H424c-76 0-138-62-138-138z" fill="url(#argent)"/>
+    <rect x="178" y="566" width="120" height="48" rx="24" fill="url(#argent)"/>
+    <rect x="726" y="566" width="120" height="48" rx="24" fill="url(#argent)"/>
   </g>
   <!-- reflets spéculaires -->
   <path d="M330 580v70c0 40 24 74 60 90" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="16" stroke-linecap="round"/>
-  <circle cx="210" cy="132" r="9" fill="#ffe6ff"/>
-  <circle cx="210" cy="132" r="26" fill="#ffe6ff" opacity="0.18"/>
-  <circle cx="862" cy="880" r="7" fill="#ffe6ff"/>
+  <circle cx="210" cy="132" r="9" fill="#f4f5f7"/>
+  <circle cx="210" cy="132" r="26" fill="#f4f5f7" opacity="0.18"/>
+  <circle cx="862" cy="880" r="7" fill="#f4f5f7"/>
 </svg>

@@ -3,9 +3,10 @@
  * Source de vérité, documentée dans design/DESIGN.md.
  *
  * Charte « néon monochrome » de la suite Atelier (v2) : toute l'app est dans sa
- * couleur signature, l'orchidée #E056E2 (l'aubergine passée sous les néons).
- * Fond, barre latérale, verre, traits, textes secondaires et halos dérivent tous
- * de l'orchidée par mélange et transparence, en néon (sombre) comme en clair.
+ * couleur signature, ici un gris argent (choix du foyer, à la place de l'orchidée
+ * #E056E2 prévue par la suite). Fond, barre latérale, verre, traits, textes
+ * secondaires et halos dérivent tous de ce gris par mélange et transparence, en
+ * néon (sombre) comme en clair.
  *
  * Les jetons --atelier-* viennent de atelier-brand/atelier-brand.css (copie exacte
  * du fichier de la suite, importée avant ce fichier dans main.tsx), activé par
@@ -17,6 +18,19 @@
  * (vert / orange / rouge), bleu « mis en boîte », vert et violet des budgets.
  */
 @import "@fontsource-variable/nunito/wght.css";
+
+/* Signature d'atelier_Cuisine : gris argent. Le kit de la suite (à ne pas éditer)
+   prévoit l'orchidée ; on la remplace ici, avant que le kit n'en dérive le reste.
+   Argent clair en néon pour garder la lueur, gris moyen en clair pour le contraste
+   (texte #0B0B0F posé dessus : 5,7:1 en clair, 12:1 en sombre). */
+:root[data-atelier-app="cuisine"] {
+  --atelier-signature: #868c96;
+  --atelier-signature-contrast: #0b0b0f;
+}
+:root[data-atelier-app="cuisine"][data-theme="dark"],
+:root[data-atelier-app="cuisine"].dark {
+  --atelier-signature: #c3c8d0;
+}
 
 :root {
   /* Structure — branchée sur le kit : les valeurs suivent le thème toutes seules */
@@ -32,9 +46,9 @@
   --trait: var(--atelier-border-soft);       /* champs, boutons secondaires, puces */
   --ligne: var(--atelier-line);              /* séparateurs, lignes de tableau */
   --reflet: var(--atelier-text);             /* texte */
-  --signature: var(--atelier-signature);     /* orchidée : couleur signature d'atelier_Cuisine */
-  --signature-encre: var(--atelier-signature-contrast); /* texte posé sur l'orchidée pleine */
-  --signature-texte: var(--atelier-ink);     /* orchidée lisible en texte ou en icône */
+  --signature: var(--atelier-signature);     /* gris argent : couleur signature d'atelier_Cuisine */
+  --signature-encre: var(--atelier-signature-contrast); /* texte posé sur la signature pleine */
+  --signature-texte: var(--atelier-ink);     /* signature lisible en texte ou en icône */
   --signature-douce: var(--atelier-signature-soft);     /* actif, pastille */
   --signature-legere: var(--atelier-signature-faint);   /* survol */
   --signature-halo: color-mix(in oklab, var(--atelier-signature) 45%, transparent);
@@ -104,7 +118,7 @@
   color-scheme: dark;
 }
 
-/* Variante claire : fond orchidée très pâle, cartes blanches cerclées d'orchidée.
+/* Variante claire : fond gris très pâle, cartes blanches cerclées de gris.
    Les jetons de structure suivent le kit ; seules les couleurs de données sont
    assombries pour rester lisibles sur fond clair. */
 :root[data-theme="light"] {

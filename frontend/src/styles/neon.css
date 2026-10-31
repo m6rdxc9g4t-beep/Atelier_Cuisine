@@ -1,11 +1,11 @@
 /*
  * atelier_Cuisine — couche « néon monochrome » (chargée après app.css)
  *
- * Tout est dans l'orchidée (jetons de tokens.css, branchés sur le kit de la suite) :
- *  1. le verre : panneaux translucides cerclés d'un trait orchidée, halo, reflet en haut ;
+ * Tout est dans le gris argent de la signature (jetons de tokens.css, branchés sur le kit de la suite) :
+ *  1. le verre : panneaux translucides cerclés d'un trait gris, halo, reflet en haut ;
  *  2. le néon : les enseignes « À finir en premier » et le compte à rebours brillent
- *     dans la couleur de leur donnée (fraîcheur), l'action principale en orchidée ;
- *  3. le fond : quasi noir (ou très clair) teinté d'orchidée, fine grille et lueur.
+ *     dans la couleur de leur donnée (fraîcheur), l'action principale en gris argent ;
+ *  3. le fond : quasi noir (ou très clair) teinté de gris, fine grille et lueur.
  * Puis les composants des onglets Repas, Courses, Récap et Budget.
  */
 
