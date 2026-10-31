@@ -210,6 +210,11 @@ export function messageErreur(e: unknown): string {
   if (/email not confirmed/i.test(msg)) return "Confirme ton adresse avec le lien reçu par e-mail, puis reconnecte-toi.";
   if (/already registered/i.test(msg)) return "Un compte existe déjà avec cet e-mail. Connecte-toi.";
   if (/password should be at least/i.test(msg)) return "Le mot de passe doit faire au moins 6 caractères.";
+  if (/token has expired or is invalid|otp.*(expired|invalid)/i.test(msg))
+    return "Ce code n'est pas bon ou a expiré. Vérifie le dernier e-mail reçu, ou demande un nouveau code.";
+  if (/for security purposes|rate limit/i.test(msg))
+    return "Trop de demandes d'affilée. Patiente une minute avant de redemander un code.";
+  if (/same.*password|different from the old/i.test(msg)) return "Choisis un mot de passe différent de l'ancien.";
   if (/failed to fetch|network/i.test(msg)) return "Pas de connexion. Vérifie le réseau et réessaie.";
   return msg;
 }

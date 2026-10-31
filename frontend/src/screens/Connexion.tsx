@@ -52,11 +52,27 @@ export function Connexion() {
   const [erreur, setErreur] = useState<string | null>(null);
   const [envoye, setEnvoye] = useState<{ titre: string; texte: string } | null>(null);
   const [enCours, setEnCours] = useState(false);
+  // Réinitialisation par code : le lien de l'e-mail s'ouvre dans Safari, pas dans l'app
+  // installée (stockage séparé sur iOS), alors on tape le code reçu directement ici.
+  const [attenteCode, setAttenteCode] = useState(false);
+  const [code, setCode] = useState("");
 
   function changerMode(m: Mode) {
     setMode(m);
     setErreur(null);
     setEnvoye(null);
+    setAttenteCode(false);
+    setCode("");
+  }
+
+  async function validerCode(e: FormEvent) {
+    e.preventDefault();
+    setEnCours(true);
+    setErreur(null);
+    // En cas de succès, Supabase émet PASSWORD_RECOVERY : App affiche alors « Un nouveau mot de passe ».
+    const { error } = await supabase.auth.verifyOtp({ email, token: code.trim(), type: "recovery" });
+    setEnCours(false);
+    if (error) setErreur(messageErreur(error));
   }
 
   async function envoyer(e: FormEvent) {
@@ -85,10 +101,7 @@ export function Connexion() {
           redirectTo: URL_APP || undefined,
         });
         if (error) throw error;
-        setEnvoye({
-          titre: "Regarde ta boîte mail",
-          texte: `C'est envoyé ! Ouvre le lien reçu à ${email} pour choisir un nouveau mot de passe.`,
-        });
+        setAttenteCode(true);
       }
     } catch (err) {
       setErreur(messageErreur(err));
@@ -97,7 +110,45 @@ export function Connexion() {
     }
   }
 
+  const bascule = (libelle: ReactNode, cible: Mode) => (
+    <button type="button" className="connexion__bascule" onClick={() => changerMode(cible)}>
+      {libelle}
+    </button>
+  );
+
   const accroche = "Le frigo, les courses et les repas de la maison, au même endroit sur ton Mac et ton iPhone.";
+
+  if (attenteCode) {
+    return (
+      <CadreConnexion titre="Regarde ta boîte mail" accroche={accroche}>
+        <form className="connexion__form" onSubmit={validerCode}>
+          <div className="connexion__envoye" role="status">
+            <Mail aria-hidden="true" />
+            <p className="connexion__envoye-titre">C'est envoyé !</p>
+            <p>Recopie ici le code reçu à {email}, puis choisis ton nouveau mot de passe.</p>
+          </div>
+          <label className="champ-groupe">
+            <span>Code reçu par e-mail</span>
+            <input
+              className="champ connexion__code"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              pattern="[0-9]{6,10}"
+              maxLength={10}
+              placeholder="123456"
+              required
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+            />
+          </label>
+          {erreur && <MessageErreur texte={erreur} />}
+          <BoutonEnvoi enCours={enCours} libelle="Valider le code" libelleEnCours="Vérification…" />
+          {bascule("Revenir à la connexion", "connexion")}
+        </form>
+      </CadreConnexion>
+    );
+  }
 
   if (envoye) {
     return (
@@ -113,12 +164,6 @@ export function Connexion() {
       </CadreConnexion>
     );
   }
-
-  const bascule = (libelle: ReactNode, cible: Mode) => (
-    <button type="button" className="connexion__bascule" onClick={() => changerMode(cible)}>
-      {libelle}
-    </button>
-  );
 
   return (
     <CadreConnexion
@@ -161,7 +206,7 @@ export function Connexion() {
             <BoutonEnvoi enCours={enCours} libelle="Se connecter" libelleEnCours="Connexion…" />
             {bascule(
               <>
-                Mot de passe oublié ? Recevoir un lien <span className="sans-coupure">par e-mail</span>
+                Mot de passe oublié ? Recevoir un code <span className="sans-coupure">par e-mail</span>
               </>,
               "oubli",
             )}
@@ -176,7 +221,7 @@ export function Connexion() {
         )}
         {mode === "oubli" && (
           <>
-            <BoutonEnvoi enCours={enCours} libelle="Recevoir un lien par e-mail" libelleEnCours="Envoi du lien…" />
+            <BoutonEnvoi enCours={enCours} libelle="Recevoir un code par e-mail" libelleEnCours="Envoi du code…" />
             {bascule("Me connecter avec mon mot de passe", "connexion")}
           </>
         )}
@@ -185,7 +230,7 @@ export function Connexion() {
   );
 }
 
-/** Choix d'un nouveau mot de passe après un lien de réinitialisation. */
+/** Choix d'un nouveau mot de passe après un code (ou un lien) de réinitialisation. */
 export function NouveauMotDePasse({ onFini }: { onFini: () => void }) {
   const [mdp, setMdp] = useState("");
   const [erreur, setErreur] = useState<string | null>(null);

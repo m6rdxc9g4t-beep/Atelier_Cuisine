@@ -1627,6 +1627,13 @@ textarea.champ {
   color: var(--encre);
 }
 
+.connexion .connexion__code {
+  font-size: var(--t-lg);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3em;
+  text-align: center;
+}
+
 .connexion__envoye + .connexion__bascule {
   display: block;
   margin: var(--s-4) auto 0;
