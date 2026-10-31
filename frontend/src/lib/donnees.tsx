@@ -259,8 +259,8 @@ function lireReglages(): Reglages {
 let reglagesActuels = lireReglages();
 const abonnes = new Set<() => void>();
 
-// Fond de la charte (--atelier-bg pour le gris argent), pour la barre d'état et le manifeste
-const COULEUR_FOND = { dark: "#0f1013", light: "#f5f5f8" } as const;
+// Fond de la charte (--atelier-bg pour le lilas pastel), pour la barre d'état et le manifeste
+const COULEUR_FOND = { dark: "#100f15", light: "#f6f5fc" } as const;
 const systemeClair = typeof window !== "undefined" ? window.matchMedia?.("(prefers-color-scheme: light)") : undefined;
 
 /**

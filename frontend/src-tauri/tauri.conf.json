@@ -22,7 +22,7 @@
         "titleBarStyle": "Overlay",
         "hiddenTitle": true,
         "center": true,
-        "backgroundColor": "#0f1013"
+        "backgroundColor": "#100f15"
       }
     ],
     "security": {
