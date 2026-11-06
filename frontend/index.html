@@ -1,36 +1,32 @@
 <!doctype html>
-<html lang="fr" data-atelier-app="cuisine" data-theme="dark" class="dark">
+<html lang="fr" data-atelier-app="cuisine">
   <head>
+    <!-- Le thème commun de la suite (atelier-brand/atelier-theme.js) est inséré ici par vite.config.ts,
+         avant tout le reste : il pose data-theme, data-theme-pref et la classe « dark » sur <html>. -->
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>atelier_Cuisine</title>
+    <title>Atelier Cuisine</title>
     <meta name="description" content="Liste de courses, repas, idées de plats et alertes de péremption." />
     <link rel="icon" type="image/svg+xml" href="/icone.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Cuisine" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#100f15" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#fbfbfc" />
     <script>
-      // Anti-flash : pose le thème choisi dans les réglages (néon par défaut) avant le premier rendu.
-      // Même logique que appliquerTheme (src/lib/donnees.tsx).
+      // Barre d'état (iPhone, Android) : même couleur que le fond de l'app (--atelier-bg), suivie à chaque changement de thème.
       (function () {
-        var theme = "dark";
-        try {
-          theme = JSON.parse(localStorage.getItem("atelier.reglages") || "{}").theme || "dark";
-        } catch (e) {}
-        if (theme === "auto") {
-          theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-        }
-        if (theme !== "light") theme = "dark";
         var racine = document.documentElement;
-        racine.setAttribute("data-theme", theme);
-        racine.classList.toggle("dark", theme === "dark");
-        document.querySelector('meta[name="theme-color"]').setAttribute("content", theme === "dark" ? "#100f15" : "#f6f5fc");
+        var meta = document.querySelector('meta[name="theme-color"]');
+        var suivre = function () {
+          meta.setAttribute("content", racine.getAttribute("data-theme") === "dark" ? "#0f1012" : "#fbfbfc");
+        };
+        suivre();
+        new MutationObserver(suivre).observe(racine, { attributes: true, attributeFilter: ["data-theme"] });
       })();
     </script>
   </head>

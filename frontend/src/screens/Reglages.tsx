@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Cloud, Cpu, Minus, Plus, Sparkles, Wand2 } from "lucide-react";
+import { Cloud, Cpu, Minus, Monitor, Moon, Plus, Sparkles, Sun, Wand2 } from "lucide-react";
 import { Feuille } from "../components/Feuille";
 import { useToast } from "../components/Toast";
 import { useDonnees, useReglages } from "../lib/donnees";
@@ -13,9 +13,11 @@ import {
 } from "../lib/notifications";
 import { estInstallee, estIOS, estTauri } from "../lib/plateforme";
 import { messageErreur, supabase } from "../lib/supabase";
+import { usePreferenceTheme } from "../lib/theme";
 
 export function Reglages({ ouverte, onFermer, email }: { ouverte: boolean; onFermer: () => void; email: string }) {
   const [r, maj] = useReglages();
+  const [theme, setTheme] = usePreferenceTheme();
   const toast = useToast();
   const { recharger } = useDonnees();
   const [notif, setNotif] = useState<EtatNotif | null>(null);
@@ -193,20 +195,20 @@ export function Reglages({ ouverte, onFermer, email }: { ouverte: boolean; onFer
           <div className="segments" role="radiogroup" aria-label="Thème">
             {(
               [
-                ["dark", "Néon"],
-                ["light", "Clair"],
-                ["auto", "Selon le système"],
+                ["system", "Système", Monitor],
+                ["light", "Clair", Sun],
+                ["dark", "Sombre", Moon],
               ] as const
-            ).map(([v, l]) => (
+            ).map(([v, l, Icone]) => (
               <button
                 key={v}
                 role="radio"
-                aria-checked={r.theme === v}
+                aria-checked={theme === v}
                 className="segment"
-                aria-selected={r.theme === v}
-                onClick={() => maj({ theme: v })}
+                aria-selected={theme === v}
+                onClick={() => setTheme(v)}
               >
-                {l}
+                <Icone size={16} aria-hidden /> {l}
               </button>
             ))}
           </div>

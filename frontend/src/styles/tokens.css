@@ -1,126 +1,115 @@
 /*
- * atelier_Cuisine — jetons de design
- * Source de vérité, documentée dans design/DESIGN.md.
+ * Atelier Cuisine — jetons de design (charte v2 « Linear » de la suite Atelier)
+ * Documentés dans design/DESIGN.md ; règles communes : Atelier_Deploy/DESIGN.md.
  *
- * Charte « néon monochrome » de la suite Atelier (v2) : toute l'app est dans sa
- * couleur signature, ici un lilas pastel (choix du foyer, à la place de l'orchidée
- * #E056E2 prévue par la suite). Fond, barre latérale, verre, traits, textes
- * secondaires et halos dérivent tous de ce lilas par mélange et transparence, en
- * néon (sombre) comme en clair.
+ * Structure neutre commune à toute la suite (gris froids, clair et sombre), une seule
+ * couleur d'accent : la signature de Cuisine, lavande #8568a7 (--atelier-sig-cuisine),
+ * pour le bouton principal plein, la sélection, le focus, les liens et l'icône de l'app.
  *
- * Les jetons --atelier-* viennent de atelier-brand/atelier-brand.css (copie exacte
- * du fichier de la suite, importée avant ce fichier dans main.tsx), activé par
- * data-atelier-app="cuisine" sur <html>. Thème : data-theme="dark" + classe
- * « dark » (néon, défaut) ou data-theme="light", posés par index.html puis
- * lib/donnees.tsx. Ici, on ne fait que brancher les noms de l'app sur ces jetons.
+ * Les jetons --atelier-* viennent de atelier-brand/atelier-brand.css (copie verbatim,
+ * importée avant ce fichier dans main.tsx), activés par data-atelier-app="cuisine" sur <html>.
+ * Thème : data-theme="light|dark" + classe « dark », posés avant l'affichage par
+ * atelier-brand/atelier-theme.js (préférence commune Système / Clair / Sombre).
+ * Ici, on ne fait que brancher les noms de l'app sur ces jetons.
  *
  * Seules les couleurs qui portent un sens restent à part : fraîcheur
  * (vert / orange / rouge), bleu « mis en boîte », vert et violet des budgets.
  */
-@import "@fontsource-variable/nunito/wght.css";
-
-/* Signature d'atelier_Cuisine : lilas pastel. Le kit de la suite (à ne pas éditer)
-   prévoit l'orchidée ; on la remplace ici, avant que le kit n'en dérive le reste.
-   Lilas clair en néon pour garder la lueur, lilas soutenu en clair pour le contraste
-   (texte #0B0B0F posé dessus : 6:1 en clair, 11:1 en sombre). */
-:root[data-atelier-app="cuisine"] {
-  --atelier-signature: #9b84dc;
-  --atelier-signature-contrast: #0b0b0f;
-}
-:root[data-atelier-app="cuisine"][data-theme="dark"],
-:root[data-atelier-app="cuisine"].dark {
-  --atelier-signature: #c8b5f2;
-}
 
 :root {
   /* Structure — branchée sur le kit : les valeurs suivent le thème toutes seules */
-  --nuit: var(--atelier-bg);                 /* fond des écrans */
-  --nuit-2: var(--atelier-sidebar);          /* zones creusées, barre latérale */
-  --verre: color-mix(in oklab, var(--atelier-surface) 86%, transparent);
-  --verre-plein: var(--atelier-surface);     /* surfaces opaques (feuilles, listes) */
-  --verre-haut: color-mix(in oklab, var(--atelier-signature) 7%, transparent); /* reflet en haut des panneaux */
+  --bg: var(--atelier-bg);                   /* fond de la zone principale */
+  --bg-creux: var(--atelier-sidebar);        /* barre latérale, en-têtes de groupe, rails */
+  --surface: var(--atelier-surface);         /* listes, cartes, feuilles, champs */
   --survol: var(--atelier-surface-2);        /* survol, menus */
-  --selection: var(--atelier-surface-3);     /* élément sélectionné */
+  --selection: var(--atelier-surface-3);     /* élément courant (navigation), pressé */
   --champ-fond: var(--atelier-field);        /* champs de saisie */
   --contour: var(--atelier-border);          /* contour des cartes et panneaux */
   --trait: var(--atelier-border-soft);       /* champs, boutons secondaires, puces */
   --ligne: var(--atelier-line);              /* séparateurs, lignes de tableau */
-  --reflet: var(--atelier-text);             /* texte */
-  --signature: var(--atelier-signature);     /* lilas pastel : couleur signature d'atelier_Cuisine */
+  --encre: var(--atelier-text);              /* texte */
+  --encre-2: var(--atelier-muted);           /* texte secondaire */
+  --encre-3: var(--atelier-faint);           /* méta, compteurs, icônes au repos (≥ 4,5:1) */
+
+  /* Accent = signature lavande */
+  --signature: var(--atelier-signature);
   --signature-encre: var(--atelier-signature-contrast); /* texte posé sur la signature pleine */
-  --signature-texte: var(--atelier-ink);     /* signature lisible en texte ou en icône */
-  --signature-douce: var(--atelier-signature-soft);     /* actif, pastille */
-  --signature-legere: var(--atelier-signature-faint);   /* survol */
-  --signature-halo: color-mix(in oklab, var(--atelier-signature) 45%, transparent);
+  --signature-texte: var(--atelier-ink);     /* signature lisible en texte ou en icône fine */
+  --signature-douce: var(--atelier-signature-soft);     /* sélection */
+  --signature-legere: var(--atelier-signature-faint);   /* survol teinté */
+  --signature-survol: var(--atelier-signature-hover);   /* bouton principal au survol */
+  --focus-anneau: var(--atelier-focus);
 
   /* Données — ne prennent jamais la signature */
   --frais: #3ddc97;
   --bientot: #ffb347;
-  --urgent: #ff5c6c;            /* aussi : montants négatifs */
+  --urgent: #ff5c6c;            /* aussi : montants négatifs, hausses de prix */
   --boite: #78b4ff;             /* mis en boîte */
   --data-ali: #22a86b;          /* budget alimentaire */
   --data-maison: #9d7bf0;       /* budget maison & hygiène */
+  --frais-pale: color-mix(in oklab, var(--frais) 14%, transparent);
+  --bientot-pale: color-mix(in oklab, var(--bientot) 13%, transparent);
+  --urgent-pale: color-mix(in oklab, var(--urgent) 13%, transparent);
 
-  /* Rôles (noms historiques conservés pour app.css) */
-  --bg: var(--nuit);
-  --bg-creux: var(--nuit-2);
-  --surface: var(--verre-plein);
-  --encre: var(--reflet);
-  --encre-2: var(--atelier-muted);
-  --encre-3: color-mix(in oklab, var(--atelier-muted) 82%, var(--atelier-bg));
-  --action: var(--signature);
-  --action-encre: var(--signature-encre);
-  --focus: var(--signature);
-  --basilic: var(--frais);
-  --basilic-pale: rgba(61, 220, 151, 0.16);
-  --moutarde: var(--bientot);
-  --moutarde-vif: var(--bientot);
-  --moutarde-pale: rgba(255, 179, 71, 0.14);
-  --tomate: var(--urgent);
-  --tomate-pale: rgba(255, 92, 108, 0.15);
-  --lavande: var(--signature-douce);
-  --lavande-encre: var(--signature-texte);
+  /* Ombres : plat au repos ; seulement ce qui flotte (feuilles, menus, toasts, bulles) */
+  --ombre-flottant: var(--atelier-glow-strong);
+  --voile: rgb(10 11 13 / 0.45);
 
-  /* Lumière */
-  --halo: var(--atelier-glow);               /* cartes, panneaux */
-  --halo-fort: var(--atelier-glow-strong);   /* feuilles, menus, bulles */
-  --glow-signature: var(--atelier-signature-glow); /* action principale */
-  --texte-neon: var(--atelier-text-glow);    /* titres */
-  --voile: rgb(4 4 6 / 0.62);                /* derrière les feuilles */
+  /* Typographie : Inter embarquée (atelier-brand.css) */
+  --font: var(--atelier-font);
+  --t-meta: 0.71875rem;  /* 11,5 */
+  --t-xs: 0.75rem;       /* 12 */
+  --t-sm: 0.8125rem;     /* 13 */
+  --t-md: 0.875rem;      /* 14 */
+  --t-lg: 0.9375rem;     /* 15 */
+  --t-xl: 1.25rem;       /* 20 — titre de page */
 
-  /* Typographie : Nunito, sans-serif arrondie de la charte */
-  --font: "Nunito Variable", "SF Pro Rounded", ui-rounded, system-ui, sans-serif;
-  --t-xs: 0.8125rem;   /* 13 */
-  --t-sm: 0.9375rem;   /* 15 */
-  --t-md: 1.0625rem;   /* 17 — corps, taille iOS */
-  --t-lg: 1.375rem;    /* 22 */
-  --t-xl: 2rem;        /* 32 — titres d'écran */
-  --t-xxl: 3.25rem;    /* 52 — chiffres de compte à rebours */
-
-  /* Espacements (grille de 4) */
+  /* Espacements (pas de 4) */
   --s-1: 4px;
   --s-2: 8px;
   --s-3: 12px;
   --s-4: 16px;
-  --s-5: 24px;
-  --s-6: 32px;
-  --s-7: 48px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-7: 32px;
 
-  /* Rayons hiérarchiques */
-  --r-pastille: 999px;  /* pastilles, puces */
-  --r-tuile: 22px;      /* enseignes « à finir » */
-  --r-groupe: 16px;     /* panneaux de verre */
-  --r-champ: 12px;      /* champs, boutons */
+  /* Rayons de la suite : 5 / 7 / 10 */
+  --r-sm: var(--atelier-radius-sm);
+  --r-md: var(--atelier-radius-md);
+  --r-lg: var(--atelier-radius-lg);
+  --r-pastille: 999px;
 
-  --ombre-feuille: var(--atelier-glow-strong);
-  --duree: 180ms;
+  /* Coquille « Linear » */
+  --side-w: 232px;
+  --top-h: 44px;
 
-  color-scheme: dark;
+  /* Densité : téléphone d'abord (cibles tactiles de 44 px, texte 15 px, champs 16 px pour éviter le zoom iOS),
+     resserrée sur ordinateur avec souris (voir plus bas). */
+  --t-base: 0.9375rem;   /* 15 */
+  --t-champ: 1rem;       /* 16 */
+  --h-ctrl: 44px;        /* boutons, champs, segments */
+  --h-ctrl-sm: 36px;     /* puces, segments compacts */
+  --h-row: 52px;         /* lignes de liste */
+  --gouttiere: var(--s-4);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duree: 120ms;
+
+  color-scheme: light;
 }
 
-/* Variante claire : fond lilas très pâle, cartes blanches cerclées de lilas.
-   Les jetons de structure suivent le kit ; seules les couleurs de données sont
-   assombries pour rester lisibles sur fond clair. */
+@media (min-width: 860px) and (hover: hover) and (pointer: fine) {
+  :root {
+    --t-base: 0.8125rem; /* 13 */
+    --t-champ: 0.875rem; /* 14 */
+    --h-ctrl: 32px;
+    --h-ctrl-sm: 28px;
+    --h-row: 40px;
+    --gouttiere: var(--s-5);
+  }
+}
+
+/* Thème clair : couleurs de données assombries pour rester lisibles sur fond clair. */
 :root[data-theme="light"] {
   --frais: #12804f;
   --bientot: #a85f00;
@@ -128,10 +117,9 @@
   --boite: #2f6fd6;
   --data-ali: #1a8f5b;
   --data-maison: #7a56d8;
-  --basilic-pale: rgba(18, 128, 79, 0.12);
-  --moutarde-pale: rgba(168, 95, 0, 0.12);
-  --tomate-pale: rgba(204, 43, 59, 0.1);
-  --encre-3: color-mix(in oklab, var(--atelier-muted) 94%, var(--atelier-bg)); /* ≥ 4,5:1 sur le fond clair */
-  --voile: color-mix(in oklab, var(--atelier-text) 32%, transparent);
-  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --voile: rgb(0 0 0 / 0.6);
+  color-scheme: dark;
 }

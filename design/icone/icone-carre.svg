@@ -1,51 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <!-- atelier_Cuisine : version simplifiée de l'icône (charte néon, carré arrondi seul) -->
+  <!-- Atelier Cuisine : icône de l'app (charte v2 « Linear ») : carré arrondi en dégradé de la signature
+       #8568a7, glyphe Lucide « utensils » (licence ISC) en trait blanc. -->
   <defs>
     <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2c2540"/>
-      <stop offset="1" stop-color="#100f15"/>
+      <stop offset="0" stop-color="#9e88bb"/>
+      <stop offset="1" stop-color="#8568a7"/>
     </linearGradient>
-    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f6f2ff"/>
-      <stop offset="0.35" stop-color="#c8b5f2"/>
-      <stop offset="0.7" stop-color="#7a66a8"/>
-      <stop offset="1" stop-color="#c8b5f2"/>
-    </linearGradient>
-    <linearGradient id="lilas" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f1ebff"/>
-      <stop offset="0.45" stop-color="#bba6ec"/>
-      <stop offset="1" stop-color="#7a66a8"/>
-    </linearGradient>
-    <filter id="halo" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="18" result="flou"/>
-      <feMerge><feMergeNode in="flou"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="halo-fin" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="8" result="flou"/>
-      <feMerge><feMergeNode in="flou"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
   </defs>
-  <rect width="1024" height="1024" fill="url(#fond)"/>
-  <!-- cadre chromé lumineux -->
-  <rect x="44" y="44" width="936" height="936" rx="196" fill="none" stroke="url(#chrome)" stroke-width="22" filter="url(#halo-fin)"/>
-  <rect x="70" y="70" width="884" height="884" rx="174" fill="none" stroke="#c8b5f2" stroke-opacity="0.25" stroke-width="4"/>
-  <!-- vapeur -->
-  <g fill="none" stroke="#c8b5f2" stroke-width="30" stroke-linecap="round" filter="url(#halo-fin)">
-    <path d="M392 268c-34 40 34 70 0 112"/>
-    <path d="M512 228c-40 50 40 86 0 140"/>
-    <path d="M632 268c-34 40 34 70 0 112"/>
+  <rect width="1024" height="1024" rx="225" fill="url(#fond)"/>
+  <g transform="translate(218 218) scale(24.5)" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
   </g>
-  <!-- cocotte -->
-  <g filter="url(#halo)">
-    <rect x="452" y="398" width="120" height="42" rx="21" fill="url(#lilas)"/>
-    <path d="M250 470h524a26 26 0 0 1 26 26v0a26 26 0 0 1-26 26H250a26 26 0 0 1-26-26v0a26 26 0 0 1 26-26z" fill="url(#lilas)"/>
-    <path d="M286 540h452v118c0 76-62 138-138 138H424c-76 0-138-62-138-138z" fill="url(#lilas)"/>
-    <rect x="178" y="566" width="120" height="48" rx="24" fill="url(#lilas)"/>
-    <rect x="726" y="566" width="120" height="48" rx="24" fill="url(#lilas)"/>
-  </g>
-  <!-- reflets spéculaires -->
-  <path d="M330 580v70c0 40 24 74 60 90" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="16" stroke-linecap="round"/>
-  <circle cx="210" cy="132" r="9" fill="#f6f2ff"/>
-  <circle cx="210" cy="132" r="26" fill="#f6f2ff" opacity="0.18"/>
-  <circle cx="862" cy="880" r="7" fill="#f6f2ff"/>
 </svg>

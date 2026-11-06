@@ -240,16 +240,25 @@ export function useRecettes() {
 // ---------------------------------------------------------------------------
 export interface Reglages extends ReglagesIA {
   joursAlerte: number;
-  theme: "auto" | "light" | "dark";
   /** Planning : semaine complète ou focus week-end (vendredi → dimanche) */
   vuePlanning: "semaine" | "weekend";
 }
 
-const DEFAUT: Reglages = { joursAlerte: 2, theme: "dark", vuePlanning: "semaine", ...REGLAGES_IA_DEFAUT };
+const DEFAUT: Reglages = { joursAlerte: 2, vuePlanning: "semaine", ...REGLAGES_IA_DEFAUT };
+
+type ReglagesStockes = Partial<Reglages> & { theme?: "auto" | "light" | "dark" };
 
 function lireReglages(): Reglages {
   try {
-    return { ...DEFAUT, ...JSON.parse(localStorage.getItem("atelier.reglages") ?? "{}") };
+    const { theme, ...reste } = JSON.parse(localStorage.getItem("atelier.reglages") ?? "{}") as ReglagesStockes;
+    // Le thème vivait ici avant la charte v2 : il passe une fois dans la préférence commune
+    // de la suite (atelier-theme.js), puis disparaît de atelier.reglages.
+    if (theme) {
+      const commune = localStorage.getItem("atelier:theme");
+      if (!commune) window.atelierTheme?.set(theme === "auto" ? "system" : theme);
+      localStorage.setItem("atelier.reglages", JSON.stringify(reste));
+    }
+    return { ...DEFAUT, ...reste };
   } catch {
     return DEFAUT;
   }
@@ -259,27 +268,6 @@ function lireReglages(): Reglages {
 let reglagesActuels = lireReglages();
 const abonnes = new Set<() => void>();
 
-// Fond de la charte (--atelier-bg pour le lilas pastel), pour la barre d'état et le manifeste
-const COULEUR_FOND = { dark: "#100f15", light: "#f6f5fc" } as const;
-const systemeClair = typeof window !== "undefined" ? window.matchMedia?.("(prefers-color-scheme: light)") : undefined;
-
-/**
- * Pose les marqueurs de thème de la suite Atelier sur <html> :
- * néon = data-theme="dark" + classe « dark », clair = data-theme="light".
- * « Selon le système » suit prefers-color-scheme (même logique que le script anti-flash d'index.html).
- */
-function appliquerTheme(theme: Reglages["theme"]) {
-  const racine = document.documentElement;
-  const resolu = theme === "auto" ? (systemeClair?.matches ? "light" : "dark") : theme;
-  racine.setAttribute("data-theme", resolu);
-  racine.classList.toggle("dark", resolu === "dark");
-  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", COULEUR_FOND[resolu]);
-}
-appliquerTheme(reglagesActuels.theme);
-systemeClair?.addEventListener?.("change", () => {
-  if (reglagesActuels.theme === "auto") appliquerTheme("auto");
-});
-
 export function majReglages(p: Partial<Reglages>) {
   reglagesActuels = { ...reglagesActuels, ...p };
   try {
@@ -287,7 +275,6 @@ export function majReglages(p: Partial<Reglages>) {
   } catch {
     /* stockage indisponible : on garde en mémoire */
   }
-  appliquerTheme(reglagesActuels.theme);
   abonnes.forEach((f) => f());
 }
 

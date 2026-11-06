@@ -1,6 +1,6 @@
-# atelier_Cuisine
+# Atelier Cuisine
 
-L'app de cuisine du foyer d'Auré et François : le stock du frigo et des placards avec les dates de péremption, le semainier des repas, la liste de courses, les tickets de caisse archivés et le budget. Une seule app, sur **Mac** (app à double-cliquer) et sur **iPhone** (app sur l'écran d'accueil), synchronisée en direct, dans la charte « néon monochrome » de la suite Atelier : toute l'app en lilas pastel.
+L'app de cuisine du foyer d'Auré et François : le stock du frigo et des placards avec les dates de péremption, le semainier des repas, la liste de courses, les tickets de caisse archivés et le budget. Une seule app, sur **Mac** (app à double-cliquer) et sur **iPhone** (app sur l'écran d'accueil), synchronisée en direct, dans la charte v2 « Linear » de la suite Atelier : structure neutre claire ou sombre, accent lavande.
 
 ![Stock sur Mac](design/captures/mac-1-stock.png)
 
@@ -8,7 +8,7 @@ L'app de cuisine du foyer d'Auré et François : le stock du frigo et des placar
 
 | Onglet | |
 |---|---|
-| **Stock** | Ce qu'il y a dans le frigo, la corbeille, le placard, le congélateur et la salle de bain. « À finir en premier » affiche un compte à rebours lumineux pour chaque produit qui arrive à échéance. Chaque produit a une quantité exacte **ou** un niveau rapide (plein, moitié, assez pour 1 repas, presque fini), une date d'emballage, une date de **mise en boîte** (badge bleu) et une note libre. La saisie « 6 œufs » devine le produit du catalogue, le rayon, l'emplacement et une date. |
+| **Stock** | Ce qu'il y a dans le frigo, la corbeille, le placard, le congélateur et la salle de bain. « À finir en premier » affiche un compte à rebours pour chaque produit qui arrive à échéance. Chaque produit a une quantité exacte **ou** un niveau rapide (plein, moitié, assez pour 1 repas, presque fini), une date d'emballage, une date de **mise en boîte** (badge bleu) et une note libre. La saisie « 6 œufs » devine le produit du catalogue, le rayon, l'emplacement et une date. |
 | **Repas** | Semainier Lundi → Dimanche (ou focus week-end), Midi et Soir. Trois types de repas : **recette** (déduit les quantités), **assemblage rapide** (Burger frites, Saumon riz… déduit les produits) et **extérieur** (resto, MacDo : rien n'est déduit, le coût va dans Sorties / Resto). Les favoris du foyer sont proposés en un geste. **Cuisiner ce repas** déduit le stock en prenant d'abord ce qui périme le plus tôt. Les idées de plats selon le stock sont dans le même onglet. |
 | **Courses** | Liste rangée selon les 11 rayons du foyer. Un bouton ajoute ce qui manque pour les repas prévus (besoins − stock − déjà sur la liste). En **mode magasin**, cocher un article permet de noter son prix et sa date. **Valider & archiver** crée le ticket dans Récap, fait entrer l'alimentaire dans le stock et alimente le budget. |
 | **Récap** | Bilan du dernier panier (total, articles, Alimentaire / Maison & hygiène, les 3 plus chers) et historique des tickets, dépliables par rayon. **Importer un ticket** : e-ticket PDF, photo ou texte. Le format Carrefour est lu sans IA ; sinon l'IA (Ollama en local ou Claude) décode le ticket, puis une fenêtre de vérification permet de corriger avant de confirmer. **Reprendre des articles** renvoie des produits vers la liste ; **Markdown** copie le récapitulatif. |
@@ -54,14 +54,14 @@ L'app web est hébergée sur Vercel (équipe FiKozZ, projet `atelier-cuisine`). 
 │   sinon → Ollama (Mac) ──────┼──▶ http://localhost:11434 (mode local)         │
 │        ou Claude (cloud) ────┼──────┘                                          │
 └──────────────────────────────┘      └──────────────────────────────────────────┘
-design/  charte néon, jetons, guide, icône, captures
+design/  charte v2, jetons, guide, icône, captures
 ```
 
 | Dossier | Contenu |
 |---|---|
 | [`frontend/`](frontend/) | React 19 + TypeScript + Vite. PWA (service worker, manifeste, notifications push). `src-tauri/` enveloppe le même code en app Mac native. La logique métier testée est dans `src/lib/` (stock FEFO, tickets, budget). |
 | [`backend/`](backend/) | Migrations SQL, catalogues (recettes, produits, favoris), fonctions Edge, tests des migrations. Voir [backend/README.md](backend/README.md). |
-| [`design/`](design/) | Guide de design néon, palette, typographie, icône, captures. Voir [design/DESIGN.md](design/DESIGN.md). |
+| [`design/`](design/) | Guide de design (charte v2 « Linear »), palette, typographie, icône, captures. Voir [design/DESIGN.md](design/DESIGN.md). |
 | [`CONTEXT_SPEC.md`](CONTEXT_SPEC.md) | Cahier des charges du foyer : habitudes, 5 onglets, référentiel, recettes, format des tickets. |
 | [`.github/workflows/`](.github/workflows/) | Compilation de l'app Mac (Intel + Apple Silicon) et publication du .dmg. |
 
