@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { Calendar, CookingPot, Receipt, Refrigerator, Settings, ShoppingCart, Wallet } from "lucide-react";
+import { Calendar, Receipt, Refrigerator, Settings, ShoppingCart, Wallet } from "lucide-react";
+import { Marque } from "./components/Marque";
 import { FournisseurToast } from "./components/Toast";
 import { FournisseurDonnees, useDonnees, useReglages } from "./lib/donnees";
 import { useCatalogue } from "./lib/catalogue";
@@ -118,15 +119,8 @@ function Coque({ email }: { email: string }) {
     <div className="coque">
       <nav className="navigation" aria-label="Sections">
         <div className="navigation__marque" data-tauri-drag-region>
-          {/* Marque commune de la suite Atelier (atelier-brand.css) */}
-          <span className="atelier-brand">
-            <span className="atelier-brand__tile" aria-hidden="true">
-              <CookingPot />
-            </span>
-            <span className="atelier-brand__name">
-              <span className="atelier-brand__prefix">atelier_</span>Cuisine
-            </span>
-          </span>
+          {/* Marque commune de la suite Atelier (atelier-brand.css) : ouvre « À propos » */}
+          <Marque />
         </div>
         <ul className="navigation__liste">
           {onglets.map((o) => (
@@ -136,7 +130,7 @@ function Coque({ email }: { email: string }) {
                 aria-current={onglet === o.id ? "page" : undefined}
                 onClick={() => aller(o.id)}
               >
-                <o.icone size={22} aria-hidden strokeWidth={onglet === o.id ? 2.4 : 1.8} />
+                <o.icone aria-hidden className="onglet__icone" />
                 <span className="onglet__label">{o.label}</span>
                 {!!o.compte && (
                   <span className={"onglet__compte" + (o.alerte ? " onglet__compte--alerte" : "")}>
@@ -151,13 +145,13 @@ function Coque({ email }: { email: string }) {
           ))}
         </ul>
         <button className="onglet navigation__reglages" onClick={() => setReglages(true)}>
-          <Settings size={22} aria-hidden strokeWidth={1.8} />
+          <Settings aria-hidden className="onglet__icone" />
           <span className="onglet__label">Réglages</span>
         </button>
       </nav>
 
       <button className="bouton-icone reglages-mobile" onClick={() => setReglages(true)} aria-label="Réglages">
-        <Settings size={22} />
+        <Settings size={20} />
       </button>
 
       <main id="contenu" className="contenu">

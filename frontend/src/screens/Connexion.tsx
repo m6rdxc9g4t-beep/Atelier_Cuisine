@@ -1,24 +1,18 @@
 import { useState, type FormEvent, type ReactNode } from "react";
-import { CircleAlert, CookingPot, LoaderCircle, Mail } from "lucide-react";
+import { CircleAlert, LoaderCircle, Mail } from "lucide-react";
+import { MarqueSimple } from "../components/Marque";
 import { URL_APP } from "../lib/plateforme";
 import { messageErreur, supabase } from "../lib/supabase";
 
 type Mode = "connexion" | "inscription" | "oubli";
 
-/** Mise en page commune aux écrans de connexion : marque, titre néon, accroche (comme atelier_Suivi). */
+/** Mise en page commune aux écrans de connexion : marque, titre, accroche (comme la connexion du portail). */
 function CadreConnexion({ titre, accroche, children }: { titre: string; accroche: string; children: ReactNode }) {
   return (
     <main className="connexion" data-tauri-drag-region>
       <div className="connexion__colonne">
         {/* Marque commune de la suite Atelier (atelier-brand.css) */}
-        <span className="atelier-brand">
-          <span className="atelier-brand__tile" aria-hidden="true">
-            <CookingPot />
-          </span>
-          <span className="atelier-brand__name">
-            <span className="atelier-brand__prefix">atelier_</span>Cuisine
-          </span>
-        </span>
+        <MarqueSimple />
         <h1 className="connexion__titre">{titre}</h1>
         <p className="connexion__accroche">{accroche}</p>
         {children}
