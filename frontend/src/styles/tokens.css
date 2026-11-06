@@ -2,10 +2,12 @@
  * Atelier Cuisine — jetons de design (charte v2 « Linear » de la suite Atelier)
  * Documentés dans design/DESIGN.md ; règles communes : Atelier_Deploy/DESIGN.md.
  *
- * Structure des apps du foyer (Dates, Suivi, Cuisine) : crème en clair, bleu nuit en sombre
- * (§3 bis de la marque commune), une seule couleur d'accent : la signature de Cuisine,
- * bleu acier #3a6c97 (--atelier-sig-cuisine), pour le bouton principal plein, la sélection,
- * le focus, les liens et l'icône de l'app.
+ * Couleurs d'avant la v2 : toute la structure est teintée du lilas pastel de Cuisine
+ * (§3 bis de la marque commune : fond, barre latérale, surfaces, texte, traits), en clair
+ * comme en sombre, mais plate (ni halo, ni grille, ni lueur). La signature, lilas #9b84dc
+ * en clair et #c8b5f2 en sombre (--atelier-sig-cuisine, posée par la marque commune), reste
+ * le seul accent : bouton principal plein (texte quasi noir), sélection, focus, liens,
+ * icône de l'app.
  *
  * Les jetons --atelier-* viennent de atelier-brand/atelier-brand.css (copie verbatim,
  * importée avant ce fichier dans main.tsx), activés par data-atelier-app="cuisine" sur <html>.
@@ -14,8 +16,8 @@
  * Ici, on ne fait que brancher les noms de l'app sur ces jetons.
  *
  * Seules les couleurs qui portent un sens restent à part : fraîcheur
- * (vert / orange / rouge), sarcelle « mis en boîte » (loin du bleu acier de la signature),
- * vert et violet des budgets. Contrastes vérifiés sur crème et sur bleu nuit.
+ * (vert / orange / rouge), bleu « mis en boîte », vert et violet des budgets.
+ * Contrastes vérifiés sur les fonds lilas clair et sombre.
  */
 
 :root {
@@ -33,7 +35,7 @@
   --encre-2: var(--atelier-muted);           /* texte secondaire */
   --encre-3: var(--atelier-faint);           /* méta, compteurs, icônes au repos (≥ 4,5:1) */
 
-  /* Accent = signature bleu acier */
+  /* Accent = signature lilas pastel */
   --signature: var(--atelier-signature);
   --signature-encre: var(--atelier-signature-contrast); /* texte posé sur la signature pleine */
   --signature-texte: var(--atelier-ink);     /* signature lisible en texte ou en icône fine */
@@ -41,15 +43,15 @@
   --signature-legere: var(--atelier-signature-faint);   /* survol teinté */
   --signature-survol: var(--atelier-signature-hover);   /* bouton principal au survol */
   --focus-anneau: var(--atelier-focus);
-  /* Graphique d'une seule mesure (jauge Sorties / Resto, courbe des prix) : la signature.
-     En sombre, éclaircie pour garder 3:1 sur la surface et sur le rail de la jauge. */
-  --trace: var(--atelier-chart-1);
+  /* Courbe des prix (une seule mesure) : la signature. En clair, un cran plus sombre
+     pour garder 3:1 sur la surface (le lilas pastel seul fait 3,1:1). */
+  --trace: color-mix(in oklab, var(--atelier-signature) 92%, #000000);
 
   /* Données — ne prennent jamais la signature */
   --frais: #3ddc97;
   --bientot: #ffb347;
   --urgent: #ff5c6c;            /* aussi : montants négatifs, hausses de prix */
-  --boite: #4fd1c5;             /* mis en boîte (sarcelle) */
+  --boite: #78b4ff;             /* mis en boîte (bleu, loin du lilas) */
   --data-ali: #22a86b;          /* budget alimentaire */
   --data-maison: #9d7bf0;       /* budget maison & hygiène */
   --frais-pale: color-mix(in oklab, var(--frais) 14%, transparent);
@@ -60,7 +62,7 @@
 
   /* Ombres : plat au repos ; seulement ce qui flotte (feuilles, menus, toasts, bulles) */
   --ombre-flottant: var(--atelier-glow-strong);
-  --voile: rgb(31 27 22 / 0.4);   /* encre crème : le fond reste chaud sous une feuille */
+  --voile: color-mix(in oklab, var(--atelier-text) 40%, transparent); /* derrière les feuilles, teinté comme le texte */
 
   /* Typographie : Inter embarquée (atelier-brand.css) */
   --font: var(--atelier-font);
@@ -116,21 +118,22 @@
   }
 }
 
-/* Thème clair : couleurs de données assombries pour rester lisibles sur le crème
-   (texte ≥ 4,5:1 sur le fond, la surface et les pastilles teintées). */
+/* Thème clair : couleurs de données assombries pour rester lisibles sur le fond lilas pâle
+   (texte ≥ 4,5:1 sur le fond, la surface et les pastilles teintées) : orange, rouge et bleu
+   un cran plus sombres qu'avant la v2 (#a85f00, #cc2b3b, #2f6fd6 tombaient sous 4,5:1). */
 :root[data-theme="light"] {
   --frais: #12804f;
   --bientot: #9a5700;
   --urgent: #c22838;
-  --boite: #0e7470;
+  --boite: #2660c0;
   --data-ali: #1a8f5b;
   --data-maison: #7a56d8;
 }
 
 :root[data-theme="dark"] {
-  --trace: color-mix(in oklab, var(--atelier-signature) 85%, #ffffff);
-  --sur-frais: var(--atelier-bg); /* le vert sombre est clair : coche bleu nuit (≥ 4,5:1) */
+  --trace: var(--atelier-chart-1); /* lilas lumineux : ≥ 8:1 sur la surface */
+  --sur-frais: var(--atelier-bg); /* le vert du thème sombre est clair : coche couleur du fond (≥ 4,5:1) */
   --sur-alerte: var(--atelier-bg); /* idem sur le rouge clair du thème sombre */
-  --voile: rgb(2 6 18 / 0.65);
+  --voile: rgb(4 4 6 / 0.62);
   color-scheme: dark;
 }
