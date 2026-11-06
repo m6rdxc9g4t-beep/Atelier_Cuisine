@@ -3,8 +3,8 @@
        (carré de 824 px centré, ombre portée du système). Glyphe Lucide « utensils » (licence ISC). -->
   <defs>
     <linearGradient id="fond" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#658bae"/>
-      <stop offset="1" stop-color="#3a6c97"/>
+      <stop offset="0" stop-color="#b09fe5"/>
+      <stop offset="1" stop-color="#9b84dc"/>
     </linearGradient>
     <filter id="ombre" x="-10%" y="-10%" width="120%" height="125%">
       <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.28"/>

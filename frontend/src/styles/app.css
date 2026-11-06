@@ -2,8 +2,8 @@
  * Atelier Cuisine — styles de l'application, charte v2 « Linear » de la suite Atelier.
  * Jetons dans tokens.css (branchés sur atelier-brand/atelier-brand.css).
  *
- * Structure du foyer (crème en clair, bleu nuit en sombre), plat au repos, traits de 1 px ; la signature
- * bleu acier ne sert qu'à l'action principale, la sélection, le focus, les liens et l'icône de l'app.
+ * Structure teintée du lilas de Cuisine (couleurs d'avant la v2), plate au repos, traits de 1 px ; la signature
+ * lilas pastel ne sert qu'à l'action principale, la sélection, le focus, les liens et l'icône de l'app.
  * Les couleurs de données (fraîcheur, mise en boîte, budgets) ne marquent que ce qui demande
  * l'attention : un produit frais reste neutre.
  *
@@ -2499,7 +2499,8 @@ input[type="checkbox"] {
   display: block;
   height: 100%;
   border-radius: 3px;
-  background: var(--trace);
+  /* Sorties / Resto : neutre. Le lilas de la signature se confondrait avec le violet de Maison & hygiène. */
+  background: var(--encre-3);
 }
 
 .budget--alimentaire .jauge-budget > span {
