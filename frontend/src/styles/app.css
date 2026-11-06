@@ -2,8 +2,8 @@
  * Atelier Cuisine — styles de l'application, charte v2 « Linear » de la suite Atelier.
  * Jetons dans tokens.css (branchés sur atelier-brand/atelier-brand.css).
  *
- * Structure neutre (gris froids), plat au repos, traits de 1 px ; la signature lavande ne sert
- * qu'à l'action principale, la sélection, le focus, les liens et l'icône de l'app.
+ * Structure du foyer (crème en clair, bleu nuit en sombre), plat au repos, traits de 1 px ; la signature
+ * bleu acier ne sert qu'à l'action principale, la sélection, le focus, les liens et l'icône de l'app.
  * Les couleurs de données (fraîcheur, mise en boîte, budgets) ne marquent que ce qui demande
  * l'attention : un produit frais reste neutre.
  *
@@ -151,7 +151,7 @@ svg {
   display: none;
 }
 
-/* Barre d'onglets en bas (iPhone) : neutre, pastille grise derrière l'icône courante */
+/* Barre d'onglets en bas (iPhone) : neutre, pastille de fond derrière l'icône courante */
 .navigation {
   position: fixed;
   z-index: 10;
@@ -228,7 +228,7 @@ svg {
 
 .onglet__compte--alerte {
   background: var(--atelier-down);
-  color: #fff;
+  color: var(--sur-alerte);
 }
 
 /* Réglages sur iPhone : en haut à droite de chaque écran */
@@ -1694,6 +1694,7 @@ input[type="checkbox"] {
 }
 
 .ingredient--ok .ingredient__statut {
+  color: var(--sur-frais);
   background: var(--frais);
   border-color: var(--frais);
 }
@@ -2498,7 +2499,7 @@ input[type="checkbox"] {
   display: block;
   height: 100%;
   border-radius: 3px;
-  background: var(--atelier-chart-1);
+  background: var(--trace);
 }
 
 .budget--alimentaire .jauge-budget > span {
@@ -2623,14 +2624,14 @@ g:focus {
 
 .graphique__ligne {
   fill: none;
-  stroke: var(--atelier-chart-1);
+  stroke: var(--trace);
   stroke-width: 2;
   stroke-linejoin: round;
 }
 
 .graphique__point {
   fill: var(--surface);
-  stroke: var(--atelier-chart-1);
+  stroke: var(--trace);
   stroke-width: 2;
 }
 

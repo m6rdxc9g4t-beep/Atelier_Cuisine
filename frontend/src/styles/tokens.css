@@ -2,9 +2,10 @@
  * Atelier Cuisine — jetons de design (charte v2 « Linear » de la suite Atelier)
  * Documentés dans design/DESIGN.md ; règles communes : Atelier_Deploy/DESIGN.md.
  *
- * Structure neutre commune à toute la suite (gris froids, clair et sombre), une seule
- * couleur d'accent : la signature de Cuisine, lavande #8568a7 (--atelier-sig-cuisine),
- * pour le bouton principal plein, la sélection, le focus, les liens et l'icône de l'app.
+ * Structure des apps du foyer (Dates, Suivi, Cuisine) : crème en clair, bleu nuit en sombre
+ * (§3 bis de la marque commune), une seule couleur d'accent : la signature de Cuisine,
+ * bleu acier #3a6c97 (--atelier-sig-cuisine), pour le bouton principal plein, la sélection,
+ * le focus, les liens et l'icône de l'app.
  *
  * Les jetons --atelier-* viennent de atelier-brand/atelier-brand.css (copie verbatim,
  * importée avant ce fichier dans main.tsx), activés par data-atelier-app="cuisine" sur <html>.
@@ -13,7 +14,8 @@
  * Ici, on ne fait que brancher les noms de l'app sur ces jetons.
  *
  * Seules les couleurs qui portent un sens restent à part : fraîcheur
- * (vert / orange / rouge), bleu « mis en boîte », vert et violet des budgets.
+ * (vert / orange / rouge), sarcelle « mis en boîte » (loin du bleu acier de la signature),
+ * vert et violet des budgets. Contrastes vérifiés sur crème et sur bleu nuit.
  */
 
 :root {
@@ -31,7 +33,7 @@
   --encre-2: var(--atelier-muted);           /* texte secondaire */
   --encre-3: var(--atelier-faint);           /* méta, compteurs, icônes au repos (≥ 4,5:1) */
 
-  /* Accent = signature lavande */
+  /* Accent = signature bleu acier */
   --signature: var(--atelier-signature);
   --signature-encre: var(--atelier-signature-contrast); /* texte posé sur la signature pleine */
   --signature-texte: var(--atelier-ink);     /* signature lisible en texte ou en icône fine */
@@ -39,21 +41,26 @@
   --signature-legere: var(--atelier-signature-faint);   /* survol teinté */
   --signature-survol: var(--atelier-signature-hover);   /* bouton principal au survol */
   --focus-anneau: var(--atelier-focus);
+  /* Graphique d'une seule mesure (jauge Sorties / Resto, courbe des prix) : la signature.
+     En sombre, éclaircie pour garder 3:1 sur la surface et sur le rail de la jauge. */
+  --trace: var(--atelier-chart-1);
 
   /* Données — ne prennent jamais la signature */
   --frais: #3ddc97;
   --bientot: #ffb347;
   --urgent: #ff5c6c;            /* aussi : montants négatifs, hausses de prix */
-  --boite: #78b4ff;             /* mis en boîte */
+  --boite: #4fd1c5;             /* mis en boîte (sarcelle) */
   --data-ali: #22a86b;          /* budget alimentaire */
   --data-maison: #9d7bf0;       /* budget maison & hygiène */
   --frais-pale: color-mix(in oklab, var(--frais) 14%, transparent);
   --bientot-pale: color-mix(in oklab, var(--bientot) 13%, transparent);
   --urgent-pale: color-mix(in oklab, var(--urgent) 13%, transparent);
+  --sur-frais: #ffffff;          /* coche posée sur le vert « à la maison » */
+  --sur-alerte: #ffffff;         /* chiffre posé sur le rouge d'alerte (--atelier-down) */
 
   /* Ombres : plat au repos ; seulement ce qui flotte (feuilles, menus, toasts, bulles) */
   --ombre-flottant: var(--atelier-glow-strong);
-  --voile: rgb(10 11 13 / 0.45);
+  --voile: rgb(31 27 22 / 0.4);   /* encre crème : le fond reste chaud sous une feuille */
 
   /* Typographie : Inter embarquée (atelier-brand.css) */
   --font: var(--atelier-font);
@@ -109,17 +116,21 @@
   }
 }
 
-/* Thème clair : couleurs de données assombries pour rester lisibles sur fond clair. */
+/* Thème clair : couleurs de données assombries pour rester lisibles sur le crème
+   (texte ≥ 4,5:1 sur le fond, la surface et les pastilles teintées). */
 :root[data-theme="light"] {
   --frais: #12804f;
-  --bientot: #a85f00;
-  --urgent: #cc2b3b;
-  --boite: #2f6fd6;
+  --bientot: #9a5700;
+  --urgent: #c22838;
+  --boite: #0e7470;
   --data-ali: #1a8f5b;
   --data-maison: #7a56d8;
 }
 
 :root[data-theme="dark"] {
-  --voile: rgb(0 0 0 / 0.6);
+  --trace: color-mix(in oklab, var(--atelier-signature) 85%, #ffffff);
+  --sur-frais: var(--atelier-bg); /* le vert sombre est clair : coche bleu nuit (≥ 4,5:1) */
+  --sur-alerte: var(--atelier-bg); /* idem sur le rouge clair du thème sombre */
+  --voile: rgb(2 6 18 / 0.65);
   color-scheme: dark;
 }
