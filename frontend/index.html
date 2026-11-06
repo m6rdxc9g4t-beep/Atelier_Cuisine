@@ -16,14 +16,14 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Cuisine" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="theme-color" content="#fbfbfc" />
+    <meta name="theme-color" content="#f8f4ec" />
     <script>
       // Barre d'état (iPhone, Android) : même couleur que le fond de l'app (--atelier-bg), suivie à chaque changement de thème.
       (function () {
         var racine = document.documentElement;
         var meta = document.querySelector('meta[name="theme-color"]');
         var suivre = function () {
-          meta.setAttribute("content", racine.getAttribute("data-theme") === "dark" ? "#0f1012" : "#fbfbfc");
+          meta.setAttribute("content", racine.getAttribute("data-theme") === "dark" ? "#0b1220" : "#f8f4ec");
         };
         suivre();
         new MutationObserver(suivre).observe(racine, { attributes: true, attributeFilter: ["data-theme"] });
