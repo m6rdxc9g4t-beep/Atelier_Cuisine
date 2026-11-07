@@ -531,7 +531,7 @@ svg {
   }
 }
 
-/* Tuile : plate ; la couleur de la donnée (rouge, orange) teinte à peine le fond et le trait */
+/* Tuile (carte de chiffre) : plate ; la couleur de la donnée (rouge, orange) teinte à peine le fond et le trait */
 .tuile {
   --donnee: var(--encre-3);
   display: flex;
@@ -541,7 +541,7 @@ svg {
   width: 136px;
   min-height: 128px;
   padding: var(--s-3);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);   /* carte de chiffre : coins de 12 px */
   background: color-mix(in oklab, var(--donnee) 6%, var(--surface));
   border: 1px solid color-mix(in oklab, var(--donnee) 28%, var(--contour));
   text-align: left;
@@ -2070,6 +2070,11 @@ input[type="checkbox"] {
   border-radius: var(--r-lg);
 }
 
+/* Panneau qui porte des chiffres clés (budgets, mois, dernier panier) : coins de 12 px */
+.panneau--chiffres {
+  border-radius: var(--r-xl);
+}
+
 .panneau__tete {
   display: flex;
   align-items: center;
@@ -2526,15 +2531,21 @@ input[type="checkbox"] {
 
 .indicateurs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--s-3) var(--s-4);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s-2);
   margin-bottom: var(--s-4);
 }
 
+/* Indicateur du mois : rangée de cartes de chiffres (coins de 12 px, plates) */
 .indicateur {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--contour);
+  border-radius: var(--r-xl);
+  background: var(--surface);
 }
 
 .indicateur__valeur {

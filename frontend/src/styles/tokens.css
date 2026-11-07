@@ -82,10 +82,11 @@
   --s-6: 24px;
   --s-7: 32px;
 
-  /* Rayons de la suite : 5 / 7 / 10 */
+  /* Rayons de la suite : 5 / 7 / 10, et 12 pour les cartes de chiffres (tuiles, Récap, Budget) */
   --r-sm: var(--atelier-radius-sm);
   --r-md: var(--atelier-radius-md);
   --r-lg: var(--atelier-radius-lg);
+  --r-xl: var(--atelier-radius-xl);
   --r-pastille: 999px;
 
   /* Coquille « Linear » */

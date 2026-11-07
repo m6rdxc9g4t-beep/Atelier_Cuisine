@@ -46,6 +46,8 @@ Les noms de l'app sont branchés sur le kit ; leurs valeurs suivent le thème to
 
 Densité : les jetons `--t-base`, `--t-champ`, `--h-ctrl`, `--h-ctrl-sm`, `--h-row` valent 15 px / 16 px / 44 / 36 / 52 px au téléphone (cibles tactiles, pas de zoom automatique de Safari) et 13 px / 14 px / 32 / 28 / 40 px sur un écran de 860 px et plus avec une souris.
 
+Formes : rayons 5 / 7 / 10 px (`--r-sm` / `--r-md` / `--r-lg`) ; les **cartes de chiffres** ont des coins de 12 px (`--r-xl` = `--atelier-radius-xl`) : tuiles « À finir en premier », bilan du dernier panier (Récap), cartes de la période et indicateurs du mois (Budget), par la classe `.panneau--chiffres` ou leur propre règle. Plates comme le reste : bordure 1 px, surface, aucune ombre.
+
 ### Couleurs de données
 
 - **Fraîcheur** (spec du foyer) : rouge à moins de 2 jours, orange de 2 à 5 jours, **bleu** pour un produit mis en boîte. Dans les listes, une pastille de 8 px devant le nom et l'échéance en couleur ; un produit frais reste neutre (seuls les états qui demandent d'agir sont colorés). Les tuiles « À finir en premier » sont à peine teintées de la couleur de leur donnée, le chiffre du compte à rebours dans cette couleur.
