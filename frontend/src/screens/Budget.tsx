@@ -74,7 +74,7 @@ export function Budget() {
         </ul>
       </section>
 
-      <section className="panneau" aria-labelledby="mois-titre">
+      <section className="panneau panneau--chiffres" aria-labelledby="mois-titre">
         <div className="panneau__tete">
           <button className="bouton-icone" onClick={() => changerMois(-1)} aria-label="Mois précédent">
             <ChevronLeft size={20} />
@@ -165,7 +165,7 @@ function CarteBudget({ suivi, onEditer }: { suivi: Suivi; onEditer: () => void }
   const etat = suivi.part == null ? "" : part >= 1 ? "depasse" : part >= 0.85 ? "proche" : "ok";
   const reste = suivi.budget ? Number(suivi.budget.amount) - suivi.depense : null;
   return (
-    <article className={`budget panneau budget--${suivi.scope}` + (etat ? ` budget--${etat}` : "")}>
+    <article className={`budget panneau panneau--chiffres budget--${suivi.scope}` + (etat ? ` budget--${etat}` : "")}>
       <div className="budget__tete">
         <h3>{p.label}</h3>
         <button className="bouton-icone" onClick={onEditer} aria-label={`Définir le budget ${p.label}`}>

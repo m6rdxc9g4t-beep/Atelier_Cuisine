@@ -77,7 +77,7 @@ function BilanPanier({ session, items }: { session: ShoppingSession; items: Shop
   const total = session.food_subtotal + session.home_subtotal || 1;
   const partAli = (session.food_subtotal / total) * 100;
   return (
-    <section className="bilan panneau" aria-labelledby="bilan-titre">
+    <section className="bilan panneau panneau--chiffres" aria-labelledby="bilan-titre">
       <div className="bilan__tete">
         <h2 id="bilan-titre">Dernier panier</h2>
         <span className="note">
